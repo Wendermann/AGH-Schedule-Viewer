@@ -27,6 +27,15 @@ def test_pages_and_assets_use_the_base_path(app, tmp_path):
     assert (out / "static" / "js" / "share.js").is_file()
 
 
+def test_mockups_are_published_with_shared_scripts(app, tmp_path):
+    out = tmp_path / "site"
+    build_site(app, out, "/")
+    assert (out / "makiety" / "index.html").is_file()
+    assert (out / "makiety" / "dane" / "plany.json").is_file()
+    assert (out / "makiety" / "wspolne" / "plan.js").is_file()
+    assert not list((out / "makiety").glob("*.py"))
+
+
 def test_refuses_to_overwrite_a_non_empty_directory(app, tmp_path):
     (tmp_path / "site").mkdir()
     (tmp_path / "site" / "keep.txt").write_text("x")

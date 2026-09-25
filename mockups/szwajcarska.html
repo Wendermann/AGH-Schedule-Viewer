@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rozkład szwajcarski</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="szwajcarska/style.css">
+<script type="module" src="szwajcarska/main.js"></script>
+</head>
+<body>
+<div class="page">
+  <header class="masthead">
+    <p class="wordmark">Rozkład</p>
+    <div class="masthead__plan" id="plan-title"></div>
+    <p class="masthead__status" id="status" role="status"></p>
+  </header>
+
+  <div class="toolbar" id="toolbar"></div>
+
+  <div class="layout">
+    <aside class="index" id="index" aria-label="Wybór planu i przedmiotów"></aside>
+
+    <main class="sheet" id="sheet">
+      <p class="loading" id="loading" hidden>Wczytuję plan…</p>
+      <div class="legend" id="legend"></div>
+      <div class="notice" id="notice" hidden></div>
+      <div class="grid-wrap"><div class="grid" id="grid"></div></div>
+      <div class="agenda" id="agenda"></div>
+      <section class="history" id="history" aria-labelledby="history-title"></section>
+    </main>
+
+    <aside class="details" id="details" aria-label="Szczegóły zajęć" hidden></aside>
+  </div>
+
+  <footer class="colophon" id="colophon"></footer>
+</div>
+<div class="demo-bar" id="demo"></div>
+</body>
+</html>

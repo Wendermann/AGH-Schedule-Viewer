@@ -11,6 +11,7 @@ from flask.cli import with_appcontext
 
 # Adres w aplikacji -> plik w zbudowanej stronie.
 PAGES = {"/": "index.html"}
+MOCKUPS = Path(__file__).resolve().parent.parent / "mockups"
 
 
 def normalize_base(base_path: str) -> str:
@@ -35,7 +36,16 @@ def build_site(app: Flask, output: Path, base_path: str = "/") -> list[Path]:
         written.append(target)
 
     shutil.copytree(app.static_folder, output / "static", dirs_exist_ok=True)
+    if MOCKUPS.is_dir():
+        copy_mockups(Path(app.static_folder), output / "makiety")
     return written
+
+
+def copy_mockups(static: Path, target: Path) -> None:
+    shutil.copytree(MOCKUPS, target, ignore=shutil.ignore_patterns("*.py", "__pycache__", "monitor-*.json"))
+    # Makiety liczą ukrywanie, łączenie i kolizje tym samym kodem co strona.
+    for name in ("plan.js", "share.js"):
+        shutil.copy2(static / "js" / name, target / "wspolne" / name)
 
 
 @click.command("build")

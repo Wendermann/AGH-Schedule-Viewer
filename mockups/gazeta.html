@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tygodnik Zajęć</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="gazeta/style.css">
+<script type="module" src="gazeta/main.js"></script>
+</head>
+<body>
+<div class="paper" id="paper">
+  <div class="strip" id="strip"></div>
+  <header class="masthead" id="masthead">
+    <p class="nameplate">Tygodnik Zajęć</p>
+    <p class="dateline" id="dateline"></p>
+  </header>
+  <nav class="sections" id="sections" aria-label="Wydanie"></nav>
+  <p class="loading" id="loading" hidden>Składam wydanie…</p>
+  <div class="bulletin" id="bulletin" role="status" hidden></div>
+  <div class="front">
+    <aside class="rail rail--left" id="contents" aria-label="W numerze"></aside>
+    <main class="page-wrap"><div class="page" id="page"></div></main>
+    <aside class="rail rail--right" id="news" aria-label="Z ostatniej chwili"></aside>
+  </div>
+  <footer class="imprint" id="imprint"></footer>
+</div>
+<div class="demo-bar" id="demo"></div>
+</body>
+</html>

@@ -42,7 +42,7 @@ def build_site(app: Flask, output: Path, base_path: str = "/") -> list[Path]:
 
 
 def copy_mockups(static: Path, target: Path) -> None:
-    shutil.copytree(MOCKUPS, target, ignore=shutil.ignore_patterns("*.py", "__pycache__", "monitor-*.json"))
+    shutil.copytree(MOCKUPS, target, ignore=shutil.ignore_patterns("*.py", "__pycache__"))
     # Makiety liczą ukrywanie, łączenie i kolizje tym samym kodem co strona.
     for name in ("plan.js", "share.js"):
         shutil.copy2(static / "js" / name, target / "wspolne" / name)

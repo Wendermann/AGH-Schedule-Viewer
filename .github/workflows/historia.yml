@@ -1,0 +1,51 @@
+name: Historia planów
+
+# Sprawdza plany kierunków z HISTORY_PLANS (app/config.py) i zapisuje zmiany
+# jako JSON w gałęzi dane. Harmonogram GitHub uruchamia tylko wersję
+# workflow z gałęzi domyślnej repozytorium.
+on:
+  schedule:
+    # Co 6 godzin, 17 minut po pełnej godzinie, poza szczytem uruchomień.
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: historia
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements*.txt
+      - run: pip install -r requirements.txt
+      - name: Gałąź dane
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git fetch --depth=1 origin dane; then
+            git worktree add -b dane dane FETCH_HEAD
+          else
+            git worktree add --orphan -b dane dane
+          fi
+      - run: flask --app app history --output dane/historia
+      - name: Zapis zmian
+        # Zapisujemy też wtedy, gdy część planów się nie sprawdziła.
+        if: success() || failure()
+        run: |
+          cd dane
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Plany bez zmian."
+            exit 0
+          fi
+          git commit -m "Zmiany w planach, sprawdzenie $(date -u +%Y-%m-%d\ %H:%M) UTC"
+          git push origin dane

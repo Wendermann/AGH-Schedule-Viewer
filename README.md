@@ -15,6 +15,12 @@ więc serwer nie jest potrzebny. Workflow `.github/workflows/pages.yml`
 buduje i publikuje stronę po każdym wypchnięciu na gałąź `main`. Można go
 też uruchomić ręcznie z zakładki Actions.
 
+**Historia zmian.** Workflow `.github/workflows/historia.yml` co 6 godzin
+uruchamia `flask history`. Polecenie sprawdza kierunki z `HISTORY_PLANS`
+i zapisuje wykryte zmiany jako JSON w gałęzi `dane`. USOS przechowuje tylko
+bieżący stan planu, więc historia zaczyna się od pierwszego sprawdzenia.
+Harmonogram działa tylko w gałęzi domyślnej repozytorium.
+
 **Serwer.** Ta sama aplikacja uruchomiona w Dockerze. Dochodzi
 subskrybowany kalendarz `.ics` z ukryciami i odświeżanie danych z USOS na
 żądanie.
@@ -65,6 +71,7 @@ z prefiksem `FLASK_`, np. `FLASK_USOS_CACHE_HOURS=12`.
 | `USOS_MIN_INTERVAL` | 1.0 | Minimalny odstęp w sekundach między zapytaniami do USOS (na proces). |
 | `USOS_TIMEOUT` | 20 | Limit czasu jednego zapytania, w sekundach. |
 | `USOS_CACHE_PATH` | `instance/usos-cache.sqlite3` | Plik bazy z cache. |
+| `HISTORY_PLANS` | `["240-ZBI-1S-2R-Z@26/27-Z"]` | Kierunki z historią zmian: kod grupy przedmiotów i cykl. |
 
 ## Skąd dane i jak się z nimi obchodzimy
 

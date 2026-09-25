@@ -6,7 +6,9 @@ from pathlib import Path
 from flask import Flask, render_template
 
 from .build import build_command
+from .collect import history_command
 from .config import Config
+from .usos.api import UsosApi
 from .usos.cache import PageCache
 from .usos.fetch import RateLimiter, UsosFetcher
 
@@ -20,11 +22,19 @@ def create_app(overrides: dict | None = None) -> Flask:
         app.config.update(overrides)
 
     cache_path = app.config["USOS_CACHE_PATH"] or Path(app.instance_path) / "usos-cache.sqlite3"
+    # Jeden limit zapytań na oba adresy USOS.
+    limiter = RateLimiter(app.config["USOS_MIN_INTERVAL"])
     app.extensions["usos"] = UsosFetcher(
         app.config["USOS_BASE_URL"],
         PageCache(cache_path),
         max_age=timedelta(hours=app.config["USOS_CACHE_HOURS"]),
-        limiter=RateLimiter(app.config["USOS_MIN_INTERVAL"]),
+        limiter=limiter,
+        timeout=app.config["USOS_TIMEOUT"],
+        user_agent=app.config["USOS_USER_AGENT"],
+    )
+    app.extensions["usos_api"] = UsosApi(
+        app.config["USOS_API_URL"],
+        limiter=limiter,
         timeout=app.config["USOS_TIMEOUT"],
         user_agent=app.config["USOS_USER_AGENT"],
     )
@@ -42,4 +52,5 @@ def create_app(overrides: dict | None = None) -> Flask:
         return {"status": "ok"}
 
     app.cli.add_command(build_command)
+    app.cli.add_command(history_command)
     return app

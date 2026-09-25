@@ -40,7 +40,8 @@ Później użytkownik dołożył dwa wymagania:
 | Pytania do użytkownika | Przed analizą: 32 pytania w 8 rundach. Po analizie: 12 pytań w 3 rundach (historia planu, zasięg danych, osobliwości kalendarza AGH, drzewo kierunków). Wszystkie odpowiedzi są w `docs/01-decyzje.md`. |
 | Analiza USOS | Zrobiona: `docs/02-analiza-usos.md`. Źródło danych: USOS API i USOSweb (decyzja w `docs/01-decyzje.md`). Parser USOSweb w `app/usos/web.py`. |
 | 3 makiety UI | Gotowe: `mockups/`, opis i checklista w `docs/03-makiety.md`. Czekają na wybór kierunku przez użytkownika. |
-| Strona właściwa | Gotowy rdzeń (ukrywanie, łączenie, kolizje, link „Udostępnij”, `.ics`) i parser USOSweb. Brak klienta API, składania danych i interfejsu. |
+| Strona właściwa | Gotowe: rdzeń w przeglądarce (ukrywanie, łączenie, kolizje, link „Udostępnij”), `.ics`, parser USOSweb, klient USOS API, składanie planu i eksport do JSON. Brak interfejsu i pobierania danych całej AGH do budowy strony. |
+| Historia zmian | Gotowe: `flask history` i workflow `historia.yml` (co 6 godzin, zapis do gałęzi `dane`). Ruszy po przeniesieniu kodu na gałąź domyślną. |
 | Hosting | Workflow gotowy, ale publikacja czeka na ustawienia repo (sekcja „Publikacja”). |
 
 
@@ -52,20 +53,20 @@ Później użytkownik dołożył dwa wymagania:
 2. **Synchronizacja baz.** 25.09.2026 plany cyklu `26/27-Z` były kompletne
    i bez komunikatu o synchronizacji. Jeśli komunikat się pojawi, zapisz
    jego dokładną treść, żeby parser mógł go wykrywać.
-3. **Klient USOS API** (`app/usos/api.py`) i składanie planu: skład
-   i prowadzący z `app/usos/web.py`, konkretne daty z `tt/classgroups`
-   (okna 7-dniowe). Model w `app/plan/model.py` wymaga dopasowania: klucz
-   grupy zajęciowej `(unit_id, group_no)`, prowadzący z `os_id`, daty
-   spotkań zamiast wyliczania z reguły (przeniesienia dni, sekcja 3
-   analizy). Zapisz odpowiedzi API jako fixture w `tests/fixtures/usos/`.
-   Uwaga na błędy API opisane w sekcji 1 analizy.
-4. **Historia planu kierunku** (sekcja w `docs/01-decyzje.md`): migawki
-   kierunków z listy w konfiguracji co 6 godzin, zapis JSON do gałęzi
-   `dane`, porównanie po `(unit_id, group_no)` i datach spotkań. Wzorem
-   jest monitor zmian użytkownika (opisany w tej samej sekcji; jego kodu
-   nie ma w repo). Zbieranie migawek trzeba uruchomić jak najwcześniej, bo
-   historii zmian w trakcie cyklu nie da się odtworzyć wstecz. Sposób
-   pokazywania zmian rozstrzygną makiety.
+3. **Klient USOS API i składanie planu są gotowe**: `app/usos/api.py`
+   (daty spotkań w oknach 7-dniowych, po 50 grup na zapytanie),
+   `app/plan/compose.py` (spotkania przypisane do terminów, spotkania
+   o innej godzinie w `moved`, dni wolne i przeniesienia),
+   `app/plan/export.py` (JSON dla przeglądarki). Z tego samego kodu
+   korzysta `mockups/build_data.py`.
+4. **Historia zmian jest gotowa**: `app/history.py` (porównanie migawek po
+   grupie zajęciowej, łącznie z datami spotkań), `flask history`
+   (`app/collect.py`) i `.github/workflows/historia.yml`. Pierwsze
+   sprawdzenie ZBI zaczyna od migawki z monitora zmian
+   (`data/monitor-…json`, `HISTORY_SEEDS`), więc od razu zapisze 27 zmian
+   od 30.06. Workflow ruszy dopiero, gdy trafi na gałąź domyślną (patrz
+   „Publikacja”). Stary plik w cache albo pusty plan z USOS nie są
+   zapisywane, żeby awaria nie wyglądała jak usunięcie zajęć.
 5. **Makiety są gotowe** (`docs/03-makiety.md`). Dane odświeża
    `.venv/bin/python -m mockups.build_data`. Budowa strony kopiuje
    `mockups/` do `_site/makiety/` razem z `plan.js` i `share.js`. Użytkownik
@@ -118,6 +119,11 @@ Mapa plików:
 | `app/usos/fetch.py` | Pobieranie USOSweb z limitem zapytań, ponawianiem i kopią z cache przy awarii. `url_for` odtwarza format linków USOS. |
 | `app/usos/cache.py` | Cache stron w SQLite (24 h). |
 | `mockups/` | Trzy makiety, wspólna logika (`wspolne/model.js`), dane (`dane/plany.json`) i skrypt, który je pobiera (`build_data.py`). |
+| `app/usos/api.py` | Klient USOS API: cykle, typy zajęć, daty spotkań grup zajęciowych. |
+| `app/plan/compose.py`, `app/plan/export.py` | Składanie planu z USOSweb i API, kalendarz semestru, JSON dla przeglądarki. |
+| `app/history.py`, `app/collect.py` | Historia zmian: porównanie migawek i polecenie `flask history`. |
+| `.github/workflows/historia.yml` | Co 6 godzin `flask history` i zapis do gałęzi `dane`. |
+| `data/` | Migawka z monitora zmian użytkownika (stan początkowy historii ZBI). |
 | `app/usos/web.py` | Parser USOSweb: plan grupy przedmiotów (`parse_group_plan`) i lista grup jednostki (`parse_subject_groups`). Zmiana HTML po stronie USOS kończy się `UsosLayoutError`. |
 | `app/plan/model.py` | Model w Pythonie: `PlanRef`, `Activity`, `Recurrence`, `Plan`. Kształt wstępny, do dopasowania przy kliencie API (krok 3). |
 | `app/plan/selection.py`, `app/plan/merge.py` | Ukrywanie i łączenie po stronie serwera (dla filtrowanego `.ics`). |
@@ -142,7 +148,7 @@ i `PYTHON_TOKEN` w `tests/js/share.test.js`.
 
     python3 -m venv .venv
     .venv/bin/pip install -r requirements-dev.txt
-    .venv/bin/python -m pytest        # 61 testów
+    .venv/bin/python -m pytest        # 87 testów
     npm test                          # 33 testy, bez zależności npm
     .venv/bin/flask --app app run --debug
     .venv/bin/flask --app app build --output _site --base-path /AGH-Schedule-Viewer/
@@ -157,9 +163,13 @@ Repo: `Wendermann/AGH-Schedule-Viewer`, publiczne. Gałęzie:
 - `claude/keen-cray-pk2ipo`: gałąź robocza poprzedniego agenta. Na razie
   jest też domyślna, bo powstała pierwsza.
 
-Czego jeszcze brakuje po stronie użytkownika (stan na 25.09):
+Czego jeszcze brakuje po stronie użytkownika (stan na 25.09, wieczór):
 1. Settings → General → Default branch: `main`. Jeszcze nie zmienione.
 2. Settings → Pages → Source: GitHub Actions. Jeszcze nie włączone.
+3. Scalenie gałęzi roboczej `claude/quirky-mendel-jp83mz` do `main`
+   (np. przez PR). `main` stoi na commicie `3dd3d39`. Harmonogram
+   `historia.yml` działa tylko z gałęzi domyślnej, więc bez punktów 1 i 3
+   historia zmian nie jest zbierana. Każdy dzień zwłoki to luka w historii.
 
 Dopóki Pages jest wyłączone, `pages.yml` kończy się błędem w kroku
 `configure-pages` („Get Pages site failed”). To oczekiwane zachowanie, nie

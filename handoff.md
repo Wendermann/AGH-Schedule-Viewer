@@ -38,7 +38,7 @@ Później użytkownik dołożył dwa wymagania:
 | --- | --- |
 | 0. Sygnały „vibe coding” | Zrobiona: `docs/00-sygnaly-vibe-coding.md`. Sekcja 5 to checklista dla makiet i strony. |
 | Pytania do użytkownika | Zrobione: 32 pytania w 8 rundach (ostatnia dotyczyła GitHub Pages). Odpowiedzi są w `docs/01-decyzje.md`. |
-| Analiza USOSweb | **Nie zaczęta.** W poprzednim środowisku sieć blokowała wszystkie domeny AGH. |
+| Analiza USOSweb | **Nie zaczęta.** Dostęp sieciowy już działa (sekcja „Dostęp do USOS”). Czeka na decyzję użytkownika o źródle danych. |
 | 3 makiety UI | Nie zaczęte. Czekają na analizę, bo mają powstać na prawdziwych danych. |
 | Strona właściwa | Gotowy rdzeń niezależny od HTML-a USOS (szczegóły niżej). Brak parsera, danych i interfejsu. |
 | Hosting | Workflow gotowy, ale publikacja czeka na ustawienia repo (sekcja „Publikacja”). |
@@ -46,18 +46,14 @@ Później użytkownik dołożył dwa wymagania:
 
 ## Co zrobić dalej, po kolei
 
-1. **Sprawdź dostęp do USOS**, np.
-   `curl -sS -o /dev/null -w "%{http_code}\n" https://web.usos.agh.edu.pl/`.
-   Jeśli proxy odpowie 403, poproś użytkownika o dopisanie
-   `web.usos.agh.edu.pl` do dozwolonych domen w ustawieniach sieci
-   środowiska. Nie obchodź blokady przez zewnętrzne proxy ani przez GitHub
-   Actions. Polityka sieci środowiska tego zabrania, a w poprzednim
-   środowisku publiczne proxy i tak były zablokowane. Alternatywa: użytkownik
-   zapisuje strony USOS jako HTML i wrzuca je do `tests/fixtures/usos/`.
-2. **Sprawdź, czy w USOS nie trwa synchronizacja baz.** Użytkownik prosił,
-   żeby na nią poczekać. Jeśli strona pokazuje taki komunikat, zapisz jego
-   dokładną treść (przyda się do wykrywania w parserze) i zapytaj
-   użytkownika, czy synchronizacja już się skończyła.
+1. **Poczekaj na decyzję użytkownika o źródle danych** (sekcja „Dostęp do
+   USOS”): scraping USOSweb mimo `robots.txt`, USOS API albo połączenie
+   obu. Wybór API odwraca decyzję z `docs/01-decyzje.md`, więc bez zgody
+   użytkownika nie zmieniaj architektury.
+2. **Synchronizacja baz.** 25.09.2026 strona planu z linku ze zlecenia nie
+   pokazywała komunikatu o synchronizacji, a dane cyklu `26/27-Z` były
+   kompletne. Jeśli komunikat się pojawi, zapisz jego dokładną treść (przyda
+   się do wykrywania w parserze).
 3. **Przeanalizuj USOSweb**, zaczynając od linku ze zlecenia (plan grupy
    przedmiotów `240-ZBI-1S-2R-Z`, cykl `26/27-Z`). Wynik zapisz
    w `docs/02-analiza-usos.md`. Ustal co najmniej:
@@ -89,6 +85,34 @@ Później użytkownik dołożył dwa wymagania:
    właściwy interfejs (Jinja + Alpine.js). Potem dołóż pobieranie danych
    do budowy strony i codzienny `schedule` w `pages.yml`.
 
+
+## Dostęp do USOS (sprawdzone 25.09.2026)
+
+W tym środowisku sieć przepuszcza domeny AGH bez żadnego proxy.
+
+- **USOSweb** (`https://web.usos.agh.edu.pl`) odpowiada normalnie. Plan
+  grupy przedmiotów to komponent `<usos-timetable>` z elementami
+  `<timetable-day>` i `<timetable-entry>`. Wpis ma atrybuty `name`
+  (nazwa przedmiotu) i `name-id` (`prz_kod`), godziny w `grid-row-start`
+  i `grid-row-end` (np. `g0800`), a w slotach `info`, `time`,
+  `dialog-info` (link z `zaj_cyk_id` i `gr_nr`), `dialog-event`
+  (np. „co drugi wtorek (nieparzyste), 8:00 - 9:30”), `dialog-person`
+  i `dialog-place`.
+- **`robots.txt` USOSweb** to `User-agent: *` i `Disallow: /`. Uczelnia nie
+  życzy sobie automatycznego pobierania żadnej strony. Planowany indeks
+  całej AGH odświeżany codziennie przez GitHub Actions stoi z tym
+  w sprzeczności.
+- **USOS API** (`https://apps.usos.agh.edu.pl/services/`, wersja 7.3.1)
+  działa bez klucza i bez logowania dla metod potrzebnych do planów
+  (`auth_options.consumer = ignored`): `tt/course_edition(s)`,
+  `tt/classgroup(s)`, `tt/classgroup_dates2` (konkretne daty każdego
+  spotkania, z pominięciem dni wolnych), `terms/term` (daty cyklu:
+  `26/27-Z` to 2026-10-01 – 2027-02-28), `courses/classtypes_index`
+  (kody i nazwy typów zajęć po polsku i angielsku), `courses/search`,
+  `courses/course`, `geo/building_index`. Opcjonalny klucz: `tt/staff`,
+  `groups/class_group`, `fac/faculty`. Pod tym adresem nie ma
+  `robots.txt`. API nie ma metody dla grupy przedmiotów (np.
+  `240-ZBI-1S-2R-Z`): listę przedmiotów grupy trzeba wziąć z USOSweb.
 
 ## Wymagania dla środowiska
 

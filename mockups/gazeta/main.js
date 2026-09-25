@@ -9,6 +9,7 @@ import {
   fromDay,
   groupTree,
   groupUrl,
+  historyOf,
   loadData,
   longDate,
   mondayOf,
@@ -699,9 +700,9 @@ function renderNews() {
     return;
   }
   const plan = plans[0];
-  const [baseline, latest] = plan.history.checks;
-  const modified = plan.history.changes.filter((c) => c.kind !== "added");
-  const added = plan.history.changes.filter((c) => c.kind === "added");
+  const { baseline, latest, changes } = historyOf(plan);
+  const modified = changes.filter((c) => c.kind !== "added");
+  const added = changes.filter((c) => c.kind === "added");
   const when = `Kraków, ${longDate(latest.at.slice(0, 10))}`;
   fill(
     $("news"),

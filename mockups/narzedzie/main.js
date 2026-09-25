@@ -8,6 +8,7 @@ import {
   dayAccusative,
   groupTree,
   groupUrl,
+  historyOf,
   loadData,
   minutes,
   personUrl,
@@ -543,7 +544,7 @@ function renderAgenda(v) {
 // ---------- inspektor ----------
 
 function renderInspector() {
-  const changes = app.historyPlans().flatMap((p) => p.history.changes);
+  const changes = app.historyPlans().flatMap((p) => historyOf(p).changes);
   const tabs = [
     ["details", "szczegóły"],
     ["log", `dziennik${changes.length ? ` (${changes.length})` : ""}`],
@@ -578,7 +579,7 @@ function renderDetails() {
   const spanInfo = app.span(u);
   const clashes = app.conflictsOf(u);
   const changes = u.members.flatMap((m) => app.changesFor(m));
-  const moved = u.members.flatMap((m) => (m.origin ?? m).changed ?? []);
+  const moved = u.members.flatMap((m) => (m.origin ?? m).moved ?? []);
   return [
     h("h2", {}, u.subjectName),
     h("a", { class: "mono", href: subjectUrl(u.subject) }, u.subject),
@@ -661,13 +662,13 @@ function renderLog() {
     return h("p", { class: "help" }, "Ten kierunek nie ma historii zmian. Historię zbieramy dla kierunków z listy w konfiguracji strony (na razie 240-ZBI-1S-2R-Z).");
   }
   return plans.map((plan) => {
-    const [baseline, latest] = plan.history.checks;
+    const { baseline, latest, changes } = historyOf(plan);
     return h(
       "div",
       { class: "log" },
       h("div", { class: "check" }, `# ${plan.code}`),
-      h("div", { class: "check" }, `${stamp(latest.at)}  sprawdzenie, ${plan.history.changes.length} ${plural(plan.history.changes.length, "zmiana", "zmiany", "zmian")}`),
-      plan.history.changes.map((c) => {
+      h("div", { class: "check" }, `${stamp(latest.at)}  sprawdzenie, ${changes.length} ${plural(changes.length, "zmiana", "zmiany", "zmian")}`),
+      changes.map((c) => {
         const d = app.describeChange(c);
         const mark = { added: "A", removed: "D", modified: "M" }[c.kind];
         const target = orderedUnits().find((u) => u.members.some((m) => m.unit === c.unit && m.group === c.group));

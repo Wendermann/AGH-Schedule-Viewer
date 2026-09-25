@@ -392,7 +392,7 @@ export function createApp(data, { storageKey }) {
             occurrences.push(occurrence(activity, date, activity.start, activity.end, false));
           }
         }
-        for (const moved of activity.changed ?? []) {
+        for (const moved of activity.moved ?? []) {
           if (moved.date >= monday && moved.date <= addDays(monday, 6)) {
             occurrences.push(occurrence(activity, moved.date, moved.start, moved.end, true));
           }
@@ -435,7 +435,7 @@ export function createApp(data, { storageKey }) {
     // Zakres dat zajęć krótszych niż semestr, np. „2.10–30.10, 5 spotkań”.
     span(activity) {
       const base = activity.origin ?? activity;
-      const dates = [...base.dates, ...(base.changed ?? []).map((m) => m.date)].sort();
+      const dates = [...base.dates, ...(base.moved ?? []).map((m) => m.date)].sort();
       if (!dates.length) return null;
       const first = dates[0];
       const last = dates.at(-1);
@@ -489,7 +489,7 @@ export function createApp(data, { storageKey }) {
     changesFor(activity) {
       return app
         .historyPlans()
-        .flatMap((p) => p.history.changes)
+        .flatMap((p) => historyOf(p).changes)
         .filter((c) => c.unit === activity.unit && c.group === activity.group);
     },
     describeChange,
@@ -498,7 +498,7 @@ export function createApp(data, { storageKey }) {
     allDates(unit) {
       const dates = unit.members.flatMap((m) => {
         const base = m.origin ?? m;
-        return [...base.dates, ...(base.changed ?? []).map((c) => c.date)];
+        return [...base.dates, ...(base.moved ?? []).map((c) => c.date)];
       });
       return [...new Set(dates)].sort();
     },
@@ -545,6 +545,12 @@ export function createApp(data, { storageKey }) {
   };
 
   return app;
+}
+
+// Historia z app/history.py: lista sprawdzeń, każde z własnymi zmianami.
+export function historyOf(plan) {
+  const checks = plan.history.checks;
+  return { baseline: checks[0], latest: checks.at(-1), changes: checks.flatMap((c) => c.changes) };
 }
 
 export function occurrenceId(activity) {

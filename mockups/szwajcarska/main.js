@@ -7,6 +7,7 @@ import {
   dayAccusative,
   groupTree,
   groupUrl,
+  historyOf,
   loadData,
   minutes,
   personUrl,
@@ -658,9 +659,9 @@ function renderHistory() {
     return;
   }
   const plan = plans[0];
-  const [baseline, latest] = plan.history.checks;
+  const { baseline, latest, changes: all } = historyOf(plan);
   const visible = new Set(app.visible().map((a) => `${a.unit}|${a.group}`));
-  const changes = plan.history.changes.filter((c) => historyScope === "all" || visible.has(`${c.unit}|${c.group}`));
+  const changes = all.filter((c) => historyScope === "all" || visible.has(`${c.unit}|${c.group}`));
   fill(
     section,
     h("h2", { id: "history-title" }, "Zmiany w planie"),

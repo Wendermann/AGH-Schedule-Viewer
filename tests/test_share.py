@@ -12,6 +12,12 @@ from app.share import InvalidShareToken, ViewState, decode, encode
 
 GROUP = PlanRef(PlanKind.SUBJECT_GROUP, "240-ZBI-1S-2R-Z", "26/27-Z")
 
+# Wygenerowany w przeglądarce przez app/static/js/share.js z tego samego
+# stanu co full_state().
+BROWSER_TOKEN = (
+    "1VYy7CsJAFAX_Zep7cffmIWxnOtFKi-AuKYSECCIGFQKK_y6JINjOnDkvBkJK9AiWO43VWv1ebadxIuXClhppJPFE8JblRYmAZE0jnO6ERB2_mfNM7DEf_qAh1IcN0_7S_7sMYbuqkHy2BMauOyMMxxuBa9sijATMWaneqSt4fwA"
+)
+
 
 def full_state():
     return ViewState(
@@ -30,6 +36,10 @@ def full_state():
 def test_round_trip_keeps_everything():
     state = full_state()
     assert decode(encode(state)) == state
+
+
+def test_token_produced_in_the_browser_decodes_to_the_same_state():
+    assert decode(BROWSER_TOKEN) == full_state()
 
 
 def test_minimal_state_round_trips():

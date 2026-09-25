@@ -1,8 +1,9 @@
 """Stan widoku zapisany w samym linku „Udostępnij” i w adresie kalendarza.
 
 Token to wersja (jeden znak) i skompresowany JSON w base64url, czyli tylko
-znaki A–Z a–z 0–9 - _. Nic nie trafia na serwer, więc link działa tak
-długo, jak istnieją plany w USOS.
+znaki A–Z a–z 0–9 - _. Link tworzy przeglądarka (app/static/js/share.js,
+ten sam format). Serwer odczytuje go tylko po to, żeby zbudować filtrowany
+kalendarz; stanu nigdzie nie zapisujemy.
 """
 
 from __future__ import annotations
@@ -26,6 +27,7 @@ MAX_PLANS = 12
 MODES = ("typical", "week")
 PARITIES = ("all", "odd", "even")
 
+_BODY = re.compile(r"^[A-Za-z0-9_-]*$")
 _CODE = re.compile(r"^[A-Za-z0-9ĄĆĘŁŃÓŚŹŻąćęłńóśźż./_\- ]{1,64}$")
 
 
@@ -55,6 +57,8 @@ def decode(token: str) -> ViewState:
     if token[0] != VERSION:
         raise InvalidShareToken(f"nieznana wersja {token[0]!r}")
     body = token[1:]
+    if not _BODY.match(body):
+        raise InvalidShareToken("niedozwolone znaki")
     try:
         packed = base64.urlsafe_b64decode(body + "=" * (-len(body) % 4))
         unpacker = zlib.decompressobj(-15)

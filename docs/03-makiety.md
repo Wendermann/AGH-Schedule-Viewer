@@ -13,6 +13,14 @@ włączeniu GitHub Pages będą pod `…/AGH-Schedule-Viewer/makiety/`.
 Propozycje nazwy strony: Rozkład, Grafik, Tygodnik Zajęć, Siatka, Plan na
 tydzień, Kiedy zajęcia.
 
+Podgląd do czasu włączenia Pages (prywatne artefakty użytkownika na
+claude.ai, 25.09.2026):
+[Rozkład](https://claude.ai/artifact/RY5jnsER6esA5noBnDZpfw),
+[Grafik](https://claude.ai/artifact/28LhnrjJaF6BofCsLQ7m9t),
+[Tygodnik Zajęć](https://claude.ai/artifact/64S3ESat6aNWmAzcQUK48B).
+W podglądzie link „Udostępnij” wskazuje adres ramki podglądu, a nie stronę,
+więc do testowania linków służy wersja z `flask build`.
+
 
 ## Dane
 

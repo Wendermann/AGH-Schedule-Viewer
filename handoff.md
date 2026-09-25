@@ -39,7 +39,7 @@ Później użytkownik dołożył dwa wymagania:
 | 0. Sygnały „vibe coding” | Zrobiona: `docs/00-sygnaly-vibe-coding.md`. Sekcja 5 to checklista dla makiet i strony. |
 | Pytania do użytkownika | Przed analizą: 32 pytania w 8 rundach. Po analizie: 12 pytań w 3 rundach (historia planu, zasięg danych, osobliwości kalendarza AGH, drzewo kierunków). Wszystkie odpowiedzi są w `docs/01-decyzje.md`. |
 | Analiza USOS | Zrobiona: `docs/02-analiza-usos.md`. Źródło danych: USOS API i USOSweb (decyzja w `docs/01-decyzje.md`). Parser USOSweb w `app/usos/web.py`. |
-| 3 makiety UI | Nie zaczęte. Analiza i pytania po niej są zamknięte, można zaczynać. |
+| 3 makiety UI | Gotowe: `mockups/`, opis i checklista w `docs/03-makiety.md`. Czekają na wybór kierunku przez użytkownika. |
 | Strona właściwa | Gotowy rdzeń (ukrywanie, łączenie, kolizje, link „Udostępnij”, `.ics`) i parser USOSweb. Brak klienta API, składania danych i interfejsu. |
 | Hosting | Workflow gotowy, ale publikacja czeka na ustawienia repo (sekcja „Publikacja”). |
 
@@ -66,14 +66,11 @@ Później użytkownik dołożył dwa wymagania:
    nie ma w repo). Zbieranie migawek trzeba uruchomić jak najwcześniej, bo
    historii zmian w trakcie cyklu nie da się odtworzyć wstecz. Sposób
    pokazywania zmian rozstrzygną makiety.
-5. **Zrób 3 makiety** w `mockups/`: klikalne HTML/CSS na prawdziwych
-   danych, w trzech kierunkach opisanych w `docs/01-decyzje.md` (szwajcarski,
-   narzędzie techniczne, gazeta z czterema wariantami animacji). Dołącz kilka
-   propozycji nazwy strony. Każdą makietę sprawdź checklistą z fazy 0.
-   Podgląd można dołączyć do budowy Pages (np. skopiować `mockups/` do
-   `_site/makiety/` w `app/build.py`). Każda makieta pokazuje też historię
-   zmian planu i ustalenia z sekcji „Widoki” (parzystość przy dniu,
-   przeniesione dni, zajęcia krótsze niż semestr, przedmioty blokowe).
+5. **Makiety są gotowe** (`docs/03-makiety.md`). Dane odświeża
+   `.venv/bin/python -m mockups.build_data`. Budowa strony kopiuje
+   `mockups/` do `_site/makiety/` razem z `plan.js` i `share.js`. Użytkownik
+   ma wybrać kierunek i potwierdzić rozwiązania z sekcji „Rozwiązania do
+   potwierdzenia”.
 6. **Poczekaj, aż użytkownik wybierze kierunek**, i dopiero wtedy buduj
    właściwy interfejs (Jinja + Alpine.js). Potem dołóż pobieranie danych
    do budowy strony i harmonogram w `pages.yml`: cała AGH raz dziennie,
@@ -120,6 +117,7 @@ Mapa plików:
 | `app/build.py` | Budowanie statycznej strony (lista `PAGES`, kopiowanie `static/`). |
 | `app/usos/fetch.py` | Pobieranie USOSweb z limitem zapytań, ponawianiem i kopią z cache przy awarii. `url_for` odtwarza format linków USOS. |
 | `app/usos/cache.py` | Cache stron w SQLite (24 h). |
+| `mockups/` | Trzy makiety, wspólna logika (`wspolne/model.js`), dane (`dane/plany.json`) i skrypt, który je pobiera (`build_data.py`). |
 | `app/usos/web.py` | Parser USOSweb: plan grupy przedmiotów (`parse_group_plan`) i lista grup jednostki (`parse_subject_groups`). Zmiana HTML po stronie USOS kończy się `UsosLayoutError`. |
 | `app/plan/model.py` | Model w Pythonie: `PlanRef`, `Activity`, `Recurrence`, `Plan`. Kształt wstępny, do dopasowania przy kliencie API (krok 3). |
 | `app/plan/selection.py`, `app/plan/merge.py` | Ukrywanie i łączenie po stronie serwera (dla filtrowanego `.ics`). |
@@ -144,8 +142,8 @@ i `PYTHON_TOKEN` w `tests/js/share.test.js`.
 
     python3 -m venv .venv
     .venv/bin/pip install -r requirements-dev.txt
-    .venv/bin/python -m pytest        # 60 testów
-    npm test                          # 32 testy, bez zależności npm
+    .venv/bin/python -m pytest        # 61 testów
+    npm test                          # 33 testy, bez zależności npm
     .venv/bin/flask --app app run --debug
     .venv/bin/flask --app app build --output _site --base-path /AGH-Schedule-Viewer/
 

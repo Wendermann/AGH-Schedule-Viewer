@@ -1,9 +1,9 @@
 # AGH Schedule Viewer
 
-Nieoficjalna przeglądarka planów zajęć z USOSweb AGH
-(`web.usos.agh.edu.pl`). Korzysta wyłącznie z publicznych stron, dostępnych
-bez logowania. Pozwala ukrywać przedmioty, typy zajęć i cudze grupy oraz
-łączyć kilka planów w jeden.
+Nieoficjalna przeglądarka planów zajęć AGH. Korzysta wyłącznie z danych
+dostępnych bez logowania: publicznego USOS API (`apps.usos.agh.edu.pl`)
+i stron USOSweb (`web.usos.agh.edu.pl`). Pozwala ukrywać przedmioty, typy
+zajęć i cudze grupy oraz łączyć kilka planów w jeden.
 
 Projekt jest w budowie. Stan prac i ustalenia są w katalogu `docs/`.
 
@@ -68,6 +68,10 @@ z prefiksem `FLASK_`, np. `FLASK_USOS_CACHE_HOURS=12`.
 
 ## Skąd dane i jak się z nimi obchodzimy
 
-Strony USOSweb są pobierane z identyfikującym User-Agentem, z limitem
-zapytań i z cache. Jeśli USOS nie odpowiada, aplikacja pokazuje ostatnią
-pobraną wersję z datą pobrania.
+Zajęcia i konkretne daty spotkań pochodzą z USOS API, które udostępnia je
+bez klucza. Z USOSweb bierzemy tylko to, czego API nie ma: skład grup
+przedmiotów i nazwiska prowadzących. `robots.txt` USOSweb zabrania
+automatycznego pobierania, więc te strony są pobierane rzadko. Wszystkie
+zapytania idą z identyfikującym User-Agentem, z limitem i z cache. Jeśli
+USOS nie odpowiada, aplikacja pokazuje ostatnią pobraną wersję z datą
+pobrania. Szczegóły są w `docs/02-analiza-usos.md`.

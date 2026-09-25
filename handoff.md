@@ -37,21 +37,18 @@ Później użytkownik dołożył dwa wymagania:
 | Faza | Stan |
 | --- | --- |
 | 0. Sygnały „vibe coding” | Zrobiona: `docs/00-sygnaly-vibe-coding.md`. Sekcja 5 to checklista dla makiet i strony. |
-| Pytania do użytkownika | Przed analizą: 32 pytania w 8 rundach, odpowiedzi w `docs/01-decyzje.md`. Po analizie: zadawane 25.09.2026 (niżej). |
+| Pytania do użytkownika | Przed analizą: 32 pytania w 8 rundach. Po analizie: 12 pytań w 3 rundach (historia planu, zasięg danych, osobliwości kalendarza AGH, drzewo kierunków). Wszystkie odpowiedzi są w `docs/01-decyzje.md`. |
 | Analiza USOS | Zrobiona: `docs/02-analiza-usos.md`. Źródło danych: USOS API i USOSweb (decyzja w `docs/01-decyzje.md`). Parser USOSweb w `app/usos/web.py`. |
-| 3 makiety UI | Nie zaczęte. Analiza jest gotowa, makiety czekają na odpowiedzi na pytania po analizie. |
+| 3 makiety UI | Nie zaczęte. Analiza i pytania po niej są zamknięte, można zaczynać. |
 | Strona właściwa | Gotowy rdzeń (ukrywanie, łączenie, kolizje, link „Udostępnij”, `.ics`) i parser USOSweb. Brak klienta API, składania danych i interfejsu. |
 | Hosting | Workflow gotowy, ale publikacja czeka na ustawienia repo (sekcja „Publikacja”). |
 
 
 ## Co zrobić dalej, po kolei
 
-1. **Pytania wynikające z analizy.** Zadawane 25.09.2026: zasięg danych
-   (cała AGH czy wybrane kierunki), przedmioty blokowe, parzystość
-   w widoku tygodnia oraz historia planu kierunku (sekcja „Historia planu
-   kierunku” w `docs/01-decyzje.md`). Jeśli odpowiedzi nie ma jeszcze
-   w `docs/01-decyzje.md`, zadaj te pytania ponownie. Użytkownik lubi dużo
-   pytań: AskUserQuestion w rundach po 4.
+1. **Przeczytaj nowe ustalenia** w `docs/01-decyzje.md`: sekcje „Dane”,
+   „Historia planu kierunku” i „Widoki” zmieniły się po analizie
+   25.09.2026.
 2. **Synchronizacja baz.** 25.09.2026 plany cyklu `26/27-Z` były kompletne
    i bez komunikatu o synchronizacji. Jeśli komunikat się pojawi, zapisz
    jego dokładną treść, żeby parser mógł go wykrywać.
@@ -62,18 +59,25 @@ Później użytkownik dołożył dwa wymagania:
    spotkań zamiast wyliczania z reguły (przeniesienia dni, sekcja 3
    analizy). Zapisz odpowiedzi API jako fixture w `tests/fixtures/usos/`.
    Uwaga na błędy API opisane w sekcji 1 analizy.
-4. **Historia planu kierunku**, w zakresie ustalonym z użytkownikiem.
-   Zbieranie migawek trzeba uruchomić jak najwcześniej, bo historii zmian
-   w trakcie cyklu nie da się odtworzyć wstecz.
+4. **Historia planu kierunku** (sekcja w `docs/01-decyzje.md`): migawki
+   kierunków z listy w konfiguracji co 6 godzin, zapis JSON do gałęzi
+   `dane`, porównanie po `(unit_id, group_no)` i datach spotkań. Wzorem
+   jest monitor zmian użytkownika (opisany w tej samej sekcji; jego kodu
+   nie ma w repo). Zbieranie migawek trzeba uruchomić jak najwcześniej, bo
+   historii zmian w trakcie cyklu nie da się odtworzyć wstecz. Sposób
+   pokazywania zmian rozstrzygną makiety.
 5. **Zrób 3 makiety** w `mockups/`: klikalne HTML/CSS na prawdziwych
    danych, w trzech kierunkach opisanych w `docs/01-decyzje.md` (szwajcarski,
    narzędzie techniczne, gazeta z czterema wariantami animacji). Dołącz kilka
    propozycji nazwy strony. Każdą makietę sprawdź checklistą z fazy 0.
    Podgląd można dołączyć do budowy Pages (np. skopiować `mockups/` do
-   `_site/makiety/` w `app/build.py`).
+   `_site/makiety/` w `app/build.py`). Każda makieta pokazuje też historię
+   zmian planu i ustalenia z sekcji „Widoki” (parzystość przy dniu,
+   przeniesione dni, zajęcia krótsze niż semestr, przedmioty blokowe).
 6. **Poczekaj, aż użytkownik wybierze kierunek**, i dopiero wtedy buduj
    właściwy interfejs (Jinja + Alpine.js). Potem dołóż pobieranie danych
-   do budowy strony i codzienny `schedule` w `pages.yml`.
+   do budowy strony i harmonogram w `pages.yml`: cała AGH raz dziennie,
+   kierunki z historią co 6 godzin, skład grup z USOSweb raz w tygodniu.
 
 
 ## Dostęp do USOS

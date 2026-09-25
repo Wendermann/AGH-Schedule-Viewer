@@ -1,9 +1,10 @@
-from datetime import date, datetime, timezone
+from dataclasses import replace
+from datetime import date, datetime, time, timezone
 
 from icalendar import Calendar
 
 from app.ics import build_calendar
-from app.plan.model import Recurrence
+from app.plan.model import MovedMeeting, Recurrence
 
 GENERATED = datetime(2026, 9, 25, 12, 0, tzinfo=timezone.utc)
 
@@ -35,3 +36,10 @@ def test_uid_is_stable_between_refreshes(activity):
 def test_classes_without_dates_are_left_out(activity):
     cal = Calendar.from_ical(build_calendar([activity()], name="x", generated_at=GENERATED))
     assert not list(cal.walk("VEVENT"))
+
+
+def test_meeting_at_changed_time_keeps_its_own_hours(activity):
+    lab = replace(activity(dates=[date(2026, 10, 23)]), moved=(MovedMeeting(date(2026, 10, 30), time(15, 45), time(17, 15)),))
+    events = list(Calendar.from_ical(build_calendar([lab], name="x", generated_at=GENERATED)).walk("VEVENT"))
+    ends = sorted((e.decoded("dtstart").date(), e.decoded("dtend").time()) for e in events)
+    assert ends == [(date(2026, 10, 23), time(9, 30)), (date(2026, 10, 30), time(17, 15))]

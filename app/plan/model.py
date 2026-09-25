@@ -39,6 +39,15 @@ class PlanRef:
 
 
 @dataclass(frozen=True)
+class MovedMeeting:
+    """Pojedyncze spotkanie o innej godzinie niż w planie tygodniowym."""
+
+    day: date
+    start: time
+    end: time
+
+
+@dataclass(frozen=True)
 class Activity:
     """Jeden termin w tygodniu jednej grupy zajęciowej."""
 
@@ -52,8 +61,15 @@ class Activity:
     recurrence: Recurrence = Recurrence.WEEKLY
     lecturers: tuple[str, ...] = ()
     room: str | None = None
+    # Spotkania o godzinie z planu; te o innej godzinie są w `moved`.
     dates: tuple[date, ...] = ()
     sources: tuple[str, ...] = ()
+    unit_id: int | None = None  # zaj_cyk_id w USOSweb, unit_id w API
+    building: str | None = None
+    lecturer_ids: tuple[int, ...] = ()
+    # Przedmiot blokowy (lektorat, WF): właściwą grupę wybiera się osobno.
+    block: bool = False
+    moved: tuple[MovedMeeting, ...] = ()
 
     @property
     def identity(self) -> tuple:

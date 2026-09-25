@@ -1,0 +1,198 @@
+{
+ "W": {
+  "id": "W",
+  "name": {
+   "pl": "wykład",
+   "en": "lecture"
+  }
+ },
+ "CWA": {
+  "id": "CWA",
+  "name": {
+   "pl": "ćwiczenia audytoryjne",
+   "en": "auditorium classes"
+  }
+ },
+ "CWL": {
+  "id": "CWL",
+  "name": {
+   "pl": "ćwiczenia laboratoryjne",
+   "en": "laboratory classes"
+  }
+ },
+ "CWP": {
+  "id": "CWP",
+  "name": {
+   "pl": "ćwiczenia projektowe",
+   "en": "project classes"
+  }
+ },
+ "KONW": {
+  "id": "KONW",
+  "name": {
+   "pl": "konwersatorium",
+   "en": "conversation seminars"
+  }
+ },
+ "LEKT": {
+  "id": "LEKT",
+  "name": {
+   "pl": "lektorat",
+   "en": "foreign language classes"
+  }
+ },
+ "ZS": {
+  "id": "ZS",
+  "name": {
+   "pl": "zajęcia seminaryjne",
+   "en": "seminar classes"
+  }
+ },
+ "ZP": {
+  "id": "ZP",
+  "name": {
+   "pl": "zajęcia praktyczne",
+   "en": "practical classes"
+  }
+ },
+ "ZW": {
+  "id": "ZW",
+  "name": {
+   "pl": "zajęcia warsztatowe",
+   "en": "workshop classes"
+  }
+ },
+ "ZT": {
+  "id": "ZT",
+  "name": {
+   "pl": "zajęcia terenowe",
+   "en": "fieldwork"
+  }
+ },
+ "PK": {
+  "id": "PK",
+  "name": {
+   "pl": "prace kontrolne i przejściowe",
+   "en": "control and transitional works"
+  }
+ },
+ "PP": {
+  "id": "PP",
+  "name": {
+   "pl": "prace przejściowe",
+   "en": "transitional works"
+  }
+ },
+ "WF": {
+  "id": "WF",
+  "name": {
+   "pl": "zajęcia z wf",
+   "en": "physical education classes"
+  }
+ },
+ "OK": {
+  "id": "OK",
+  "name": {
+   "pl": "Ocena końcowa",
+   "en": "final grade"
+  }
+ },
+ "PRAC_DYPL": {
+  "id": "PRAC_DYPL",
+  "name": {
+   "pl": "praca dyplomowa",
+   "en": ""
+  }
+ },
+ "PROJ_DYPL": {
+  "id": "PROJ_DYPL",
+  "name": {
+   "pl": "projekt dyplomowy",
+   "en": ""
+  }
+ },
+ "eL": {
+  "id": "eL",
+  "name": {
+   "pl": "e-learning",
+   "en": "e-learning"
+  }
+ },
+ "BIBL": {
+  "id": "BIBL",
+  "name": {
+   "pl": "szkolenie biblioteczne",
+   "en": ""
+  }
+ },
+ "LEKT_EGZ": {
+  "id": "LEKT_EGZ",
+  "name": {
+   "pl": "Egzamin lektorat",
+   "en": ""
+  }
+ },
+ "CL": {
+  "id": "CL",
+  "name": {
+   "pl": "laboratorium",
+   "en": ""
+  }
+ },
+ "K": {
+  "id": "K",
+  "name": {
+   "pl": "konsultacje",
+   "en": "consultations"
+  }
+ },
+ "E": {
+  "id": "E",
+  "name": {
+   "pl": "egzamin",
+   "en": "exam"
+  }
+ },
+ "PZ": {
+  "id": "PZ",
+  "name": {
+   "pl": "praktyka",
+   "en": "practical placement"
+  }
+ },
+ "KN": {
+  "id": "KN",
+  "name": {
+   "pl": "praca w kole naukowym",
+   "en": ""
+  }
+ },
+ "EGK-o": {
+  "id": "EGK-o",
+  "name": {
+   "pl": "Egz. kierunkowy - ocena",
+   "en": ""
+  }
+ },
+ "EGK-p": {
+  "id": "EGK-p",
+  "name": {
+   "pl": "Egz. kierunkowy - punkty",
+   "en": ""
+  }
+ },
+ "BHP": {
+  "id": "BHP",
+  "name": {
+   "pl": "szkolenie BHP",
+   "en": ""
+  }
+ },
+ "BN": {
+  "id": "BN",
+  "name": {
+   "pl": "udział w badaniach naukowych",
+   "en": "participation in scientific research"
+  }
+ }
+}

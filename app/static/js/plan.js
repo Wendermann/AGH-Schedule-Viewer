@@ -1,9 +1,10 @@
 // Ukrywanie, łączenie planów, kolizje i układ bloczków w kolumnie dnia.
 //
-// Zajęcia (activity) mają postać jak w danych JSON:
-//   { subject, subjectName, type, group, weekday, start: "08:00", end: "09:30",
+// Zajęcia (activity) mają postać jak w danych JSON (app/plan/export.py):
+//   { subject, subjectName, type, group, unit, weekday, start: "08:00", end: "09:30",
 //     recurrence: "weekly" | "odd" | "even" | "irregular", dates: ["2026-10-05"],
-//     lecturers: [], room, sources: [] }
+//     moved: [{ date, start, end }], lecturers: [{ id, name }], room, building,
+//     block, sources: [] }
 // Godziny są zapisane jako "HH:MM", więc porównanie napisów porównuje czas.
 
 export function typeKey(subject, type) {

@@ -1,0 +1,12 @@
+{
+ "id": "26/27-Z",
+ "name": {
+  "pl": "Semestr zimowy 2026/2027",
+  "en": "Winter semester 2026/2027"
+ },
+ "start_date": "2026-10-01",
+ "end_date": "2027-02-28",
+ "order_key": 56,
+ "finish_date": "2027-02-28",
+ "is_active": true
+}

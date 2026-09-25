@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import hashlib
 from collections.abc import Iterable
-from datetime import datetime, timedelta
+from datetime import date, datetime, time, timedelta
 from zoneinfo import ZoneInfo
 
 from icalendar import Calendar, Event
@@ -36,8 +36,11 @@ def build_calendar(
     days = []
     for activity in activities:
         for day in activity.dates:
-            calendar.add_component(_event(activity, day, generated_at))
+            calendar.add_component(_event(activity, day, activity.start, activity.end, generated_at))
             days.append(day)
+        for meeting in activity.moved:
+            calendar.add_component(_event(activity, meeting.day, meeting.start, meeting.end, generated_at))
+            days.append(meeting.day)
 
     if days:
         calendar.add_missing_timezones(
@@ -47,7 +50,7 @@ def build_calendar(
     return calendar.to_ical()
 
 
-def _event(activity: Activity, day, generated_at: datetime) -> Event:
+def _event(activity: Activity, day: date, start: time, end: time, generated_at: datetime) -> Event:
     event = Event()
     # UID zależy tylko od tożsamości zajęć i daty, więc przy odświeżeniu
     # subskrypcji kalendarz aktualizuje wydarzenie zamiast je dublować.
@@ -55,8 +58,8 @@ def _event(activity: Activity, day, generated_at: datetime) -> Event:
     uid = hashlib.sha1(identity.encode()).hexdigest()
     event.add("uid", f"{uid}@agh-schedule-viewer")
     event.add("dtstamp", generated_at)
-    event.add("dtstart", datetime.combine(day, activity.start, WARSAW))
-    event.add("dtend", datetime.combine(day, activity.end, WARSAW))
+    event.add("dtstart", datetime.combine(day, start, WARSAW))
+    event.add("dtend", datetime.combine(day, end, WARSAW))
     event.add("summary", f"{activity.subject_name} ({activity.class_type} {activity.group_no})")
     if activity.room:
         event.add("location", activity.room)

@@ -2,26 +2,57 @@
 
 Nieoficjalna przeglądarka planów zajęć z USOSweb AGH
 (`web.usos.agh.edu.pl`). Korzysta wyłącznie z publicznych stron, dostępnych
-bez logowania. Pozwala ukrywać przedmioty, typy zajęć i cudze grupy, łączyć
-kilka planów w jeden oraz subskrybować wynik jako kalendarz `.ics`.
+bez logowania. Pozwala ukrywać przedmioty, typy zajęć i cudze grupy oraz
+łączyć kilka planów w jeden.
 
 Projekt jest w budowie. Stan prac i ustalenia są w katalogu `docs/`.
 
-## Uruchomienie
+## Dwa tryby działania
 
-W Dockerze:
+**GitHub Pages.** Polecenie `flask build` renderuje stronę do statycznych
+plików. Ukrywanie, łączenie i link „Udostępnij” działają w przeglądarce,
+więc serwer nie jest potrzebny. Workflow `.github/workflows/pages.yml`
+buduje i publikuje stronę po każdym wypchnięciu na gałąź `main`. Można go
+też uruchomić ręcznie z zakładki Actions.
+
+**Serwer.** Ta sama aplikacja uruchomiona w Dockerze. Dochodzi
+subskrybowany kalendarz `.ics` z ukryciami i odświeżanie danych z USOS na
+żądanie.
+
+## Pierwsza publikacja na GitHub Pages
+
+Jednorazowo, w ustawieniach repozytorium:
+
+1. Settings → General → Default branch: `main`.
+2. Settings → General → Danger Zone → Change visibility: Public. Na
+   darmowym koncie GitHub Pages działa tylko dla publicznych repozytoriów.
+3. Settings → Pages → Build and deployment → Source: GitHub Actions.
+
+Potem uruchom workflow „GitHub Pages” (Actions → GitHub Pages → Run
+workflow) albo wypchnij zmianę na `main`. Strona będzie dostępna pod
+`https://wendermann.github.io/AGH-Schedule-Viewer/`.
+
+## Uruchomienie lokalne
+
+    python3 -m venv .venv
+    .venv/bin/pip install -r requirements-dev.txt
+    .venv/bin/flask --app app run --debug
+
+Statyczna wersja, tak jak na GitHub Pages:
+
+    .venv/bin/flask --app app build --output _site --base-path /AGH-Schedule-Viewer/
+
+Testy (Python i JavaScript, ten drugi wymaga Node 22):
+
+    .venv/bin/python -m pytest
+    npm test
+
+Serwer w Dockerze:
 
     docker compose up --build
 
 Aplikacja nasłuchuje na porcie 8000. Cache stron USOS jest w wolumenie
 `usos-cache`.
-
-Lokalnie, do pracy nad kodem:
-
-    python3 -m venv .venv
-    .venv/bin/pip install -r requirements-dev.txt
-    .venv/bin/flask --app app run --debug
-    .venv/bin/python -m pytest
 
 ## Konfiguracja
 

@@ -1,0 +1,62 @@
+"""Statyczna wersja strony dla GitHub Pages."""
+
+from __future__ import annotations
+
+import shutil
+from pathlib import Path
+
+import click
+from flask import Flask, current_app
+from flask.cli import with_appcontext
+
+# Adres w aplikacji -> plik w zbudowanej stronie.
+PAGES = {"/": "index.html"}
+
+
+def normalize_base(base_path: str) -> str:
+    inner = base_path.strip("/")
+    return f"/{inner}/" if inner else "/"
+
+
+def build_site(app: Flask, output: Path, base_path: str = "/") -> list[Path]:
+    if output.exists() and any(output.iterdir()):
+        raise click.ClickException(f"Katalog {output} nie jest pusty.")
+    app.config.update(SITE_MODE="static", SITE_BASE=normalize_base(base_path))
+
+    written = []
+    client = app.test_client()
+    for route, filename in PAGES.items():
+        response = client.get(route)
+        if response.status_code != 200:
+            raise click.ClickException(f"{route}: HTTP {response.status_code}")
+        target = output / filename
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(response.data)
+        written.append(target)
+
+    shutil.copytree(app.static_folder, output / "static", dirs_exist_ok=True)
+    return written
+
+
+@click.command("build")
+@click.option(
+    "--output",
+    default="_site",
+    show_default=True,
+    type=click.Path(file_okay=False, path_type=Path),
+    help="Katalog wynikowy. Musi być pusty albo nie istnieć.",
+)
+@click.option(
+    "--base-path",
+    default="/",
+    show_default=True,
+    help="Ścieżka, pod którą strona będzie dostępna, np. /AGH-Schedule-Viewer/.",
+)
+@with_appcontext
+def build_command(output: Path, base_path: str) -> None:
+    """Buduje statyczną wersję strony, np. dla GitHub Pages."""
+    pages = build_site(current_app._get_current_object(), output, base_path)
+    click.echo(
+        f"Strona zbudowana w {output} (plików HTML: {len(pages)},"
+        f" ścieżka bazowa {normalize_base(base_path)})."
+    )

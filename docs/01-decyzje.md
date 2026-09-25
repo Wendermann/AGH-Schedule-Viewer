@@ -8,12 +8,17 @@ po analizie” zależą od tego, co faktycznie udostępnia USOSweb niezalogowany
 
 - Źródło: scraping publicznych stron USOSweb (`web.usos.agh.edu.pl`), bez
   USOS API i bez logowania.
-- Cache: 24 godziny. Na stronie widać datę pobrania i jest akcja „odśwież
-  z USOS”.
+- Świeżość danych zależy od trybu (patrz „Technologia i hosting”):
+  - GitHub Pages: dane pobiera GitHub Action podczas budowania strony,
+    docelowo raz dziennie. Na stronie widać datę pobrania, ale nie ma
+    odświeżania na żądanie.
+  - Serwer: cache 24 godziny i akcja „odśwież z USOS”.
 - Indeks do wyszukiwarki i drzewa: cała AGH, wszystkie dostępne cykle
-  dydaktyczne. Budowany stopniowo, z limitem zapytań do USOS.
-- Wyszukiwanie: pole z podpowiedziami (lokalny indeks, SQLite FTS) oraz
-  drzewo wydział → kierunek → rok → semestr.
+  dydaktyczne. Budowany stopniowo, z limitem zapytań do USOS. Zakończone
+  cykle się nie zmieniają, więc pobieramy je raz.
+- Wyszukiwanie: pole z podpowiedziami oraz drzewo wydział → kierunek →
+  rok → semestr. Indeks to plik JSON przeszukiwany w przeglądarce, bo na
+  GitHub Pages nie ma bazy danych. Serwer używa tego samego pliku.
 
 
 ## Zakres pierwszej wersji
@@ -49,17 +54,27 @@ po analizie” zależą od tego, co faktycznie udostępnia USOSweb niezalogowany
 
 - Bez kont. Bieżący stan w `localStorage` i w URL.
 - Przycisk „Udostępnij” generuje link z zakodowanym stanem: ciąg znaków
-  `A–Z a–z 0–9 + - _`. Stanu nie zapisujemy na serwerze, link sam go niesie.
-- Eksport `.ics` przede wszystkim jako subskrybowany URL. Zawiera ten sam
-  zakodowany stan, więc kalendarz pokazuje dokładnie to, co widać
-  (z ukryciami i wybranymi grupami) i sam się aktualizuje.
+  `A–Z a–z 0–9 - _`. Link tworzy przeglądarka i sam niesie cały stan, więc
+  działa tak samo na GitHub Pages i na serwerze.
+- Subskrybowany kalendarz `.ics` z ukryciami i wybranymi grupami działa
+  tylko w trybie serwerowym. Adres zawiera ten sam token co link
+  „Udostępnij”, więc kalendarz pokazuje dokładnie to, co widać, i sam się
+  aktualizuje. Na GitHub Pages nie ma kalendarza generowanego na żądanie.
 - Eksport do obrazka PNG.
 
 
-## Technologia
+## Technologia i hosting
 
 - Flask, szablony Jinja i Alpine.js. Bez etapu budowania frontendu.
-- Uruchamianie w Dockerze (docker-compose, gunicorn).
+- Ukrywanie, łączenie, kolizje i link „Udostępnij” działają w przeglądarce
+  (`app/static/js`), więc strona nie potrzebuje serwera. Python
+  odpowiada za pobieranie i parsowanie USOS, budowanie strony i kalendarz
+  w trybie serwerowym.
+- Dwa tryby z jednego kodu:
+  - **GitHub Pages** (główny): `flask build` renderuje stronę do
+    statycznych plików, a workflow `pages.yml` publikuje ją z gałęzi `main`.
+  - **Serwer** (opcjonalny): ten sam Flask w Dockerze (docker-compose,
+    gunicorn) dodaje filtrowany kalendarz i odświeżanie na żądanie.
 
 
 ## Styl

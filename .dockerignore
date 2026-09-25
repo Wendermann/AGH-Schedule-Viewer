@@ -6,3 +6,5 @@ instance
 tests
 docs
 mockups
+node_modules
+package.json

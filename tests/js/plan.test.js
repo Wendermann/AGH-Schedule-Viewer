@@ -97,6 +97,12 @@ test("odd and even weeks do not collide", () => {
   assert.equal(collide(odd, activity()), true);
 });
 
+test("groups of the same class type are alternatives, not conflicts", () => {
+  assert.equal(collide(activity({ group: 1 }), activity({ group: 2 })), false);
+  assert.equal(collide(activity({ group: 1 }), activity({ type: "W", group: 2 })), true);
+  assert.equal(collide(activity({ group: 1 }), activity({ subject: "MAT", group: 2 })), true);
+});
+
 test("concrete dates decide when both are known", () => {
   const on = (date) => activity({ recurrence: "irregular", dates: [date] });
   assert.equal(collide(on("2026-10-05"), on("2026-10-12")), false);

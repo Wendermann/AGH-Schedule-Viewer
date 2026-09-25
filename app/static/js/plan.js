@@ -71,6 +71,9 @@ export function overlapsInTime(a, b) {
 // Czy da się fizycznie trafić na oba zajęcia naraz.
 export function collide(a, b) {
   if (!overlapsInTime(a, b)) return false;
+  // Grupy tego samego typu zajęć w przedmiocie to alternatywy: student
+  // chodzi tylko do jednej z nich.
+  if (a.subject === b.subject && a.type === b.type && a.group !== b.group) return false;
   if (a.dates?.length && b.dates?.length) {
     const dates = new Set(a.dates);
     return b.dates.some((d) => dates.has(d));

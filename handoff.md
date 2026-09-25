@@ -37,44 +37,34 @@ Później użytkownik dołożył dwa wymagania:
 | Faza | Stan |
 | --- | --- |
 | 0. Sygnały „vibe coding” | Zrobiona: `docs/00-sygnaly-vibe-coding.md`. Sekcja 5 to checklista dla makiet i strony. |
-| Pytania do użytkownika | Zrobione: 32 pytania w 8 rundach (ostatnia dotyczyła GitHub Pages). Odpowiedzi są w `docs/01-decyzje.md`. |
-| Analiza USOSweb | **Nie zaczęta.** Dostęp sieciowy już działa (sekcja „Dostęp do USOS”). Czeka na decyzję użytkownika o źródle danych. |
-| 3 makiety UI | Nie zaczęte. Czekają na analizę, bo mają powstać na prawdziwych danych. |
-| Strona właściwa | Gotowy rdzeń niezależny od HTML-a USOS (szczegóły niżej). Brak parsera, danych i interfejsu. |
+| Pytania do użytkownika | Przed analizą: 32 pytania w 8 rundach, odpowiedzi w `docs/01-decyzje.md`. Po analizie: zadawane 25.09.2026 (niżej). |
+| Analiza USOS | Zrobiona: `docs/02-analiza-usos.md`. Źródło danych: USOS API i USOSweb (decyzja w `docs/01-decyzje.md`). Parser USOSweb w `app/usos/web.py`. |
+| 3 makiety UI | Nie zaczęte. Analiza jest gotowa, makiety czekają na odpowiedzi na pytania po analizie. |
+| Strona właściwa | Gotowy rdzeń (ukrywanie, łączenie, kolizje, link „Udostępnij”, `.ics`) i parser USOSweb. Brak klienta API, składania danych i interfejsu. |
 | Hosting | Workflow gotowy, ale publikacja czeka na ustawienia repo (sekcja „Publikacja”). |
 
 
 ## Co zrobić dalej, po kolei
 
-1. **Poczekaj na decyzję użytkownika o źródle danych** (sekcja „Dostęp do
-   USOS”): scraping USOSweb mimo `robots.txt`, USOS API albo połączenie
-   obu. Wybór API odwraca decyzję z `docs/01-decyzje.md`, więc bez zgody
-   użytkownika nie zmieniaj architektury.
-2. **Synchronizacja baz.** 25.09.2026 strona planu z linku ze zlecenia nie
-   pokazywała komunikatu o synchronizacji, a dane cyklu `26/27-Z` były
-   kompletne. Jeśli komunikat się pojawi, zapisz jego dokładną treść (przyda
-   się do wykrywania w parserze).
-3. **Przeanalizuj USOSweb**, zaczynając od linku ze zlecenia (plan grupy
-   przedmiotów `240-ZBI-1S-2R-Z`, cykl `26/27-Z`). Wynik zapisz
-   w `docs/02-analiza-usos.md`. Ustal co najmniej:
-   - strukturę HTML planu grupy przedmiotów (czy to tabela, czy komponenty
-     typu `usos-timetable`, i jakie atrybuty niosą dane);
-   - jak USOS zapisuje zajęcia co dwa tygodnie, zajęcia w wybrane daty
-     i czy podaje konkretne daty spotkań. Od tego zależy widok konkretnego
-     tygodnia i `.ics`;
-   - jak AGH definiuje tygodnie parzyste i nieparzyste (od początku
-     semestru czy według tygodni kalendarzowych);
-   - kody typów zajęć (WYK, CW, LAB…) i ich pełne nazwy;
-   - identyfikatory: przedmiot (`prz_kod`), grupa zajęciowa (`zaj_cyk_id`
-     i `gr_nr`), cykl (`cdyd_kod`), oraz daty początku i końca cyklu;
-   - skąd wziąć listę wszystkich grup przedmiotów, wydziałów i cykli do
-     indeksu i drzewa (strony katalogu, wyszukiwarki);
-   - czy USOS ma wersję angielską tych samych stron (parametr języka);
-   - `robots.txt` i rozsądne tempo zapytań.
-   Zapisz kilka stron jako fixture w `tests/fixtures/usos/` i przetestuj
-   na nich parser.
-4. **Po analizie zadaj pytania, które z niej wynikną.** Użytkownik lubi
-   dużo pytań: używaj AskUserQuestion w rundach po 4 pytania.
+1. **Pytania wynikające z analizy.** Zadawane 25.09.2026: zasięg danych
+   (cała AGH czy wybrane kierunki), przedmioty blokowe, parzystość
+   w widoku tygodnia oraz historia planu kierunku (sekcja „Historia planu
+   kierunku” w `docs/01-decyzje.md`). Jeśli odpowiedzi nie ma jeszcze
+   w `docs/01-decyzje.md`, zadaj te pytania ponownie. Użytkownik lubi dużo
+   pytań: AskUserQuestion w rundach po 4.
+2. **Synchronizacja baz.** 25.09.2026 plany cyklu `26/27-Z` były kompletne
+   i bez komunikatu o synchronizacji. Jeśli komunikat się pojawi, zapisz
+   jego dokładną treść, żeby parser mógł go wykrywać.
+3. **Klient USOS API** (`app/usos/api.py`) i składanie planu: skład
+   i prowadzący z `app/usos/web.py`, konkretne daty z `tt/classgroups`
+   (okna 7-dniowe). Model w `app/plan/model.py` wymaga dopasowania: klucz
+   grupy zajęciowej `(unit_id, group_no)`, prowadzący z `os_id`, daty
+   spotkań zamiast wyliczania z reguły (przeniesienia dni, sekcja 3
+   analizy). Zapisz odpowiedzi API jako fixture w `tests/fixtures/usos/`.
+   Uwaga na błędy API opisane w sekcji 1 analizy.
+4. **Historia planu kierunku**, w zakresie ustalonym z użytkownikiem.
+   Zbieranie migawek trzeba uruchomić jak najwcześniej, bo historii zmian
+   w trakcie cyklu nie da się odtworzyć wstecz.
 5. **Zrób 3 makiety** w `mockups/`: klikalne HTML/CSS na prawdziwych
    danych, w trzech kierunkach opisanych w `docs/01-decyzje.md` (szwajcarski,
    narzędzie techniczne, gazeta z czterema wariantami animacji). Dołącz kilka
@@ -86,37 +76,19 @@ Później użytkownik dołożył dwa wymagania:
    do budowy strony i codzienny `schedule` w `pages.yml`.
 
 
-## Dostęp do USOS (sprawdzone 25.09.2026)
+## Dostęp do USOS
 
-W tym środowisku sieć przepuszcza domeny AGH bez żadnego proxy.
+25.09.2026 sieć środowiska przepuszczała domeny AGH bez proxy. `robots.txt`
+USOSweb zabrania automatycznego pobierania całej domeny, dlatego USOSweb
+służy tylko do tego, czego nie ma w API, i jest pobierany rzadko. USOS API
+nie ma `robots.txt`, a metody planu działają bez klucza. Szczegóły, limity
+i błędy API są w `docs/02-analiza-usos.md`.
 
-- **USOSweb** (`https://web.usos.agh.edu.pl`) odpowiada normalnie. Plan
-  grupy przedmiotów to komponent `<usos-timetable>` z elementami
-  `<timetable-day>` i `<timetable-entry>`. Wpis ma atrybuty `name`
-  (nazwa przedmiotu) i `name-id` (`prz_kod`), godziny w `grid-row-start`
-  i `grid-row-end` (np. `g0800`), a w slotach `info`, `time`,
-  `dialog-info` (link z `zaj_cyk_id` i `gr_nr`), `dialog-event`
-  (np. „co drugi wtorek (nieparzyste), 8:00 - 9:30”), `dialog-person`
-  i `dialog-place`.
-- **`robots.txt` USOSweb** to `User-agent: *` i `Disallow: /`. Uczelnia nie
-  życzy sobie automatycznego pobierania żadnej strony. Planowany indeks
-  całej AGH odświeżany codziennie przez GitHub Actions stoi z tym
-  w sprzeczności.
-- **USOS API** (`https://apps.usos.agh.edu.pl/services/`, wersja 7.3.1)
-  działa bez klucza i bez logowania dla metod potrzebnych do planów
-  (`auth_options.consumer = ignored`): `tt/course_edition(s)`,
-  `tt/classgroup(s)`, `tt/classgroup_dates2` (konkretne daty każdego
-  spotkania, z pominięciem dni wolnych), `terms/term` (daty cyklu:
-  `26/27-Z` to 2026-10-01 – 2027-02-28), `courses/classtypes_index`
-  (kody i nazwy typów zajęć po polsku i angielsku), `courses/search`,
-  `courses/course`, `geo/building_index`. Opcjonalny klucz: `tt/staff`,
-  `groups/class_group`, `fac/faculty`. Pod tym adresem nie ma
-  `robots.txt`. API nie ma metody dla grupy przedmiotów (np.
-  `240-ZBI-1S-2R-Z`): listę przedmiotów grupy trzeba wziąć z USOSweb.
 
 ## Wymagania dla środowiska
 
-- Dostęp sieciowy do `web.usos.agh.edu.pl`, a także do PyPI i npm.
+- Dostęp sieciowy do `web.usos.agh.edu.pl` i `apps.usos.agh.edu.pl`,
+  a także do PyPI i npm.
 - Python 3.11 lub nowszy (CI używa 3.12) oraz Node 22 (testy JS korzystają
   z `CompressionStream("deflate-raw")`).
 - Docker jest potrzebny tylko do trybu serwerowego. W poprzednim
@@ -144,7 +116,8 @@ Mapa plików:
 | `app/build.py` | Budowanie statycznej strony (lista `PAGES`, kopiowanie `static/`). |
 | `app/usos/fetch.py` | Pobieranie USOSweb z limitem zapytań, ponawianiem i kopią z cache przy awarii. `url_for` odtwarza format linków USOS. |
 | `app/usos/cache.py` | Cache stron w SQLite (24 h). |
-| `app/plan/model.py` | Model w Pythonie: `PlanRef`, `Activity`, `Recurrence`, `Plan`. Kształt jest wstępny i do weryfikacji po analizie. |
+| `app/usos/web.py` | Parser USOSweb: plan grupy przedmiotów (`parse_group_plan`) i lista grup jednostki (`parse_subject_groups`). Zmiana HTML po stronie USOS kończy się `UsosLayoutError`. |
+| `app/plan/model.py` | Model w Pythonie: `PlanRef`, `Activity`, `Recurrence`, `Plan`. Kształt wstępny, do dopasowania przy kliencie API (krok 3). |
 | `app/plan/selection.py`, `app/plan/merge.py` | Ukrywanie i łączenie po stronie serwera (dla filtrowanego `.ics`). |
 | `app/share.py` | Kodek tokenu „Udostępnij” w Pythonie (odczyt po stronie serwera). |
 | `app/ics.py` | Generowanie iCalendar ze stałymi UID. Pomija zajęcia bez konkretnych dat. |
@@ -167,7 +140,7 @@ i `PYTHON_TOKEN` w `tests/js/share.test.js`.
 
     python3 -m venv .venv
     .venv/bin/pip install -r requirements-dev.txt
-    .venv/bin/python -m pytest        # 45 testów
+    .venv/bin/python -m pytest        # 60 testów
     npm test                          # 32 testy, bez zależności npm
     .venv/bin/flask --app app run --debug
     .venv/bin/flask --app app build --output _site --base-path /AGH-Schedule-Viewer/

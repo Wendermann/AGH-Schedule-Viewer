@@ -6,8 +6,14 @@ po analizie” zależą od tego, co faktycznie udostępnia USOSweb niezalogowany
 
 ## Dane
 
-- Źródło: scraping publicznych stron USOSweb (`web.usos.agh.edu.pl`), bez
-  USOS API i bez logowania.
+- Źródło: dwa, oba bez logowania i bez klucza (zmienione 25.09.2026, po
+  sprawdzeniu dostępu):
+  - USOS API (`apps.usos.agh.edu.pl/services/`) dostarcza zajęcia, ich
+    konkretne daty, daty cykli i słowniki. Metody planu nie wymagają klucza.
+  - USOSweb (`web.usos.agh.edu.pl`) tylko dla tego, czego API nie ma: listy
+    grup przedmiotów i przedmiotów w każdej z nich. Pobierana rzadko
+    i małą liczbą zapytań, bo `robots.txt` USOSweb zabrania automatycznego
+    pobierania. Pierwotnie źródłem miał być wyłącznie scraping USOSweb.
 - Świeżość danych zależy od trybu (patrz „Technologia i hosting”):
   - GitHub Pages: dane pobiera GitHub Action podczas budowania strony,
     docelowo raz dziennie. Na stronie widać datę pobrania, ale nie ma
@@ -26,8 +32,9 @@ po analizie” zależą od tego, co faktycznie udostępnia USOSweb niezalogowany
 - Plany grup przedmiotów (kierunek i semestr, np. `240-ZBI-1S-2R-Z`).
 - Plany przedmiotu i konkretnej grupy zajęciowej.
 - Poza zakresem na start: prowadzący, sale.
-- Interfejs po polsku i angielsku. Nazwy z USOS w wersji językowej, którą
-  USOS udostępnia (do potwierdzenia po analizie).
+- Interfejs po polsku i angielsku. Nazwy przedmiotów i typów zajęć z API,
+  które podaje obie wersje. Gdy USOS nie ma nazwy angielskiej, pokazujemy
+  polską.
 
 
 ## Ukrywanie i łączenie
@@ -38,6 +45,41 @@ po analizie” zależą od tego, co faktycznie udostępnia USOSweb niezalogowany
   pokazuje skrót.
 - Kolizje: bloczki obok siebie, a kolizje zajęć, które zostały po ukryciach,
   są wyróżnione i zliczone w nagłówku dnia.
+
+
+## Historia planu kierunku
+
+Dodane 25.09.2026 na prośbę użytkownika. Wzorem jest jego wcześniejszy
+projekt „Monitor zmian w planie USOS”. Monitor co 12 godzin pobierał plan
+jednej grupy przedmiotów, zapisywał migawkę, gdy treść się zmieniła,
+i porównywał zajęcia po `(zaj_cyk_id, gr_nr)`. Pokazywał karty „było → jest”
+dla zmian dnia, godzin, typu, grupy, prowadzących, sali, budynku,
+parzystości i przedmiotu, a także zajęcia dodane i usunięte. Zajęcia
+zmienione niedawno miały bardziej nasycony kolor, który z każdą kolejną
+kontrolą bladł, a najnowsze zmiany dostawały oznaczenie „nowe”. Pierwsza
+kontrola tworzyła stan bazowy bez kart.
+
+U nas historia ma dwie warstwy, bo mają różne źródła (szczegóły w
+`docs/02-analiza-usos.md`, sekcja 8):
+
+- **Zmiany w trakcie cyklu.** USOS przechowuje tylko stan bieżący, więc tę
+  historię trzeba zbierać samemu: przy każdym pobraniu danych zapisać
+  migawkę i porównać ją z poprzednią. Historia zaczyna się od dnia
+  uruchomienia zbierania i nie da się jej odtworzyć wstecz. Migawka
+  obejmuje też konkretne daty z API, więc widać również pojedyncze
+  spotkania przeniesione albo odwołane, czego monitor nie wykrywał. Na
+  GitHub Pages migawki muszą przetrwać między kolejnymi budowami, więc
+  trzeba je gdzieś trwale zapisywać (do ustalenia).
+- **Porównanie cykli.** Plan tej samej grupy przedmiotów w kolejnych latach,
+  np. semestr 3 w `23/24-Z`, `24/25-Z`, `25/26-Z` i `26/27-Z`: które
+  przedmioty doszły, które ubyły i jak zmieniły się godziny. Dane z USOS
+  sięgają `23/24`, więc ta warstwa działa od razu.
+
+Do ustalenia z użytkownikiem: czy obie warstwy wchodzą do pierwszej wersji,
+dla ilu kierunków zbierać migawki, gdzie je przechowywać, jak często
+sprawdzać zmiany i czy przejąć sposób pokazywania z monitora (karty
+„było → jest”, blednięcie koloru). Przycisk „Sprawdź teraz” może działać
+tylko w trybie serwerowym.
 
 
 ## Widoki

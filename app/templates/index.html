@@ -1,19 +1,57 @@
 {% extends "base.html" %}
+{% from "_finder.html" import search, tree %}
+{% block head %}
+<script type="module" src="{{ base }}static/js/start.js"></script>
+{% endblock %}
 {% block body %}
-<main class="note">
-  <h1>Plany zajęć AGH</h1>
-  <p>
-    Nieoficjalna przeglądarka planów zajęć z USOSweb AGH: plany kierunków,
-    przedmiotów i grup zajęciowych, z ukrywaniem niepotrzebnych zajęć
-    i łączeniem kilku planów w jeden.
-  </p>
-  <p>
-    Strona jest w budowie. Plany pojawią się tutaj, gdy będzie gotowy
-    interfejs i pobieranie danych z USOS.
-  </p>
-  <p class="meta">
-    Projekt nie jest związany z AGH ani z twórcami USOS.
-    <a href="https://github.com/Wendermann/AGH-Schedule-Viewer">Kod źródłowy</a>
-  </p>
-</main>
+<div class="page" x-data="startPage">
+  <header class="masthead">
+    <p class="wordmark">{{ site_name }}</p>
+    <div class="masthead__plan">
+      <h1>Plany zajęć AGH z USOS</h1>
+    </div>
+    <div class="masthead__tools">
+      <div class="seg" role="group" aria-label="Motyw">
+        <span class="seg__label">Motyw</span>
+        <template x-for="[value, label] in themes" :key="value">
+          <button type="button" :aria-pressed="String(theme === value)" @click="setTheme(value)" x-text="label"></button>
+        </template>
+      </div>
+    </div>
+  </header>
+
+  <div class="notice is-strong" x-show="failure" x-cloak>
+    <p x-text="failure"></p>
+  </div>
+
+  <div class="start" x-show="!failure">
+    <div>
+      <section>
+        <p class="lead">
+          Plan kierunku na jednej stronie: ukryj przedmioty, których nie masz,
+          wybierz swoje grupy, połącz kilka planów i zobacz kolizje z podziałem
+          na tygodnie parzyste i nieparzyste.
+        </p>
+      </section>
+      {{ search(false) }}
+      <section x-show="recent.length" x-cloak>
+        <h2>Ostatnio oglądane</h2>
+        <ul class="recent">
+          <template x-for="plan in recent" :key="plan.code">
+            <li><a :href="href(plan.code)" x-text="plan.name"></a><span class="code" x-text="plan.code"></span></li>
+          </template>
+        </ul>
+      </section>
+    </div>
+    <div>
+      {{ tree(false) }}
+    </div>
+  </div>
+
+  <footer class="colophon">
+    <p>Nieoficjalne narzędzie, niezwiązane z AGH ani z twórcami USOS. Dane pochodzą z publicznego USOS API i stron USOSweb dostępnych bez logowania.</p>
+    <p x-show="fetchedAt" x-text="`Cykl: ${cycle?.name ?? ''}. Dane pobrano ${fetchedAt}.`"></p>
+    <p><a href="https://github.com/Wendermann/AGH-Schedule-Viewer">Kod źródłowy</a></p>
+  </footer>
+</div>
 {% endblock %}

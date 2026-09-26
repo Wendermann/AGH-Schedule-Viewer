@@ -21,10 +21,31 @@ def test_base_path_is_normalized(given, expected):
 def test_pages_and_assets_use_the_base_path(app, tmp_path):
     out = tmp_path / "site"
     build_site(app, out, "/AGH-Schedule-Viewer")
-    html = (out / "index.html").read_text()
-    assert 'href="/AGH-Schedule-Viewer/static/css/site.css"' in html
-    assert (out / "static" / "css" / "site.css").is_file()
-    assert (out / "static" / "js" / "share.js").is_file()
+    for page, script in (("index.html", "start.js"), ("plan.html", "planview.js")):
+        html = (out / page).read_text()
+        assert 'href="/AGH-Schedule-Viewer/static/css/site.css"' in html
+        assert f'src="/AGH-Schedule-Viewer/static/js/{script}"' in html
+        # Skrypty składają adresy danych z tej ścieżki.
+        assert 'data-base="/AGH-Schedule-Viewer/"' in html
+    for asset in ("css/site.css", "js/share.js", "js/model.js", "vendor/alpinejs/alpine-3.17.4.esm.min.js", "fonts/archivo/archivo-latin-ext-wdth-normal.woff2"):
+        assert (out / "static" / asset).is_file(), asset
+
+
+def test_site_data_is_copied(app, tmp_path):
+    data = tmp_path / "dane"
+    (data / "plany" / "26-27-Z").mkdir(parents=True)
+    (data / "indeks.json").write_text("{}")
+    (data / "plany" / "26-27-Z" / "240-ZBI-1S-2R-Z.json").write_text("{}")
+    out = tmp_path / "site"
+    build_site(app, out, "/", data)
+    assert (out / "dane" / "indeks.json").is_file()
+    assert (out / "dane" / "plany" / "26-27-Z" / "240-ZBI-1S-2R-Z.json").is_file()
+
+
+def test_refuses_data_without_index(app, tmp_path):
+    (tmp_path / "dane").mkdir()
+    with pytest.raises(ClickException, match="indeks.json"):
+        build_site(app, tmp_path / "site", "/", tmp_path / "dane")
 
 
 def test_mockups_are_published_with_shared_scripts(app, tmp_path):

@@ -10,7 +10,7 @@ from flask import Flask, current_app
 from flask.cli import with_appcontext
 
 # Adres w aplikacji -> plik w zbudowanej stronie.
-PAGES = {"/": "index.html"}
+PAGES = {"/": "index.html", "/plan.html": "plan.html"}
 MOCKUPS = Path(__file__).resolve().parent.parent / "mockups"
 
 
@@ -19,7 +19,7 @@ def normalize_base(base_path: str) -> str:
     return f"/{inner}/" if inner else "/"
 
 
-def build_site(app: Flask, output: Path, base_path: str = "/") -> list[Path]:
+def build_site(app: Flask, output: Path, base_path: str = "/", data: Path | None = None) -> list[Path]:
     if output.exists() and any(output.iterdir()):
         raise click.ClickException(f"Katalog {output} nie jest pusty.")
     app.config.update(SITE_MODE="static", SITE_BASE=normalize_base(base_path))
@@ -36,6 +36,10 @@ def build_site(app: Flask, output: Path, base_path: str = "/") -> list[Path]:
         written.append(target)
 
     shutil.copytree(app.static_folder, output / "static", dirs_exist_ok=True)
+    if data is not None:
+        if not (data / "indeks.json").is_file():
+            raise click.ClickException(f"W {data} nie ma indeks.json; najpierw uruchom flask fetch.")
+        shutil.copytree(data, output / "dane")
     if MOCKUPS.is_dir():
         copy_mockups(Path(app.static_folder), output / "makiety")
     return written
@@ -62,10 +66,15 @@ def copy_mockups(static: Path, target: Path) -> None:
     show_default=True,
     help="Ścieżka, pod którą strona będzie dostępna, np. /AGH-Schedule-Viewer/.",
 )
+@click.option(
+    "--data",
+    type=click.Path(file_okay=False, path_type=Path),
+    help="Katalog z danymi z flask fetch; trafi do katalogu dane strony.",
+)
 @with_appcontext
-def build_command(output: Path, base_path: str) -> None:
+def build_command(output: Path, base_path: str, data: Path | None) -> None:
     """Buduje statyczną wersję strony, np. dla GitHub Pages."""
-    pages = build_site(current_app._get_current_object(), output, base_path)
+    pages = build_site(current_app._get_current_object(), output, base_path, data)
     click.echo(
         f"Strona zbudowana w {output} (plików HTML: {len(pages)},"
         f" ścieżka bazowa {normalize_base(base_path)})."

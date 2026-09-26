@@ -68,7 +68,8 @@ z prefiksem `FLASK_`, np. `FLASK_USOS_CACHE_HOURS=12`.
 | Opcja | Domyślnie | Znaczenie |
 | --- | --- | --- |
 | `USOS_CACHE_HOURS` | 24 | Po ilu godzinach strona z USOS jest pobierana ponownie. |
-| `USOS_MIN_INTERVAL` | 1.0 | Minimalny odstęp w sekundach między zapytaniami do USOS (na proces). |
+| `USOS_MIN_INTERVAL` | 1.0 | Minimalny odstęp w sekundach między zapytaniami do USOS API (na proces). |
+| `USOS_WEB_MIN_INTERVAL` | 3.0 | To samo dla stron USOSweb, które mają zakaz w `robots.txt`. |
 | `USOS_TIMEOUT` | 20 | Limit czasu jednego zapytania, w sekundach. |
 | `USOS_CACHE_PATH` | `instance/usos-cache.sqlite3` | Plik bazy z cache. |
 | `HISTORY_PLANS` | `["240-ZBI-1S-2R-Z@26/27-Z"]` | Kierunki z historią zmian: kod grupy przedmiotów i cykl. |

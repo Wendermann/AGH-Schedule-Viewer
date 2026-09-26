@@ -4,14 +4,23 @@ class Config:
     SITE_MODE = "server"
     # Ścieżka, pod którą strona jest dostępna; na GitHub Pages to nazwa repo.
     SITE_BASE = "/"
+    SITE_NAME = "Plan na tydzień"
+    # Zakres danych strony: wydziały i cykle dydaktyczne.
+    SITE_FACULTIES = ("240-000",)
+    SITE_CYCLES = ("26/27-Z",)
+    # Katalog z danymi z `flask fetch`. Domyślnie instance/dane.
+    SITE_DATA_DIR = None
 
     USOS_BASE_URL = "https://web.usos.agh.edu.pl/kontroler.php"
     USOS_API_URL = "https://apps.usos.agh.edu.pl/services/"
     USOS_CACHE_HOURS = 24
     # Domyślnie instance/usos-cache.sqlite3.
     USOS_CACHE_PATH = None
-    # Odstęp między zapytaniami do USOS w obrębie jednego procesu.
+    # Odstęp między zapytaniami do USOS API w obrębie jednego procesu.
     USOS_MIN_INTERVAL = 1.0
+    # USOSweb ma w robots.txt zakaz pobierania, więc zapytania do niego idą
+    # rzadziej niż do API.
+    USOS_WEB_MIN_INTERVAL = 3.0
     USOS_TIMEOUT = 20.0
     # Kierunki, dla których zbieramy historię zmian: "kod grupy przedmiotów@cykl".
     HISTORY_PLANS = ("240-ZBI-1S-2R-Z@26/27-Z",)

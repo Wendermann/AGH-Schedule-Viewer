@@ -187,6 +187,19 @@ w danych:
   (np. „1 kolizja, tyg. N”).
 
 
+## Pierwsza wersja strony
+
+Ustalone 26.09.2026:
+
+- Nazwa: **Plan na tydzień**.
+- Zakres: grupy przedmiotów Wydziału Informatyki (240-000) w bieżącym
+  cyklu. Cała AGH przyjdzie jako następny krok, gdy ta wersja zadziała.
+- Interfejs w Alpine.js, zgodnie z wcześniejszą decyzją. Logika planu
+  (ukrywanie, łączenie, kolizje, token „Udostępnij”) zostaje w modułach JS
+  z `app/static/js`.
+- Na GitHub Pages na razie bez kalendarza `.ics`.
+
+
 ## Makiety
 
 Trzy klikalne makiety HTML w `mockups/`, każda na prawdziwych danych z USOS

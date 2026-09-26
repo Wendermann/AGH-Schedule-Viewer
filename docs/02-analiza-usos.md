@@ -315,7 +315,10 @@ więc pełny indeks to ok. 1200 stron USOSweb, przy odstępie 3 s około
 godziny. `tt/classgroups` przyjmuje też POST: 26.09.2026 jedno zapytanie
 o wszystkie 965 grup zajęciowych Wydziału Informatyki trwało 1,2 s i dało
 ten sam wynik co paczki GET. W adresie GET mieści się niecałe 900 grup
-(dłuższy kończy się HTTP 414). `robots.txt` USOSweb zabrania pobierania
+(dłuższy kończy się HTTP 414). Przy pełnym pobraniu całej AGH (13 059 grup
+zajęciowych, 21 okien tygodniowych) to samo zapytanie o 1000 grup trwało
+ok. 12 s, a o 3000 grup 28 s, więc czas zależy głównie od liczby grup
+i obciążenia USOS; daty dla całej AGH to ok. godzina. `robots.txt` USOSweb zabrania pobierania
 czegokolwiek, dlatego te strony warto pobierać rzadko (np. raz w tygodniu
 i tylko dla bieżącego oraz następnego cyklu), z odstępem co najmniej 2 s.
 Zakończone cykle wystarczy pobrać raz. Dla API rozsądny odstęp to 1 s.

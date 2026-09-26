@@ -47,17 +47,26 @@ Później użytkownik dołożył dwa wymagania:
 
 ## Co zrobić dalej, po kolei
 
-1. **Budowa całej AGH na GitHub Actions.** Pierwsza budowa w tygodniu
-   pobiera ok. 1200 stron USOSweb (co 3 s, ok. godziny), kolejne biorą je
-   z cache Actions. Sprawdź w logu kroku „Dane z USOS” czas, liczbę planów
-   i linie „Pominięty”. Limit zadania to 180 minut.
-2. **Synchronizacja baz.** 25 i 26.09.2026 plany cyklu `26/27-Z` były
+1. **Budowa całej AGH na GitHub Actions.** Lokalnie 26.09.2026 pełne
+   pobranie trwało 116 minut: ok. 1 h stron USOSweb (1199 grup, co 3 s)
+   i ok. 1 h dat z USOS API (13 059 grup zajęciowych, 21 okien
+   tygodniowych, ok. 12 s na zapytanie o 1000 grup). Wynik: 575 planów
+   z zajęciami, 8,8 MB danych, indeks 217 KB (20 KB po kompresji).
+   Pierwsza budowa w tygodniu robi całość, kolejne biorą strony USOSweb
+   z cache Actions. Limit zadania to 240 minut. Sprawdź w logu kroku „Dane
+   z USOS” czas, liczbę planów i linie „Pominięty”.
+2. **Szybsze daty spotkań**, jeśli codzienna godzina okaże się problemem:
+   czas API rośnie z liczbą grup, więc większe paczki nie pomagają.
+   Możliwości: pobierać daty tylko od bieżącego tygodnia do końca cyklu
+   (przeszłe tygodnie z poprzedniej budowy) albo odświeżać je rzadziej niż
+   codziennie. Równoległych zapytań celowo nie ma, żeby nie obciążać USOS.
+3. **Synchronizacja baz.** 25 i 26.09.2026 plany cyklu `26/27-Z` były
    kompletne i bez komunikatu o synchronizacji. Jeśli komunikat się
    pojawi, zapisz jego dokładną treść, żeby parser mógł go wykrywać.
-3. **Nowe zapisy kodów grup.** `app/catalog.py` rozpoznaje 1173 z 1199 grup
+4. **Nowe zapisy kodów grup.** `app/catalog.py` rozpoznaje 1173 z 1199 grup
    (26.09.2026). Grupy z nowym zapisem trafią do „Inne” swojego wydziału;
    wtedy dopisz przypadek do `tests/test_catalog.py` i poszerz parser.
-4. **Znane ograniczenia:**
+5. **Znane ograniczenia:**
    - Historia na stronie jest tak świeża jak ostatnia codzienna budowa,
      choć `historia.yml` sprawdza plany co 6 godzin.
    - Kilka kierunków (np. 240-INF-1S-2R-Z) ma w planie wszystkie
@@ -67,6 +76,8 @@ Później użytkownik dołożył dwa wymagania:
      przedmiotów w USOSweb, więc ich planów na stronie nie ma.
    - Warianty grup (dopiski po semestrze, np. `PP`, `AiM`, `POSangETM`) są
      pokazywane tak, jak zapisał je wydział.
+   - 18 skrótów kierunków (np. HES, SWY, SPT) nie ma nazwy w `progs/search`;
+     drzewo pokazuje wtedy sam skrót.
    - Makiety w `mockups/` mają własną kopię modelu
      (`mockups/wspolne/model.js`); strona używa `app/static/js/model.js`.
      Makiet już nie rozwijamy.
@@ -147,8 +158,8 @@ i `PYTHON_TOKEN` w `tests/js/share.test.js`.
 
     python3 -m venv .venv
     .venv/bin/pip install -r requirements-dev.txt
-    .venv/bin/python -m pytest        # 129 testów
-    npm test                          # 48 testów, bez zależności npm
+    .venv/bin/python -m pytest        # 131 testów
+    npm test                          # 49 testów, bez zależności npm
     FLASK_SITE_FACULTIES='["240-000"]' .venv/bin/flask --app app fetch   # jeden wydział, do instance/dane
     .venv/bin/flask --app app run --debug
     .venv/bin/flask --app app build --output _site --base-path /AGH-Schedule-Viewer/ --data instance/dane

@@ -52,9 +52,10 @@ workflow) albo wypchnij zmianę na `main`. Strona będzie dostępna pod
     FLASK_SITE_FACULTIES='["240-000"]' .venv/bin/flask --app app fetch   # jeden wydział, ok. 3 minut
     .venv/bin/flask --app app run --debug
 
-Bez `FLASK_SITE_FACULTIES` polecenie pobiera całą AGH: za pierwszym razem
-około godziny, bo strony USOSweb idą co 3 s; kolejne pobrania biorą je
-z cache.
+Bez `FLASK_SITE_FACULTIES` polecenie pobiera całą AGH. 26.09.2026 trwało to
+prawie 2 godziny: godzinę strony USOSweb (co 3 s) i godzinę daty spotkań
+z USOS API. Kolejne pobrania biorą strony USOSweb z cache, więc trwają
+około godziny.
 
 Statyczna wersja, tak jak na GitHub Pages:
 

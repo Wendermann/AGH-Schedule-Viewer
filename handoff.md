@@ -170,7 +170,8 @@ Czego jeszcze brakuje po stronie użytkownika (stan na 26.09):
 1. Settings → General → Default branch: `main`. Jeszcze nie zmienione.
 2. Settings → Pages → Source: GitHub Actions. Jeszcze nie włączone.
 3. Scalenie gałęzi roboczej `claude/quirky-mendel-jp83mz` do `main`
-   (np. przez PR). `main` stoi na commicie `3dd3d39`. Harmonogram
+   przez PR https://github.com/Wendermann/AGH-Schedule-Viewer/pull/1
+   (baza `main`, CI zielone). `main` stoi na commicie `3dd3d39`. Harmonogram
    `historia.yml` działa tylko z gałęzi domyślnej, więc bez punktów 1 i 3
    historia zmian nie jest zbierana. Każdy dzień zwłoki to luka w historii.
 

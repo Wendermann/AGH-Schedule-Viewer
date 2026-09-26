@@ -87,6 +87,16 @@ def test_a_few_meetings_do_not_cancel_a_day_off(activities, meetings):
     assert calendar.swaps == {date(2026, 11, 10): 2}
 
 
+def test_weekend_is_never_a_swapped_day(activities, meetings):
+    # 26.09.2026 w danych całej AGH: w sobotę 26.12 większość z kilku
+    # spotkań to zajęcia wtorkowe przeniesione na ten dzień.
+    moved = [replace(m, day=date(2026, 12, 26)) for m in meetings if m.confirmed and m.day == date(2026, 10, 27)][:3]
+    assert len(moved) == 3
+    calendar = teaching_calendar(activities, meetings + moved)
+    assert date(2026, 12, 26) not in calendar.swaps
+    assert calendar.swaps == {date(2026, 11, 10): 2}
+
+
 def test_activity_json_matches_browser_shape(activities):
     data = activity_json(find(activities, 191381, 4))
     assert data["subject"] == "240-ZBI-1S-114"

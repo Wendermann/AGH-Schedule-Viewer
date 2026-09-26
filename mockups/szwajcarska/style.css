@@ -1,5 +1,6 @@
 /* Rozkład: typografia szwajcarska. Jeden krój (Archivo w szerokościach od
-   zwykłej do rozciągniętej), czerń i biel, czerwień tylko dla kolizji. */
+   zwykłej do rozciągniętej), czarno-biała siatka i kolor w danych: każdy typ
+   zajęć ma swoją barwę, a czerwień zostaje tylko dla kolizji. */
 
 @font-face {
   font-family: "Archivo";
@@ -29,6 +30,14 @@
   --rule-strong: #111111;
   --grey-fill: #e1e1e1;
   --accent: #d0201a;
+  /* Barwy typów zajęć: pole, napis na polu i wersja do tekstu na jasnym tle.
+     Żadna nie jest czerwona ani pomarańczowa, żeby nie myliła się z kolizją. */
+  --t-W: #1d44c7;     --on-W: #ffffff;    --x-W: #1d44c7;
+  --t-CWL: #0a8150;   --on-CWL: #ffffff;  --x-CWL: #07714a;
+  --t-CWA: #f2c200;   --on-CWA: #111111;  --x-CWA: #7a6100;
+  --t-CWP: #7438c2;   --on-CWP: #ffffff;  --x-CWP: #6a30b5;
+  --t-other: #0e7a86; --on-other: #ffffff; --x-other: #0c6b75;
+  --tint: 16%;
   --hour: 52px;
   --gutter: 24px;
   color-scheme: light;
@@ -43,6 +52,12 @@
     --rule-strong: #efeee8;
     --grey-fill: #3a3a36;
     --accent: #ff5b4a;
+    --t-W: #86a0ff;     --on-W: #0c1330;    --x-W: #9fb3ff;
+    --t-CWL: #4fc893;   --on-CWL: #06190f;  --x-CWL: #6fd6a7;
+    --t-CWA: #efcb45;   --on-CWA: #1a1500;  --x-CWA: #f1d46a;
+    --t-CWP: #b894f5;   --on-CWP: #170d26;  --x-CWP: #c7a9f7;
+    --t-other: #58c7d2; --on-other: #05191b; --x-other: #7dd4dc;
+    --tint: 22%;
     color-scheme: dark;
   }
 }
@@ -55,6 +70,12 @@
   --rule-strong: #efeee8;
   --grey-fill: #3a3a36;
   --accent: #ff5b4a;
+  --t-W: #86a0ff;     --on-W: #0c1330;    --x-W: #9fb3ff;
+  --t-CWL: #4fc893;   --on-CWL: #06190f;  --x-CWL: #6fd6a7;
+  --t-CWA: #efcb45;   --on-CWA: #1a1500;  --x-CWA: #f1d46a;
+  --t-CWP: #b894f5;   --on-CWP: #170d26;  --x-CWP: #c7a9f7;
+  --t-other: #58c7d2; --on-other: #05191b; --x-other: #7dd4dc;
+  --tint: 22%;
   color-scheme: dark;
 }
 
@@ -100,7 +121,7 @@ button, select, input { font: inherit; color: inherit; }
 .masthead__plan .code { color: var(--ink-2); font-size: 12px; font-weight: 500; letter-spacing: 0.02em; }
 .plan-chip { display: flex; gap: 8px; align-items: baseline; }
 .plan-chip b { display: inline-grid; place-items: center; width: 18px; height: 18px; font-size: 11px; border: 1.5px solid var(--ink); }
-.plan-chip.is-0 b { background: var(--ink); color: var(--paper); }
+.plan-chip b.tone { background: var(--c); color: var(--on); border-color: var(--c); }
 .masthead__status { margin: 0; font-size: 12px; color: var(--ink-2); text-align: right; }
 
 /* ---------- pasek sterowania ---------- */
@@ -307,10 +328,24 @@ button, select, input { font: inherit; color: inherit; }
 .block__who, .block__span { flex: none; color: inherit; opacity: 0.8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .block__mark { position: absolute; top: 4px; right: 4px; width: 7px; height: 7px; background: currentColor; }
 
-.fill-solid { background: var(--ink); color: var(--paper); box-shadow: none; }
-.fill-grey { background: var(--grey-fill); box-shadow: none; }
-.fill-frame { background: var(--paper); box-shadow: inset 0 0 0 1.5px var(--ink); }
-.fill-dashed { background: var(--paper); box-shadow: none; border: 1.5px dashed var(--ink); }
+/* Barwa bloczka: typ zajęć przy jednym planie, plan źródłowy po połączeniu. */
+.ty-W { --c: var(--t-W); --on: var(--on-W); --x: var(--x-W); }
+.ty-CWL { --c: var(--t-CWL); --on: var(--on-CWL); --x: var(--x-CWL); }
+.ty-CWA { --c: var(--t-CWA); --on: var(--on-CWA); --x: var(--x-CWA); }
+.ty-CWP { --c: var(--t-CWP); --on: var(--on-CWP); --x: var(--x-CWP); }
+.ty-other { --c: var(--t-other); --on: var(--on-other); --x: var(--x-other); }
+.pl-0 { --c: var(--t-W); --on: var(--on-W); --x: var(--x-W); }
+.pl-1 { --c: var(--t-CWA); --on: var(--on-CWA); --x: var(--x-CWA); }
+.pl-2 { --c: var(--t-CWL); --on: var(--on-CWL); --x: var(--x-CWL); }
+.pl-3 { --c: var(--t-CWP); --on: var(--on-CWP); --x: var(--x-CWP); }
+.code { color: var(--x); font-weight: 700; }
+
+/* Trzy natężenia koloru do porównania w makiecie (pasek na dole). */
+.color-fields .block.tone { background: var(--c); color: var(--on); box-shadow: none; }
+.color-fields .block.tone .code { color: inherit; }
+.color-tints .block.tone { background: color-mix(in srgb, var(--c) var(--tint), var(--paper)); box-shadow: inset 0 4px 0 var(--c); padding-top: 7px; }
+.color-frames .block.tone { background: var(--paper); box-shadow: inset 0 0 0 2px var(--c); }
+.swatch.tone { background: var(--c); }
 .fill-hatch {
   background: var(--paper) repeating-linear-gradient(135deg, var(--rule) 0 1px, transparent 1px 6px);
   box-shadow: inset 0 0 0 1px var(--ink-3);

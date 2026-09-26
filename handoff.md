@@ -39,7 +39,7 @@ Później użytkownik dołożył dwa wymagania:
 | 0. Sygnały „vibe coding” | Zrobiona: `docs/00-sygnaly-vibe-coding.md`. Sekcja 5 to checklista dla makiet i strony. |
 | Pytania do użytkownika | Przed analizą: 32 pytania w 8 rundach. Po analizie: 12 pytań w 3 rundach (historia planu, zasięg danych, osobliwości kalendarza AGH, drzewo kierunków). Wszystkie odpowiedzi są w `docs/01-decyzje.md`. |
 | Analiza USOS | Zrobiona: `docs/02-analiza-usos.md`. Źródło danych: USOS API i USOSweb (decyzja w `docs/01-decyzje.md`). Parser USOSweb w `app/usos/web.py`. |
-| 3 makiety UI | Gotowe: `mockups/`, opis i checklista w `docs/03-makiety.md`. Czekają na wybór kierunku przez użytkownika. |
+| 3 makiety UI | Gotowe. Użytkownik wybrał „Rozkład” (szwajcarski) z kolorem typów zajęć; natężenie koloru do potwierdzenia (`docs/01-decyzje.md`, „Wybrany kierunek”). |
 | Strona właściwa | Gotowe: rdzeń w przeglądarce (ukrywanie, łączenie, kolizje, link „Udostępnij”), `.ics`, parser USOSweb, klient USOS API, składanie planu i eksport do JSON. Brak interfejsu i pobierania danych całej AGH do budowy strony. |
 | Historia zmian | Gotowe: `flask history` i workflow `historia.yml` (co 6 godzin, zapis do gałęzi `dane`). Ruszy po przeniesieniu kodu na gałąź domyślną. |
 | Hosting | Workflow gotowy, ale publikacja czeka na ustawienia repo (sekcja „Publikacja”). |
@@ -67,13 +67,15 @@ Później użytkownik dołożył dwa wymagania:
    od 30.06. Workflow ruszy dopiero, gdy trafi na gałąź domyślną (patrz
    „Publikacja”). Stary plik w cache albo pusty plan z USOS nie są
    zapisywane, żeby awaria nie wyglądała jak usunięcie zajęć.
-5. **Makiety są gotowe** (`docs/03-makiety.md`). Dane odświeża
+5. **Makiety są gotowe** (`docs/03-makiety.md`), wybrany kierunek:
+   „Rozkład” z kolorem typów zajęć. Dane odświeża
    `.venv/bin/python -m mockups.build_data`. Budowa strony kopiuje
    `mockups/` do `_site/makiety/` razem z `plan.js` i `share.js`. Użytkownik
    ma wybrać kierunek i potwierdzić rozwiązania z sekcji „Rozwiązania do
    potwierdzenia”.
-6. **Poczekaj, aż użytkownik wybierze kierunek**, i dopiero wtedy buduj
-   właściwy interfejs (Jinja + Alpine.js). Potem dołóż pobieranie danych
+6. **Właściwy interfejs w stylu „Rozkładu”** (Jinja + Alpine.js). Przed
+   startem potwierdź z użytkownikiem natężenie koloru i rozwiązania z sekcji
+   „Rozwiązania do potwierdzenia” w `docs/03-makiety.md`. Potem dołóż pobieranie danych
    do budowy strony i harmonogram w `pages.yml`: cała AGH raz dziennie,
    kierunki z historią co 6 godzin, skład grup z USOSweb raz w tygodniu.
 

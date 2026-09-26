@@ -161,6 +161,24 @@ Ustalenia:
 - Nazwa: do zaproponowania przy makietach.
 
 
+## Wybrany kierunek
+
+26.09.2026 użytkownik wybrał makietę szwajcarską („Rozkład”) z prośbą
+o więcej koloru. Siatka, typografia i układ zostają, a kolor pojawia się
+w danych:
+
+- Każdy typ zajęć ma własną barwę: wykład niebieski, laboratorium zielone,
+  ćwiczenia audytoryjne żółte, projekt fioletowy, pozostałe typy morskie.
+  Po połączeniu planów te same barwy oznaczają plany źródłowe. Przedmioty
+  blokowe są kreskowane.
+- Czerwień zostaje wyłącznie dla kolizji, więc żaden typ zajęć nie jest
+  czerwony ani pomarańczowy.
+- Kod typu (W, CWL…) nadal stoi na każdym bloczku jako drugi nośnik
+  informacji.
+- Natężenie koloru do wyboru z makiety: pełne pola, tinty z paskiem albo
+  kolorowe obrysy.
+
+
 ## Makiety
 
 Trzy klikalne makiety HTML w `mockups/`, każda na prawdziwych danych z USOS

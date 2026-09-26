@@ -10,6 +10,10 @@ włączeniu GitHub Pages będą pod `…/AGH-Schedule-Viewer/makiety/`.
 | `narzedzie.html` | Grafik | Narzędzie techniczne: trzy panele, IBM Plex Sans Condensed i Plex Mono, skróty klawiszowe, dziennik zmian jak `diff`. |
 | `gazeta.html` | Tygodnik Zajęć | Klasyczna gazeta: tydzień to wydanie, dni to szpalty, zajęcia to notki, zmiany to wiadomości. Cztery warianty ruchu. |
 
+**Wybrana: Rozkład**, z kolorem typów zajęć (sekcja „Wybrany kierunek”
+w `docs/01-decyzje.md`). Przełącznik „Kolor” w pasku makiety pokazuje trzy
+natężenia: pełne pola, tinty z paskiem i kolorowe obrysy.
+
 Propozycje nazwy strony: Rozkład, Grafik, Tygodnik Zajęć, Siatka, Plan na
 tydzień, Kiedy zajęcia.
 

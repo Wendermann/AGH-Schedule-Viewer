@@ -20,8 +20,13 @@ import {
 
 const $ = (id) => document.getElementById(id);
 const THEME_KEY = "rozklad-motyw";
-const FILL_BY_TYPE = { W: "fill-solid", CWA: "fill-grey", CWL: "fill-frame", CWP: "fill-dashed" };
-const FILL_BY_PLAN = ["fill-solid", "fill-frame", "fill-grey", "fill-dashed"];
+const TYPES_WITH_COLOR = new Set(["W", "CWL", "CWA", "CWP"]);
+const COLOR_KEY = "rozklad-kolor";
+const COLOR_MODES = [
+  ["fields", "pełne pola"],
+  ["tints", "tinty z paskiem"],
+  ["frames", "kolorowe obrysy"],
+];
 const PARITY_SHORT = { odd: "N", even: "P" };
 const HOUR_PX = 52;
 const LINE_PX = 14;
@@ -31,6 +36,7 @@ let query = "";
 let historyScope = "all";
 let shareText = "";
 let theme = readPreference(THEME_KEY, "system");
+let colorMode = readPreference(COLOR_KEY, "fields");
 // Węzły drzewa kierunków rozwinięte przez użytkownika przetrwają przerysowanie.
 const openNodes = new Set(["240-000"]);
 
@@ -38,6 +44,7 @@ boot();
 
 async function boot() {
   applyTheme(theme);
+  applyColorMode();
   const loading = setTimeout(() => ($("loading").hidden = false), 300);
   let data;
   try {
@@ -56,8 +63,37 @@ async function boot() {
   if (problem) shareText = problem;
   app.onChange(() => keepFocus(render));
   document.addEventListener("keydown", onKey);
-  renderDemoBar($("demo"), app, { current: "szwajcarska.html" });
+  renderDemo();
   render();
+}
+
+function applyColorMode() {
+  document.body.classList.remove(...COLOR_MODES.map(([mode]) => `color-${mode}`));
+  document.body.classList.add(`color-${colorMode}`);
+}
+
+function renderDemo() {
+  const select = h(
+    "select",
+    {
+      id: "demo-color",
+      onchange: (e) => {
+        colorMode = e.target.value;
+        writePreference(COLOR_KEY, colorMode);
+        applyColorMode();
+      },
+    },
+    COLOR_MODES.map(([mode, label]) => h("option", { value: mode, selected: mode === colorMode }, label)),
+  );
+  renderDemoBar($("demo"), app, { current: "szwajcarska.html", extra: [h("label", {}, "Kolor ", select)] });
+}
+
+// Klasa barwy dla klucza z app.colorKey() albo z legendy.
+function tone(key) {
+  if (key === "plan-shared") return "fill-hatch";
+  if (key.startsWith("plan-")) return `tone pl-${+key.slice(5) % 4}`;
+  const type = key.slice(5);
+  return `tone ty-${TYPES_WITH_COLOR.has(type) ? type : "other"}`;
 }
 
 function onKey(event) {
@@ -95,7 +131,7 @@ function renderMasthead() {
       h(
         "div",
         { class: `plan-chip is-${i}` },
-        plans.length > 1 ? h("b", { "aria-hidden": "true" }, i + 1) : null,
+        plans.length > 1 ? h("b", { class: tone(`plan-${i}`), "aria-hidden": "true" }, i + 1) : null,
         h("div", {}, h("h1", {}, plan.name), h("span", { class: "code" }, `${plan.code} · ${app.data.term.name}`)),
       ),
     ),
@@ -231,7 +267,7 @@ function renderPlans() {
         h(
           "li",
           {},
-          h("span", { class: `swatch ${FILL_BY_PLAN[i]}`, style: { width: "14px", height: "14px" }, "aria-hidden": "true" }),
+          h("span", { class: plans.length > 1 ? `swatch ${tone(`plan-${i}`)}` : "", style: { width: "14px", height: "14px" }, "aria-hidden": "true" }),
           h("span", {}, plan.name),
           h("span", { class: "code" }, plan.code),
           h("span", { class: "hist" }, plan.history ? "Z historią zmian." : "Bez historii zmian."),
@@ -348,7 +384,7 @@ function renderSubjects() {
                   h(
                     "li",
                     {},
-                    h("span", { class: `type-name${t.hidden ? " is-hidden" : ""}` }, `${t.type} ${t.name}`),
+                    h("span", { class: `type-name${t.hidden ? " is-hidden" : ""}` }, h("b", { class: `code ${tone(`type-${t.type}`)}` }, t.type), ` ${t.name}`),
                     h(
                       "button",
                       { type: "button", class: "link", onclick: () => app.toggleType(s.code, t.type) },
@@ -383,19 +419,18 @@ function renderSubjects() {
 
 // ---------- plan ----------
 
+// Przedmioty blokowe są kreskowane, bo ich zajęcia to tylko zaślepki.
 function fillClass(activity) {
   const key = app.colorKey(activity);
-  if (key === "plan-shared") return "fill-hatch";
-  if (key.startsWith("plan-")) return FILL_BY_PLAN[+key.slice(5)] ?? "fill-frame";
-  if (activity.block) return "fill-hatch";
-  return FILL_BY_TYPE[activity.type] ?? "fill-hatch";
+  return activity.block && key.startsWith("type-") ? "fill-hatch" : tone(key);
 }
 
 function renderLegend() {
+  const merged = app.merged();
+  const onlyBlocks = (type) => merged.filter((a) => a.type === type).every((a) => a.block);
   const items = app.legend().map((item) => {
-    const cls =
-      item.key === "plan-shared" ? "fill-hatch" : item.key.startsWith("plan-") ? FILL_BY_PLAN[+item.key.slice(5)] : FILL_BY_TYPE[item.key.slice(5)] ?? "fill-hatch";
-    return h("span", {}, h("i", { class: `swatch ${cls}`, "aria-hidden": "true" }), `${item.short} ${item.label}`);
+    const cls = item.key.startsWith("type-") && onlyBlocks(item.key.slice(5)) ? "fill-hatch" : tone(item.key);
+    return h("span", {}, h("i", { class: `swatch ${cls}`, "aria-hidden": "true" }), h("b", {}, item.short), ` ${item.label}`);
   });
   items.push(h("span", {}, h("i", { class: "swatch", style: { outline: "3px solid var(--accent)", outlineOffset: "-3px" }, "aria-hidden": "true" }), "kolizja"));
   if (app.historyPlans().length) items.push(h("span", {}, h("i", { class: "swatch", style: { width: "7px", height: "7px", background: "var(--ink)" }, "aria-hidden": "true" }), "zmiana od ostatniej migawki"));
@@ -515,7 +550,7 @@ function block(item, from, span) {
     },
     changed ? h("span", { class: "block__mark", "aria-hidden": "true" }) : null,
     h("span", { class: "block__name", style: { webkitLineClamp: String(nameLines) } }, a.subjectName),
-    h("span", { class: "block__meta" }, `${a.type} ${app.groupsLabel(a)}${parity}${a.changedTime ? " · zmiana godzin" : ""}`),
+    h("span", { class: "block__meta" }, h("b", { class: "code" }, a.type), ` ${app.groupsLabel(a)}${parity}${a.changedTime ? " · zmiana godzin" : ""}`),
     showWho
       ? h("span", { class: "block__who" }, a.block ? "blok, grupę wybierasz osobno" : a.members.length > 1 ? `${a.lecturers.length} ${plural(a.lecturers.length, "prowadzący", "prowadzących", "prowadzących")}` : app.lecturersLabel(a))
       : null,
@@ -546,7 +581,7 @@ function renderAgenda(view) {
                       "button",
                       { type: "button", onclick: () => app.select(item.activity) },
                       h("span", { class: "time" }, `${item.activity.start}–${item.activity.end}`),
-                      h("strong", {}, item.activity.subjectName),
+                      h("strong", {}, h("i", { class: `swatch ${fillClass(item.activity)}`, style: { width: "10px", height: "10px", marginRight: "6px" }, "aria-hidden": "true" }), item.activity.subjectName),
                       h("span", {}, `${item.activity.type} ${app.groupsLabel(item.activity)} · ${app.lecturersLabel(item.activity)}`),
                       item.conflict ? h("span", { class: "clash" }, "kolizja") : h("span", {}),
                     ),

@@ -8,14 +8,10 @@ from flask import Flask, abort, render_template, send_from_directory
 from .build import build_command
 from .collect import history_command
 from .config import Config
-from .sitedata import fetch_command
+from .sitedata import data_dir, fetch_command
 from .usos.api import UsosApi
 from .usos.cache import PageCache
 from .usos.fetch import RateLimiter, UsosFetcher
-
-
-def data_dir(app: Flask) -> Path:
-    return Path(app.config["SITE_DATA_DIR"] or Path(app.instance_path) / "dane")
 
 
 def create_app(overrides: dict | None = None) -> Flask:

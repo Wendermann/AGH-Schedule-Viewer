@@ -7,6 +7,7 @@ import pytest
 from app import create_app
 from app.usos.api import Term, _meeting
 from app.usos.fetch import Page
+from app.words import plural
 
 FIXTURES = Path(__file__).parent / "fixtures" / "usos"
 PLAN = (FIXTURES / "plan-240-ZBI-1S-2R-Z-26_27-Z.html").read_text(encoding="utf-8")
@@ -69,3 +70,8 @@ def test_empty_plan_is_not_recorded(app, tmp_path):
     assert result.exit_code == 1
     assert "pusty plan" in result.output
     assert not path.exists()
+
+
+@pytest.mark.parametrize("n, word", [(1, "plan"), (2, "plany"), (4, "plany"), (5, "planów"), (12, "planów"), (22, "plany"), (25, "planów")])
+def test_plural(n, word):
+    assert plural(n, "plan", "plany", "planów") == word

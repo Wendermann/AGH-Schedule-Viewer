@@ -17,13 +17,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import click
-from flask import current_app
+from flask import Flask, current_app
 from flask.cli import with_appcontext
 
 from .plan.compose import compose, teaching_calendar
 from .plan.export import activity_json, calendar_json
 from .usos.fetch import UsosError
 from .usos.web import parse_group_plan, parse_subject_groups
+from .words import plural
 
 PLAN_ACTION = "katalog2/przedmioty/pokazPlanGrupyPrzedmiotow"
 GROUPS_ACTION = "katalog2/przedmioty/wybierzGrupePrzedmiotow"
@@ -31,6 +32,10 @@ GROUPS_ACTION = "katalog2/przedmioty/wybierzGrupePrzedmiotow"
 
 def cycle_dir(cycle: str) -> str:
     return cycle.replace("/", "-")
+
+
+def data_dir(app: Flask) -> Path:
+    return Path(app.config["SITE_DATA_DIR"] or Path(app.instance_path) / "dane")
 
 
 @dataclass
@@ -130,10 +135,8 @@ def fetch_site_data(output: Path, *, history_dir: Path | None = None) -> FetchRe
 @click.command("fetch")
 @click.option(
     "--output",
-    default="dane",
-    show_default=True,
     type=click.Path(file_okay=False, path_type=Path),
-    help="Katalog, do którego trafią dane strony.",
+    help="Katalog, do którego trafią dane strony. Domyślnie ten, z którego czyta serwer (SITE_DATA_DIR albo instance/dane).",
 )
 @click.option(
     "--history",
@@ -142,10 +145,11 @@ def fetch_site_data(output: Path, *, history_dir: Path | None = None) -> FetchRe
     help="Katalog historii zmian z gałęzi dane, np. dane-historia/historia.",
 )
 @with_appcontext
-def fetch_command(output: Path, history_dir: Path | None) -> None:
+def fetch_command(output: Path | None, history_dir: Path | None) -> None:
     """Pobiera z USOS dane strony: indeks grup, plany i kalendarz cyklu."""
+    output = output or data_dir(current_app)
     report = fetch_site_data(output, history_dir=history_dir)
-    click.echo(f"Zapisano {report.plans} planów w {output}.")
+    click.echo(f"Zapisano {report.plans} {plural(report.plans, 'plan', 'plany', 'planów')} w {output}.")
     for line in report.stale:
         click.echo(f"Kopia z cache (USOSweb nie odpowiadał): {line}")
     for line in report.skipped:

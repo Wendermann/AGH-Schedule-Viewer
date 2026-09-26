@@ -101,3 +101,11 @@ def test_history_is_attached_to_the_plan(app, tmp_path):
     assert read(out / "plany" / "26-27-Z" / "240-ZBI-1S-2R-Z.json")["history"] == {"checks": checks}
     zbi = next(g for g in read(out / "indeks.json")["groups"] if g["code"] == "240-ZBI-1S-2R-Z")
     assert zbi["plans"] == [{"cycle": "26/27-Z", "history": True}]
+
+
+def test_cli_writes_where_the_server_reads(app, tmp_path):
+    app.config["SITE_DATA_DIR"] = tmp_path / "serwer"
+    result = app.test_cli_runner().invoke(args=["fetch"])
+    assert result.exit_code == 0, result.output
+    assert "Zapisano 1 plan w" in result.output
+    assert app.test_client().get("/dane/indeks.json").json["cycles"][0]["id"] == "26/27-Z"

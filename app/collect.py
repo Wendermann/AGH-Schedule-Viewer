@@ -14,6 +14,7 @@ from .plan.compose import compose
 from .plan.export import activity_json
 from .usos.fetch import UsosError
 from .usos.web import parse_group_plan
+from .words import plural
 
 ROOT = Path(__file__).resolve().parent.parent
 PLAN_ACTION = "katalog2/przedmioty/pokazPlanGrupyPrzedmiotow"
@@ -50,8 +51,7 @@ def check_plan(code: str, cycle: str, output: Path, checked_at: str) -> str:
     if not changes:
         return "bez zmian"
     n = len(changes)
-    word = "zmiana" if n == 1 else "zmiany" if n % 10 in (2, 3, 4) and n % 100 not in (12, 13, 14) else "zmian"
-    return f"{n} {word}"
+    return f"{n} {plural(n, 'zmiana', 'zmiany', 'zmian')}"
 
 
 @click.command("history")

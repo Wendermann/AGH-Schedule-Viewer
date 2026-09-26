@@ -1,8 +1,14 @@
 name: GitHub Pages
 
+# Codziennie pobiera dane z USOS (flask fetch), dokłada historię zmian
+# z gałęzi dane i publikuje stronę. Harmonogram GitHub uruchamia tylko
+# wersję workflow z gałęzi domyślnej repozytorium.
 on:
   push:
     branches: [main]
+  schedule:
+    # 3:41 UTC, czyli rano przed zajęciami, poza szczytem uruchomień.
+    - cron: "41 3 * * *"
   workflow_dispatch:
 
 permissions:
@@ -20,6 +26,7 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
@@ -28,9 +35,34 @@ jobs:
           cache: pip
           cache-dependency-path: requirements*.txt
       - run: pip install -r requirements.txt
+      - name: Tydzień do klucza cache
+        id: week
+        run: echo "week=$(date -u +%G-W%V)" >> "$GITHUB_OUTPUT"
+      # Strony USOSweb (skład planów, prowadzący) pobieramy najwyżej raz
+      # w tygodniu, bo robots.txt USOSweb zabrania pobierania. Daty spotkań
+      # idą z USOS API przy każdej budowie.
+      - uses: actions/cache@v4
+        with:
+          path: instance/usos-cache.sqlite3
+          key: usosweb-${{ steps.week.outputs.week }}
+          restore-keys: usosweb-
+      - name: Historia zmian z gałęzi dane
+        run: |
+          if git fetch --depth=1 origin dane; then
+            git worktree add --detach dane-historia FETCH_HEAD
+          else
+            echo "Gałęzi dane jeszcze nie ma; strona powstanie bez historii zmian."
+          fi
+      - name: Dane z USOS
+        env:
+          FLASK_USOS_CACHE_HOURS: "168"
+        run: |
+          history=()
+          if [ -d dane-historia/historia ]; then history=(--history dane-historia/historia); fi
+          flask --app app fetch --output dane-strony "${history[@]}"
       - id: pages
         uses: actions/configure-pages@v5
-      - run: flask --app app build --output _site --base-path "${{ steps.pages.outputs.base_path }}"
+      - run: flask --app app build --output _site --base-path "${{ steps.pages.outputs.base_path }}" --data dane-strony
       - uses: actions/upload-pages-artifact@v4
         with:
           path: _site

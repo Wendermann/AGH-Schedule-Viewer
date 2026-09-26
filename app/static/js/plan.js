@@ -1,9 +1,10 @@
 // Ukrywanie, łączenie planów, kolizje i układ bloczków w kolumnie dnia.
 //
-// Zajęcia (activity) mają postać jak w danych JSON:
-//   { subject, subjectName, type, group, weekday, start: "08:00", end: "09:30",
+// Zajęcia (activity) mają postać jak w danych JSON (app/plan/export.py):
+//   { subject, subjectName, type, group, unit, weekday, start: "08:00", end: "09:30",
 //     recurrence: "weekly" | "odd" | "even" | "irregular", dates: ["2026-10-05"],
-//     lecturers: [], room, sources: [] }
+//     moved: [{ date, start, end }], lecturers: [{ id, name }], room, building,
+//     block, sources: [] }
 // Godziny są zapisane jako "HH:MM", więc porównanie napisów porównuje czas.
 
 export function typeKey(subject, type) {
@@ -71,12 +72,28 @@ export function overlapsInTime(a, b) {
 // Czy da się fizycznie trafić na oba zajęcia naraz.
 export function collide(a, b) {
   if (!overlapsInTime(a, b)) return false;
+  // Grupy tego samego typu zajęć w przedmiocie to alternatywy: student
+  // chodzi tylko do jednej z nich.
+  if (a.subject === b.subject && a.type === b.type && a.group !== b.group) return false;
   if (a.dates?.length && b.dates?.length) {
     const dates = new Set(a.dates);
     return b.dates.some((d) => dates.has(d));
   }
   const pair = new Set([a.recurrence, b.recurrence]);
   return !(pair.size === 2 && pair.has("odd") && pair.has("even"));
+}
+
+// W które tygodnie zajęcia faktycznie się pokrywają: "odd", "even" albo
+// "both"; null, gdy wcale nie kolidują. parityOf(data) zwraca parzystość
+// tygodnia semestru dla daty w formacie RRRR-MM-DD.
+export function clashWeeks(a, b, parityOf) {
+  if (!collide(a, b)) return null;
+  if (a.dates?.length && b.dates?.length) {
+    const dates = new Set(b.dates);
+    const found = new Set(a.dates.filter((d) => dates.has(d)).map(parityOf).filter(Boolean));
+    return found.size === 1 ? [...found][0] : "both";
+  }
+  return [a.recurrence, b.recurrence].find((r) => r === "odd" || r === "even") ?? "both";
 }
 
 export function conflicts(activities) {

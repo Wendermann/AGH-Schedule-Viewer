@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Makiety planów AGH</title>
+<link rel="icon" href="data:,">
+<style>
+  :root { --bg: #fafaf8; --ink: #1c1c1a; --muted: #5d5d58; --rule: #d9d9d3; color-scheme: light; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #1b1b19; --ink: #ecebe5; --muted: #a8a7a0; --rule: #3a3a36; color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --bg: #1b1b19; --ink: #ecebe5; --muted: #a8a7a0; --rule: #3a3a36; color-scheme: dark; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 Georgia, "Times New Roman", serif; }
+  main { max-width: 68ch; padding: 32px 16px 48px; margin: 0 auto; }
+  h1 { font-size: 26px; margin: 0 0 8px; }
+  h2 { font-size: 18px; margin: 32px 0 8px; }
+  p, li { color: var(--ink); }
+  .muted { color: var(--muted); }
+  ol { padding-left: 1.2em; }
+  li { margin-bottom: 14px; }
+  a { color: inherit; }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Makiety przeglądarki planów</h1>
+  <p class="muted">Trzy kierunki wizualne na tych samych, prawdziwych danych z USOS: plan
+  240-ZBI-1S-2R-Z i 240-INF-1S-2R-Z w cyklu 26/27-Z, z datami spotkań z USOS API.</p>
+  <ol>
+    <li><a href="szwajcarska.html">Rozkład</a>, typografia szwajcarska. Siatka, jeden
+      grotesk, czerń i biel. Czerwień oznacza tylko kolizje, a typ zajęć rozróżnia
+      wypełnienie bloczka.</li>
+    <li><a href="narzedzie.html">Grafik</a>, narzędzie techniczne. Gęsto, godziny i kody
+      krojem o stałej szerokości, obsługa klawiaturą, inspektor i dziennik zmian.</li>
+    <li><a href="gazeta.html">Tygodnik Zajęć</a>, klasyczna gazeta. Każdy tydzień to
+      wydanie, zmiany w planie to wiadomości. Cztery warianty ruchu do porównania.</li>
+  </ol>
+  <h2>Propozycje nazwy strony</h2>
+  <p>Rozkład · Grafik · Tygodnik Zajęć · Siatka · Plan na tydzień · Kiedy zajęcia</p>
+  <hr>
+  <p class="muted">Nieoficjalne narzędzie, niezwiązane z AGH. Historia zmian w planie ZBI
+  porównuje dzisiejszy plan z migawką z 30.06.2026 zapisaną przez wcześniejszy monitor
+  zmian.</p>
+</main>
+</body>
+</html>

@@ -1,0 +1,230 @@
+[
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-26 08:00:00",
+  "end_time": "2026-10-26 09:30:00",
+  "unit_id": 191059,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup",
+  "start_time": "2026-10-26 15:00:00",
+  "end_time": "2026-10-26 16:30:00",
+  "unit_id": 202732,
+  "group_number": 1,
+  "frequency": "every_week"
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-26 16:45:00",
+  "end_time": "2026-10-26 18:15:00",
+  "unit_id": 191410,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-26 18:30:00",
+  "end_time": "2026-10-26 20:00:00",
+  "unit_id": 191410,
+  "group_number": 2
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-27 09:45:00",
+  "end_time": "2026-10-27 11:15:00",
+  "unit_id": 191580,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-27 11:30:00",
+  "end_time": "2026-10-27 13:00:00",
+  "unit_id": 191580,
+  "group_number": 2
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-27 13:15:00",
+  "end_time": "2026-10-27 14:45:00",
+  "unit_id": 191580,
+  "group_number": 3
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-27 15:00:00",
+  "end_time": "2026-10-27 16:30:00",
+  "unit_id": 191364,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-27 16:45:00",
+  "end_time": "2026-10-27 18:15:00",
+  "unit_id": 191304,
+  "group_number": 2
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-27 18:30:00",
+  "end_time": "2026-10-27 20:00:00",
+  "unit_id": 191410,
+  "group_number": 3
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-28 08:00:00",
+  "end_time": "2026-10-28 09:30:00",
+  "unit_id": 191194,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-28 09:45:00",
+  "end_time": "2026-10-28 11:15:00",
+  "unit_id": 191318,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-28 16:45:00",
+  "end_time": "2026-10-28 18:15:00",
+  "unit_id": 191138,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-28 18:30:00",
+  "end_time": "2026-10-28 20:00:00",
+  "unit_id": 191284,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-29 09:45:00",
+  "end_time": "2026-10-29 11:15:00",
+  "unit_id": 191511,
+  "group_number": 2
+ },
+ {
+  "type": "classgroup",
+  "start_time": "2026-10-29 11:30:00",
+  "end_time": "2026-10-29 13:00:00",
+  "unit_id": 202732,
+  "group_number": 1,
+  "frequency": "every_week"
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-29 13:15:00",
+  "end_time": "2026-10-29 14:45:00",
+  "unit_id": 191309,
+  "group_number": 2
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-29 16:45:00",
+  "end_time": "2026-10-29 18:15:00",
+  "unit_id": 191032,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-29 18:30:00",
+  "end_time": "2026-10-29 20:00:00",
+  "unit_id": 191203,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-30 08:00:00",
+  "end_time": "2026-10-30 09:30:00",
+  "unit_id": 191323,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-30 08:00:00",
+  "end_time": "2026-10-30 09:30:00",
+  "unit_id": 191450,
+  "group_number": 3
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-30 09:45:00",
+  "end_time": "2026-10-30 11:15:00",
+  "unit_id": 191323,
+  "group_number": 2
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-30 09:45:00",
+  "end_time": "2026-10-30 11:15:00",
+  "unit_id": 191450,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-30 11:30:00",
+  "end_time": "2026-10-30 13:00:00",
+  "unit_id": 191338,
+  "group_number": 2
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-30 13:15:00",
+  "end_time": "2026-10-30 14:45:00",
+  "unit_id": 191338,
+  "group_number": 4
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-30 15:45:00",
+  "end_time": "2026-10-30 17:15:00",
+  "unit_id": 191381,
+  "group_number": 1
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-30 15:45:00",
+  "end_time": "2026-10-30 17:15:00",
+  "unit_id": 191381,
+  "group_number": 2
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-30 15:45:00",
+  "end_time": "2026-10-30 17:15:00",
+  "unit_id": 191381,
+  "group_number": 3
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-30 15:45:00",
+  "end_time": "2026-10-30 17:15:00",
+  "unit_id": 191381,
+  "group_number": 4
+ },
+ {
+  "type": "classgroup2",
+  "start_time": "2026-10-30 18:30:00",
+  "end_time": "2026-10-30 20:00:00",
+  "unit_id": 191410,
+  "group_number": 4
+ },
+ {
+  "type": "classgroup",
+  "start_time": "2026-10-26 11:00:00",
+  "end_time": "2026-10-26 12:30:00",
+  "unit_id": 202735,
+  "group_number": 2,
+  "frequency": "every_week"
+ },
+ {
+  "type": "classgroup",
+  "start_time": "2026-10-28 15:30:00",
+  "end_time": "2026-10-28 17:00:00",
+  "unit_id": 202735,
+  "group_number": 1,
+  "frequency": "every_week"
+ }
+]

@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+{% from "_finder.html" import search, tree %}
+{% block title %}Plan · {{ site_name }}{% endblock %}
+{% block head %}
+<script type="module" src="{{ base }}static/js/planview.js"></script>
+{% endblock %}
+{% block body %}
+<div class="page" x-data="planPage">
+  <header class="masthead">
+    <p class="wordmark"><a href="{{ base }}">{{ site_name }}</a></p>
+    <div class="masthead__plan">
+      <template x-for="plan in s?.plans ?? []" :key="plan.code">
+        <div class="plan-chip">
+          <b x-show="s.multi" :class="plan.tone" aria-hidden="true" x-text="plan.n"></b>
+          <div>
+            <h1 x-text="plan.name"></h1>
+            <span class="code" x-text="`${plan.code} · ${s.term}`"></span>
+          </div>
+        </div>
+      </template>
+    </div>
+    <p class="masthead__status" role="status" x-text="s && !s.notice ? `Dane z USOS: ${s.fetchedAt}` : ''"></p>
+  </header>
+
+  <p class="loading" x-show="loading" x-cloak>Wczytuję plan…</p>
+  <div class="notice is-strong" x-show="failure" x-cloak>
+    <p x-text="failure"></p>
+  </div>
+  <div class="notice" x-show="problem" x-cloak>
+    <p x-text="problem"></p>
+  </div>
+
+  <template x-if="!s && !failure && !loading && tree.length">
+    <div class="layout">
+      <aside class="index" aria-label="Wybór planu">
+        {{ search(true) }}
+        {{ tree(true) }}
+      </aside>
+      <main class="sheet">
+        <p class="lead">Wybierz kierunek z listy albo wyszukaj go po kodzie lub nazwie.</p>
+      </main>
+    </div>
+  </template>
+
+  <template x-if="s">
+    <div>
+      <div class="toolbar">
+        <div class="seg" role="group" aria-label="Widok">
+          <span class="seg__label">Widok</span>
+          <button type="button" :aria-pressed="String(s.mode === 'typical')" @click="setMode('typical')">tydzień typowy</button>
+          <button type="button" :aria-pressed="String(s.mode === 'week')" @click="setMode('week')">tydzień kalendarzowy</button>
+        </div>
+        <template x-if="s.mode === 'week'">
+          <div class="week-nav">
+            <button type="button" aria-label="Poprzedni tydzień" :disabled="!s.canPrev" @click="shiftWeek(-1)">←</button>
+            <span class="week-nav__label" aria-live="polite" x-text="s.weekLabel"></span>
+            <button type="button" aria-label="Następny tydzień" :disabled="!s.canNext" @click="shiftWeek(1)">→</button>
+          </div>
+        </template>
+        <template x-if="s.mode === 'typical'">
+          <div class="seg" role="group" aria-label="Tygodnie">
+            <span class="seg__label">Tygodnie</span>
+            <button type="button" :aria-pressed="String(s.parity === 'all')" @click="setParity('all')">wszystkie</button>
+            <button type="button" :aria-pressed="String(s.parity === 'odd')" @click="setParity('odd')">nieparzyste</button>
+            <button type="button" :aria-pressed="String(s.parity === 'even')" @click="setParity('even')">parzyste</button>
+          </div>
+        </template>
+        <div class="toolbar__end">
+          <div class="seg" role="group" aria-label="Motyw">
+            <span class="seg__label">Motyw</span>
+            <template x-for="[value, label] in themes" :key="value">
+              <button type="button" :aria-pressed="String(theme === value)" @click="setTheme(value)" x-text="label"></button>
+            </template>
+          </div>
+          <button type="button" class="text-button" @click="share()">Udostępnij</button>
+          <span class="share-out" role="status" x-show="shareText" x-text="shareText"></span>
+          <span class="share-out" x-show="shareUrl">
+            <input x-ref="shareField" :value="shareUrl" readonly aria-label="Link do tego widoku">
+          </span>
+        </div>
+      </div>
+
+      <div class="layout" :class="s.details && 'has-details'">
+        <aside class="index" aria-label="Wybór planu i przedmiotów">
+          {{ search(true) }}
+
+          <section>
+            <h2 x-text="s.multi ? 'Połączone plany' : 'Plan'"></h2>
+            <ul class="plans">
+              <template x-for="plan in s.plans" :key="plan.code">
+                <li>
+                  <span :class="s.multi && `swatch ${plan.tone}`" style="width: 14px; height: 14px" aria-hidden="true"></span>
+                  <span x-text="plan.name"></span>
+                  <span class="code" x-text="plan.code"></span>
+                  <span class="hist" x-text="plan.history ? 'Z historią zmian.' : 'Bez historii zmian.'"></span>
+                  <span class="actions" x-show="s.multi">
+                    <button type="button" class="text-button" @click="removePlan(plan.code)">odłącz</button>
+                  </span>
+                </li>
+              </template>
+            </ul>
+          </section>
+
+          {{ tree(true) }}
+
+          <section>
+            <h2>Przedmioty</h2>
+            <p x-show="s.hidden"><button type="button" class="text-button" @click="showAll()" x-text="`Pokaż wszystko (ukryte: ${s.hidden})`"></button></p>
+            <ul class="subjects">
+              <template x-for="subject in s.subjects" :key="subject.code">
+                <li>
+                  <div class="subject-row" :class="subject.hidden && 'is-hidden'">
+                    <span class="name"><span x-text="subject.name"></span><span class="muted" x-show="subject.block"> (blok)</span></span>
+                    <button type="button" class="toggle" :aria-pressed="String(!subject.hidden)"
+                            :aria-label="`${subject.hidden ? 'Pokaż' : 'Ukryj'} przedmiot ${subject.name}`"
+                            @click="toggleSubject(subject.code)" x-text="subject.hidden ? '' : '✓'"></button>
+                  </div>
+                  <ul class="types" x-show="!subject.hidden">
+                    <template x-for="t in subject.types" :key="t.type">
+                      <li>
+                        <span class="type-name" :class="t.hidden && 'is-hidden'"><b class="tcode" :class="t.tone" x-text="t.type"></b> <span x-text="t.name"></span></span>
+                        <button type="button" class="link" @click="toggleType(subject.code, t.type)" x-text="t.hidden ? 'pokaż' : 'ukryj'"></button>
+                        <span class="groups" role="group" :aria-label="`Moja grupa: ${t.name}`" x-show="!t.hidden && t.groups.length > 1">
+                          <template x-for="g in t.groups" :key="g">
+                            <button type="button" :aria-pressed="String(t.chosen === g)"
+                                    :title="t.chosen === g ? 'Pokaż znowu wszystkie grupy' : `Zostaw tylko grupę ${g}`"
+                                    @click="chooseGroup(subject.code, t.type, g)" x-text="g"></button>
+                          </template>
+                        </span>
+                      </li>
+                    </template>
+                  </ul>
+                </li>
+              </template>
+            </ul>
+          </section>
+        </aside>
+
+        <main class="sheet">
+          <div class="legend">
+            <template x-for="item in s.legend" :key="item.key">
+              <span><i class="swatch" :class="item.cls" aria-hidden="true"></i><b x-text="item.short"></b> <span x-text="item.label"></span></span>
+            </template>
+            <span><i class="swatch" style="outline: 3px solid var(--accent); outline-offset: -3px" aria-hidden="true"></i>kolizja</span>
+            <span x-show="s.hasHistory"><i class="swatch" style="width: 7px; height: 7px; background: var(--ink)" aria-hidden="true"></i>zmiana od pierwszej migawki</span>
+            <span>N/P: tygodnie nieparzyste/parzyste; zajęcia N i P o tej samej porze nie kolidują</span>
+          </div>
+
+          <div class="notice" x-show="s.notice">
+            <p x-text="s.notice?.text"></p>
+            <p x-show="s.notice?.usosUrl"><a :href="s.notice?.usosUrl">Ten plan w USOSweb</a></p>
+          </div>
+
+          <div class="grid-wrap">
+            <div class="grid" :style="s.grid.columns">
+              <div aria-hidden="true"></div>
+              <template x-for="day in s.grid.days" :key="day.key">
+                <div class="day-head">
+                  <h3 x-text="day.title"></h3>
+                  <span class="meta" x-text="day.meta || ' '"></span>
+                  <span :class="day.swap ? 'swap' : 'clash'" x-text="day.swap || day.clash || ' '"></span>
+                </div>
+              </template>
+              <div class="axis" :style="s.grid.height" aria-hidden="true">
+                <template x-for="hour in s.grid.axis" :key="hour.label">
+                  <span :style="hour.style" x-text="hour.label"></span>
+                </template>
+              </div>
+              <template x-for="day in s.grid.days" :key="day.key">
+                <div class="column" :class="day.off && 'is-off'" :style="s.grid.height">
+                  <p class="column__note" x-show="day.empty" x-text="day.empty"></p>
+                  <template x-for="b in day.blocks" :key="b.id">
+                    <button type="button" :class="b.cls" :style="b.style" :aria-label="b.label" @click="select(b.activity)">
+                      <span class="block__mark" aria-hidden="true" x-show="b.changed"></span>
+                      <span class="block__name" :class="b.lines" x-text="b.name"></span>
+                      <span class="block__meta"><b class="tcode" x-text="b.type"></b><span x-text="b.meta"></span></span>
+                      <span class="block__who" x-show="b.who" x-text="b.who"></span>
+                      <span class="block__span" x-show="b.span" x-text="b.span"></span>
+                    </button>
+                  </template>
+                </div>
+              </template>
+            </div>
+          </div>
+
+          <div class="agenda">
+            <template x-for="day in s.grid.days" :key="day.key">
+              <section>
+                <h3><span x-text="day.title"></span><small x-text="[day.meta, day.swap, day.clash].filter(Boolean).join(' · ')"></small></h3>
+                <p class="muted" x-show="day.empty" x-text="day.empty"></p>
+                <ol x-show="day.agenda.length">
+                  <template x-for="item in day.agenda" :key="item.id">
+                    <li>
+                      <button type="button" @click="select(item.activity)">
+                        <span class="time" x-text="item.time"></span>
+                        <strong><i :class="item.fill" style="width: 10px; height: 10px; margin-right: 6px" aria-hidden="true"></i><span x-text="item.name"></span></strong>
+                        <span x-text="item.line"></span>
+                        <span :class="item.conflict && 'clash'" x-text="item.conflict ? 'kolizja' : ''"></span>
+                      </button>
+                    </li>
+                  </template>
+                </ol>
+              </section>
+            </template>
+          </div>
+
+          <section class="history" aria-labelledby="history-title">
+            <h2 id="history-title">Zmiany w planie</h2>
+            <template x-if="!s.history.plans.length">
+              <p class="history__lead">
+                Dla tego kierunku nie zbieramy historii zmian. Zbieramy ją dla:
+                <template x-for="(code, i) in s.history.tracked" :key="code">
+                  <span><span x-show="i">, </span><button type="button" class="text-button" @click="openPlan(code)" x-text="code"></button></span>
+                </template>.
+              </p>
+            </template>
+            <template x-if="s.history.plans.length">
+              <div>
+                <div class="seg" role="group" aria-label="Pokaż">
+                  <span class="seg__label">Pokaż</span>
+                  <button type="button" :aria-pressed="String(historyScope === 'all')" @click="setHistoryScope('all')">wszystkie zmiany</button>
+                  <button type="button" :aria-pressed="String(historyScope === 'mine')" @click="setHistoryScope('mine')">tylko widoczne zajęcia</button>
+                </div>
+                <template x-for="h in s.history.plans" :key="h.code">
+                  <div>
+                    <p class="history__lead" x-text="h.lead"></p>
+                    <div class="history-wrap" x-show="h.rows.length">
+                      <table>
+                        <thead>
+                          <tr><th scope="col">Wykryto</th><th scope="col">Przedmiot</th><th scope="col">Zajęcia</th><th scope="col">Zmiana</th><th scope="col">Było</th><th scope="col">Jest</th></tr>
+                        </thead>
+                        <tbody>
+                          <template x-for="row in h.rows" :key="row.key">
+                            <tr>
+                              <td class="kind" x-text="row.when"></td>
+                              <td x-text="row.subject"></td>
+                              <td x-text="row.what"></td>
+                              <td class="kind" x-text="row.title"></td>
+                              <td><template x-for="(text, i) in row.was" :key="i"><div class="was" x-text="text"></div></template></td>
+                              <td><template x-for="(text, i) in row.is" :key="i"><div class="is" x-text="text"></div></template></td>
+                            </tr>
+                          </template>
+                        </tbody>
+                      </table>
+                    </div>
+                    <p class="muted" x-show="h.total && !h.rows.length">Żadne z widocznych zajęć się nie zmieniły.</p>
+                  </div>
+                </template>
+              </div>
+            </template>
+          </section>
+        </main>
+
+        <aside class="details" aria-label="Szczegóły zajęć" x-show="s.details">
+          <template x-if="s.details">
+            <div>
+              <button type="button" class="details__close" aria-label="Zamknij szczegóły" @click="close()">×</button>
+              <h2 x-text="s.details.title"></h2>
+              <a :href="s.details.subjectUrl" x-text="s.details.subject"></a>
+              <dl>
+                <dt>Zajęcia</dt>
+                <dd x-text="s.details.kind"></dd>
+                <dt>Termin</dt>
+                <dd><span x-text="s.details.when"></span><div x-show="s.details.changedTime">W tym dniu zmieniona godzina.</div></dd>
+                <dt>Częstotliwość</dt>
+                <dd x-text="s.details.recurrence"></dd>
+                <template x-if="s.details.single">
+                  <dt>Prowadzący</dt>
+                </template>
+                <template x-if="s.details.single">
+                  <dd>
+                    <span x-show="s.details.block">blok, grupę wybierasz osobno</span>
+                    <span x-show="!s.details.block && !s.details.lecturers.length">prowadzący nieznany</span>
+                    <template x-for="(p, i) in s.details.block ? [] : s.details.lecturers" :key="i">
+                      <span><span x-show="i">, </span><a x-show="p.url" :href="p.url" x-text="p.name"></a><span x-show="!p.url" x-text="p.name"></span></span>
+                    </template>
+                  </dd>
+                </template>
+                <template x-if="s.details.single">
+                  <dt>Miejsce</dt>
+                </template>
+                <template x-if="s.details.single">
+                  <dd x-text="s.details.place"></dd>
+                </template>
+                <template x-if="s.details.meetings">
+                  <dt>Spotkania</dt>
+                </template>
+                <template x-if="s.details.meetings">
+                  <dd x-text="s.details.meetings"></dd>
+                </template>
+                <template x-if="s.details.sources">
+                  <dt>Z planów</dt>
+                </template>
+                <template x-if="s.details.sources">
+                  <dd x-text="s.details.sources"></dd>
+                </template>
+              </dl>
+
+              <template x-if="s.details.members.length">
+                <div>
+                  <h3>Grupy o tej porze</h3>
+                  <template x-for="m in s.details.members" :key="m.group">
+                    <div class="member">
+                      <b x-text="m.title"></b>
+                      <span>
+                        <span x-show="m.block">blok</span>
+                        <span x-show="!m.block && !m.lecturers.length">prowadzący nieznany</span>
+                        <template x-for="(p, i) in m.block ? [] : m.lecturers" :key="i">
+                          <span><span x-show="i">, </span><a x-show="p.url" :href="p.url" x-text="p.name"></a><span x-show="!p.url" x-text="p.name"></span></span>
+                        </template>
+                      </span>
+                      <span x-text="m.place"></span>
+                      <button type="button" class="text-button" @click="chooseGroup(m.subject, m.type, m.group)">To moja grupa</button>
+                    </div>
+                  </template>
+                </div>
+              </template>
+
+              <template x-if="s.details.clashes.length">
+                <div>
+                  <h3>Kolizje</h3>
+                  <div class="clash-list">
+                    <template x-for="(text, i) in s.details.clashes" :key="i"><div x-text="text"></div></template>
+                  </div>
+                </div>
+              </template>
+
+              <template x-if="s.details.changes.length">
+                <div>
+                  <h3>Zmiany</h3>
+                  <template x-for="(c, i) in s.details.changes" :key="i">
+                    <div class="member">
+                      <b x-text="c.title"></b>
+                      <span class="muted" x-text="`wykryto ${c.when}`"></span>
+                      <template x-for="(r, j) in c.rows" :key="j">
+                        <span><s x-show="r.before" x-text="r.before"></s><span x-show="r.before && r.after"> → </span><span x-text="r.after ?? ''"></span></span>
+                      </template>
+                    </div>
+                  </template>
+                </div>
+              </template>
+
+              <h3>Daty spotkań</h3>
+              <div class="dates">
+                <template x-for="(line, i) in s.details.dates" :key="i"><span x-text="line"></span></template>
+              </div>
+              <div class="actions">
+                <button type="button" class="text-button" @click="hideSubject(s.details.subject)">Ukryj przedmiot</button>
+                <button type="button" class="text-button" @click="hideType(s.details.subject, s.details.unit.type)" x-text="`Ukryj ${s.details.unit.type}`"></button>
+                <a :href="s.details.groupUrl">Grupa w USOSweb</a>
+              </div>
+            </div>
+          </template>
+        </aside>
+      </div>
+
+      <footer class="colophon">
+        <p>Nieoficjalne narzędzie, niezwiązane z AGH. Dane pochodzą z publicznego USOS API i stron USOSweb dostępnych bez logowania.</p>
+        <p><span x-text="`Pobrano ${s.fetchedAt}. `"></span><a :href="s.usosUrl">Ten plan w USOSweb</a>.</p>
+      </footer>
+    </div>
+  </template>
+</div>
+{% endblock %}

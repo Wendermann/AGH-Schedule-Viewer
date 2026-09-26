@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Grafik techniczny</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="narzedzie/style.css">
+<script type="module" src="narzedzie/main.js"></script>
+</head>
+<body>
+<div class="app">
+  <header class="bar" id="bar"></header>
+  <div class="panes">
+    <nav class="side" id="side" aria-label="Plany i przedmioty"></nav>
+    <main class="main" id="main">
+      <p class="loading" id="loading" hidden>wczytuję plan…</p>
+      <div class="banner" id="banner" role="status" hidden></div>
+      <div class="grid-wrap" id="grid-wrap"><div class="grid" id="grid"></div></div>
+      <div class="agenda" id="agenda"></div>
+    </main>
+    <aside class="inspector" id="inspector" aria-label="Inspektor"></aside>
+  </div>
+  <footer class="status" id="statusbar"></footer>
+</div>
+<div class="demo-bar" id="demo"></div>
+</body>
+</html>

@@ -3,11 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Plany zajęć AGH{% endblock %}</title>
-  <meta name="description" content="Nieoficjalna przeglądarka planów zajęć z USOSweb AGH.">
+  <title>{% block title %}{{ site_name }}{% endblock %}</title>
+  <meta name="description" content="Nieoficjalna przeglądarka planów zajęć AGH z danych USOS: ukrywanie zajęć, łączenie planów, kolizje z tygodniami parzystymi i nieparzystymi, historia zmian.">
+  <link rel="icon" href="data:,">
+  {# Motyw ustawiamy przed pierwszym rysowaniem, żeby strona nie mignęła jasnym tłem. #}
+  <script>try { var t = localStorage.getItem("plan-motyw"); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
   <link rel="stylesheet" href="{{ base }}static/css/site.css">
+  {% block head %}{% endblock %}
 </head>
-<body>
+<body data-base="{{ base }}">
   {% block body %}{% endblock %}
 </body>
 </html>

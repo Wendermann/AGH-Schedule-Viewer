@@ -3,6 +3,7 @@ import { test } from "node:test";
 
 import {
   applySelection,
+  clashWeeks,
   collide,
   conflicts,
   conflictsPerDay,
@@ -97,10 +98,33 @@ test("odd and even weeks do not collide", () => {
   assert.equal(collide(odd, activity()), true);
 });
 
+test("groups of the same class type are alternatives, not conflicts", () => {
+  assert.equal(collide(activity({ group: 1 }), activity({ group: 2 })), false);
+  assert.equal(collide(activity({ group: 1 }), activity({ type: "W", group: 2 })), true);
+  assert.equal(collide(activity({ group: 1 }), activity({ subject: "MAT", group: 2 })), true);
+});
+
 test("concrete dates decide when both are known", () => {
   const on = (date) => activity({ recurrence: "irregular", dates: [date] });
   assert.equal(collide(on("2026-10-05"), on("2026-10-12")), false);
   assert.equal(collide(on("2026-10-12"), on("2026-10-12")), true);
+});
+
+test("clash weeks follow parity of both classes", () => {
+  const parity = () => null;
+  assert.equal(clashWeeks(activity({ recurrence: "odd" }), activity({ subject: "B", recurrence: "odd" }), parity), "odd");
+  assert.equal(clashWeeks(activity(), activity({ subject: "B", recurrence: "even" }), parity), "even");
+  assert.equal(clashWeeks(activity(), activity({ subject: "B" }), parity), "both");
+  assert.equal(clashWeeks(activity({ recurrence: "odd" }), activity({ subject: "B", recurrence: "even" }), parity), null);
+});
+
+test("clash weeks come from shared dates when both are known", () => {
+  // Tydzień 1 semestru zaczyna się 1.10, więc 5.10 jest nieparzysty, a 12.10 parzysty.
+  const parity = (date) => (date < "2026-10-08" ? "odd" : "even");
+  const weekly = activity({ dates: ["2026-10-05", "2026-10-12"] });
+  const oddOnly = activity({ subject: "B", recurrence: "odd", dates: ["2026-10-05"] });
+  assert.equal(clashWeeks(weekly, oddOnly, parity), "odd");
+  assert.equal(clashWeeks(weekly, activity({ subject: "B", dates: ["2026-10-05", "2026-10-12"] }), parity), "both");
 });
 
 test("conflicts are counted per day", () => {

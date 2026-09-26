@@ -1,0 +1,554 @@
+{
+ "source": "Monitor zmian w planie USOS (projekt użytkownika), pierwsza kontrola",
+ "taken_at": "2026-06-30T22:09:09",
+ "title": "240 - Informatyka - Zarządzanie bezpieczeństwem informacji, semestr 3 - 26/27-Z - USOSweb",
+ "entries": [
+  {
+   "zaj_cyk_id": "191059",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-114",
+   "course": "Fizyka 2",
+   "type_short": "W",
+   "day": "Poniedziałek",
+   "start": "08:00",
+   "end": "09:30",
+   "lecturers": [
+    "Zbigniew Kąkol"
+   ],
+   "room": "Sala on-line",
+   "building": "D-17 [D17]",
+   "parity": "każdy"
+  },
+  {
+   "zaj_cyk_id": "191183",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-208",
+   "course": "Projekty naukowo-badawcze i innowacyjne w obszarze obronności",
+   "type_short": "W",
+   "day": "Poniedziałek",
+   "start": "13:15",
+   "end": "14:45",
+   "lecturers": [
+    "Paweł Chodak"
+   ],
+   "room": "Sala 2.41",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191496",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-208",
+   "course": "Projekty naukowo-badawcze i innowacyjne w obszarze obronności",
+   "type_short": "CWL",
+   "day": "Poniedziałek",
+   "start": "18:30",
+   "end": "20:00",
+   "lecturers": [
+    "Paweł Chodak"
+   ],
+   "room": "Sala 3.23",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191042",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-041",
+   "course": "Cyberterroryzm - wyzwania dla obronności państwa",
+   "type_short": "W",
+   "day": "Wtorek",
+   "start": "08:00",
+   "end": "09:30",
+   "lecturers": [
+    "Paweł Chodak"
+   ],
+   "room": "Sala 2.41",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191580",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-331",
+   "course": "Wstęp do zwalczania cyberprzestępczości",
+   "type_short": "CWL",
+   "day": "Wtorek",
+   "start": "09:45",
+   "end": "11:15",
+   "lecturers": [
+    "Marcin Golizda"
+   ],
+   "room": "Sala 3.22",
+   "building": "D-17 [D17]",
+   "parity": "parzyste"
+  },
+  {
+   "zaj_cyk_id": "191590",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-041",
+   "course": "Cyberterroryzm - wyzwania dla obronności państwa",
+   "type_short": "CWP",
+   "day": "Wtorek",
+   "start": "09:45",
+   "end": "11:15",
+   "lecturers": [
+    "Paweł Chodak"
+   ],
+   "room": "Sala 3.23",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191580",
+   "gr_nr": "2",
+   "course_code": "240-ZBI-1S-331",
+   "course": "Wstęp do zwalczania cyberprzestępczości",
+   "type_short": "CWL",
+   "day": "Wtorek",
+   "start": "11:30",
+   "end": "13:00",
+   "lecturers": [
+    "Marcin Golizda"
+   ],
+   "room": "Sala 3.22",
+   "building": "D-17 [D17]",
+   "parity": "parzyste"
+  },
+  {
+   "zaj_cyk_id": "191590",
+   "gr_nr": "2",
+   "course_code": "240-ZBI-1S-041",
+   "course": "Cyberterroryzm - wyzwania dla obronności państwa",
+   "type_short": "CWP",
+   "day": "Wtorek",
+   "start": "11:30",
+   "end": "13:00",
+   "lecturers": [
+    "Paweł Chodak"
+   ],
+   "room": "Sala 3.23",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191590",
+   "gr_nr": "3",
+   "course_code": "240-ZBI-1S-041",
+   "course": "Cyberterroryzm - wyzwania dla obronności państwa",
+   "type_short": "CWP",
+   "day": "Wtorek",
+   "start": "13:15",
+   "end": "14:45",
+   "lecturers": [
+    "Paweł Chodak"
+   ],
+   "room": "Sala 3.23",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191580",
+   "gr_nr": "3",
+   "course_code": "240-ZBI-1S-331",
+   "course": "Wstęp do zwalczania cyberprzestępczości",
+   "type_short": "CWL",
+   "day": "Wtorek",
+   "start": "13:15",
+   "end": "14:45",
+   "lecturers": [
+    "Marcin Golizda"
+   ],
+   "room": "Sala 3.22",
+   "building": "D-17 [D17]",
+   "parity": "parzyste"
+  },
+  {
+   "zaj_cyk_id": "191304",
+   "gr_nr": "2",
+   "course_code": "240-ZBI-1S-114",
+   "course": "Fizyka 2",
+   "type_short": "CWA",
+   "day": "Wtorek",
+   "start": "16:45",
+   "end": "18:15",
+   "lecturers": [
+    "Zbigniew Kąkol"
+   ],
+   "room": "Sala 3.27a",
+   "building": "D-17 [D17]",
+   "parity": "parzyste"
+  },
+  {
+   "zaj_cyk_id": "191304",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-114",
+   "course": "Fizyka 2",
+   "type_short": "CWA",
+   "day": "Wtorek",
+   "start": "16:45",
+   "end": "18:15",
+   "lecturers": [
+    "Zbigniew Kąkol"
+   ],
+   "room": "Sala 3.27a",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191194",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-308",
+   "course": "Rachunek prawdopodobieństwa i statystyka",
+   "type_short": "W",
+   "day": "Środa",
+   "start": "08:00",
+   "end": "09:30",
+   "lecturers": [
+    "Olha Titova"
+   ],
+   "room": "Sala 2.41",
+   "building": "D-17 [D17]",
+   "parity": "każdy"
+  },
+  {
+   "zaj_cyk_id": "191498",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-211",
+   "course": "Prywatność i ochrona danych osobowych",
+   "type_short": "CWL",
+   "day": "Środa",
+   "start": "09:45",
+   "end": "11:15",
+   "lecturers": [
+    "Karolina Karcz-Nawrocka"
+   ],
+   "room": "Sala 3.23",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191498",
+   "gr_nr": "2",
+   "course_code": "240-ZBI-1S-211",
+   "course": "Prywatność i ochrona danych osobowych",
+   "type_short": "CWL",
+   "day": "Środa",
+   "start": "11:30",
+   "end": "13:00",
+   "lecturers": [
+    "Karolina Karcz-Nawrocka"
+   ],
+   "room": "Sala 3.23",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191410",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-074",
+   "course": "Kryptografia i podstawy kryptoanalizy",
+   "type_short": "CWL",
+   "day": "Środa",
+   "start": "11:30",
+   "end": "13:00",
+   "lecturers": [
+    "Paweł Topa"
+   ],
+   "room": "Sala 4.30",
+   "building": "D-17 [D17]",
+   "parity": "każdy"
+  },
+  {
+   "zaj_cyk_id": "191498",
+   "gr_nr": "3",
+   "course_code": "240-ZBI-1S-211",
+   "course": "Prywatność i ochrona danych osobowych",
+   "type_short": "CWL",
+   "day": "Środa",
+   "start": "13:15",
+   "end": "14:45",
+   "lecturers": [
+    "Karolina Karcz-Nawrocka"
+   ],
+   "room": "Sala 3.23",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191410",
+   "gr_nr": "2",
+   "course_code": "240-ZBI-1S-074",
+   "course": "Kryptografia i podstawy kryptoanalizy",
+   "type_short": "CWL",
+   "day": "Środa",
+   "start": "13:15",
+   "end": "14:45",
+   "lecturers": [
+    "Paweł Topa"
+   ],
+   "room": "Sala 4.30",
+   "building": "D-17 [D17]",
+   "parity": "każdy"
+  },
+  {
+   "zaj_cyk_id": "191185",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-211",
+   "course": "Prywatność i ochrona danych osobowych",
+   "type_short": "W",
+   "day": "Środa",
+   "start": "16:45",
+   "end": "18:15",
+   "lecturers": [
+    "Karolina Karcz-Nawrocka"
+   ],
+   "room": "Sala on-line",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191138",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-169",
+   "course": "Podstawy programowania niskopoziomowego",
+   "type_short": "W",
+   "day": "Środa",
+   "start": "16:45",
+   "end": "18:15",
+   "lecturers": [
+    "Ada Brzoza-Zajęcka"
+   ],
+   "room": "Sala on-line",
+   "building": "D-17 [D17]",
+   "parity": "parzyste"
+  },
+  {
+   "zaj_cyk_id": "191093",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-074",
+   "course": "Kryptografia i podstawy kryptoanalizy",
+   "type_short": "W",
+   "day": "Środa",
+   "start": "18:30",
+   "end": "20:00",
+   "lecturers": [
+    "Paweł Topa"
+   ],
+   "room": "Sala on-line",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191284",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-331",
+   "course": "Wstęp do zwalczania cyberprzestępczości",
+   "type_short": "W",
+   "day": "Środa",
+   "start": "18:30",
+   "end": "20:00",
+   "lecturers": [
+    "Marcin Golizda"
+   ],
+   "room": "Sala on-line",
+   "building": "D-17 [D17]",
+   "parity": "parzyste"
+  },
+  {
+   "zaj_cyk_id": "191498",
+   "gr_nr": "4",
+   "course_code": "240-ZBI-1S-211",
+   "course": "Prywatność i ochrona danych osobowych",
+   "type_short": "CWL",
+   "day": "Czwartek",
+   "start": "09:45",
+   "end": "11:15",
+   "lecturers": [
+    "Karolina Karcz-Nawrocka"
+   ],
+   "room": "Sala 3.23",
+   "building": "D-17 [D17]",
+   "parity": "parzyste"
+  },
+  {
+   "zaj_cyk_id": "191122",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-156",
+   "course": "Metody wywierania wpływu",
+   "type_short": "W",
+   "day": "Czwartek",
+   "start": "16:45",
+   "end": "18:15",
+   "lecturers": [
+    "Anna Piętak"
+   ],
+   "room": "Sala on-line",
+   "building": "D-17 [D17]",
+   "parity": "parzyste"
+  },
+  {
+   "zaj_cyk_id": "191032",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-031",
+   "course": "Bezpieczeństwo komunikacji multimedialnej",
+   "type_short": "W",
+   "day": "Czwartek",
+   "start": "16:45",
+   "end": "18:15",
+   "lecturers": [
+    "Łukasz Czekierda"
+   ],
+   "room": "Sala on-line",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "190996",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-002",
+   "course": "Administracja systemów komputerowych",
+   "type_short": "W",
+   "day": "Czwartek",
+   "start": "18:30",
+   "end": "20:00",
+   "lecturers": [
+    "Rafał Wcisło"
+   ],
+   "room": "Sala on-line",
+   "building": "D-17 [D17]",
+   "parity": "parzyste"
+  },
+  {
+   "zaj_cyk_id": "191203",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-302",
+   "course": "Ryzyko w zarządzaniu bezpieczeństwem informacji",
+   "type_short": "W",
+   "day": "Czwartek",
+   "start": "18:30",
+   "end": "20:00",
+   "lecturers": [
+    "Anna Wójcicka"
+   ],
+   "room": "Sala on-line",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191450",
+   "gr_nr": "2",
+   "course_code": "240-ZBI-1S-169",
+   "course": "Podstawy programowania niskopoziomowego",
+   "type_short": "CWL",
+   "day": "Piątek",
+   "start": "09:45",
+   "end": "11:15",
+   "lecturers": [
+    "Ada Brzoza-Zajęcka",
+    "Wojciech Zaborowski"
+   ],
+   "room": "Sala 3.24",
+   "building": "D-17 [D17]",
+   "parity": "parzyste"
+  },
+  {
+   "zaj_cyk_id": "191450",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-169",
+   "course": "Podstawy programowania niskopoziomowego",
+   "type_short": "CWL",
+   "day": "Piątek",
+   "start": "09:45",
+   "end": "11:15",
+   "lecturers": [
+    "Ada Brzoza-Zajęcka",
+    "Wojciech Zaborowski"
+   ],
+   "room": "Sala 3.24",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191450",
+   "gr_nr": "3",
+   "course_code": "240-ZBI-1S-169",
+   "course": "Podstawy programowania niskopoziomowego",
+   "type_short": "CWL",
+   "day": "Piątek",
+   "start": "11:30",
+   "end": "13:00",
+   "lecturers": [
+    "Ada Brzoza-Zajęcka",
+    "Wojciech Zaborowski"
+   ],
+   "room": "Sala 3.24",
+   "building": "D-17 [D17]",
+   "parity": "nieparzyste"
+  },
+  {
+   "zaj_cyk_id": "191381",
+   "gr_nr": "4",
+   "course_code": "240-ZBI-1S-114",
+   "course": "Fizyka 2",
+   "type_short": "CWL",
+   "day": "Piątek",
+   "start": "15:45",
+   "end": "18:00",
+   "lecturers": [
+    "Zbigniew Kąkol"
+   ],
+   "room": null,
+   "building": null,
+   "parity": "każdy"
+  },
+  {
+   "zaj_cyk_id": "191381",
+   "gr_nr": "3",
+   "course_code": "240-ZBI-1S-114",
+   "course": "Fizyka 2",
+   "type_short": "CWL",
+   "day": "Piątek",
+   "start": "15:45",
+   "end": "18:00",
+   "lecturers": [
+    "Zbigniew Kąkol"
+   ],
+   "room": null,
+   "building": null,
+   "parity": "każdy"
+  },
+  {
+   "zaj_cyk_id": "191381",
+   "gr_nr": "2",
+   "course_code": "240-ZBI-1S-114",
+   "course": "Fizyka 2",
+   "type_short": "CWL",
+   "day": "Piątek",
+   "start": "15:45",
+   "end": "18:00",
+   "lecturers": [
+    "Zbigniew Kąkol"
+   ],
+   "room": null,
+   "building": null,
+   "parity": "każdy"
+  },
+  {
+   "zaj_cyk_id": "191381",
+   "gr_nr": "1",
+   "course_code": "240-ZBI-1S-114",
+   "course": "Fizyka 2",
+   "type_short": "CWL",
+   "day": "Piątek",
+   "start": "15:45",
+   "end": "18:00",
+   "lecturers": [
+    "Zbigniew Kąkol"
+   ],
+   "room": null,
+   "building": null,
+   "parity": "każdy"
+  }
+ ]
+}

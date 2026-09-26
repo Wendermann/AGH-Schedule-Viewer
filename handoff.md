@@ -2,7 +2,7 @@
 
 Dokument dla agenta, który przejmuje pracę w nowym środowisku. Przeczytaj
 go w całości, potem `docs/00-sygnaly-vibe-coding.md`
-i `docs/01-decyzje.md`. Stan na 25.09.2026.
+i `docs/01-decyzje.md`. Stan na 26.09.2026.
 
 
 ## Zlecenie użytkownika
@@ -37,62 +37,58 @@ Później użytkownik dołożył dwa wymagania:
 | Faza | Stan |
 | --- | --- |
 | 0. Sygnały „vibe coding” | Zrobiona: `docs/00-sygnaly-vibe-coding.md`. Sekcja 5 to checklista dla makiet i strony. |
-| Pytania do użytkownika | Zrobione: 32 pytania w 8 rundach (ostatnia dotyczyła GitHub Pages). Odpowiedzi są w `docs/01-decyzje.md`. |
-| Analiza USOSweb | **Nie zaczęta.** W poprzednim środowisku sieć blokowała wszystkie domeny AGH. |
-| 3 makiety UI | Nie zaczęte. Czekają na analizę, bo mają powstać na prawdziwych danych. |
-| Strona właściwa | Gotowy rdzeń niezależny od HTML-a USOS (szczegóły niżej). Brak parsera, danych i interfejsu. |
-| Hosting | Workflow gotowy, ale publikacja czeka na ustawienia repo (sekcja „Publikacja”). |
+| Pytania do użytkownika | Przed analizą: 32 pytania w 8 rundach. Po analizie: 12 pytań w 3 rundach (historia planu, zasięg danych, osobliwości kalendarza AGH, drzewo kierunków). Wszystkie odpowiedzi są w `docs/01-decyzje.md`. |
+| Analiza USOS | Zrobiona: `docs/02-analiza-usos.md`. Źródło danych: USOS API i USOSweb (decyzja w `docs/01-decyzje.md`). Parser USOSweb w `app/usos/web.py`. |
+| 3 makiety UI | Gotowe. Użytkownik wybrał „Rozkład” (szwajcarski) z pełnymi polami koloru typów zajęć i kolorem w winiecie (`docs/01-decyzje.md`, „Wybrany kierunek”). |
+| Strona właściwa | Pierwsza wersja gotowa: „Plan na tydzień” w Alpine.js, Wydział Informatyki, cykl 26/27-Z (`docs/01-decyzje.md`, „Pierwsza wersja strony”). Dane z `flask fetch`. Sprawdzona w przeglądarce na prawdziwych danych: komputer, telefon, motyw ciemny, wydruk, łączenie planów, link „Udostępnij”. Podgląd strony planu dla użytkownika (artefakt, dane z 26.09): https://claude.ai/artifact/7ncFBVxfKPNdiXMTZbnUDF |
+| Historia zmian | Gotowe: `flask history` i workflow `historia.yml` (co 6 godzin, zapis do gałęzi `dane`). Ruszy po przeniesieniu kodu na gałąź domyślną. Strona pokazuje historię z codziennej budowy. |
+| Hosting | `pages.yml` pobiera dane codziennie o 3:41 UTC i publikuje stronę. Publikacja czeka na ustawienia repo (sekcja „Publikacja”). |
 
 
 ## Co zrobić dalej, po kolei
 
-1. **Sprawdź dostęp do USOS**, np.
-   `curl -sS -o /dev/null -w "%{http_code}\n" https://web.usos.agh.edu.pl/`.
-   Jeśli proxy odpowie 403, poproś użytkownika o dopisanie
-   `web.usos.agh.edu.pl` do dozwolonych domen w ustawieniach sieci
-   środowiska. Nie obchodź blokady przez zewnętrzne proxy ani przez GitHub
-   Actions. Polityka sieci środowiska tego zabrania, a w poprzednim
-   środowisku publiczne proxy i tak były zablokowane. Alternatywa: użytkownik
-   zapisuje strony USOS jako HTML i wrzuca je do `tests/fixtures/usos/`.
-2. **Sprawdź, czy w USOS nie trwa synchronizacja baz.** Użytkownik prosił,
-   żeby na nią poczekać. Jeśli strona pokazuje taki komunikat, zapisz jego
-   dokładną treść (przyda się do wykrywania w parserze) i zapytaj
-   użytkownika, czy synchronizacja już się skończyła.
-3. **Przeanalizuj USOSweb**, zaczynając od linku ze zlecenia (plan grupy
-   przedmiotów `240-ZBI-1S-2R-Z`, cykl `26/27-Z`). Wynik zapisz
-   w `docs/02-analiza-usos.md`. Ustal co najmniej:
-   - strukturę HTML planu grupy przedmiotów (czy to tabela, czy komponenty
-     typu `usos-timetable`, i jakie atrybuty niosą dane);
-   - jak USOS zapisuje zajęcia co dwa tygodnie, zajęcia w wybrane daty
-     i czy podaje konkretne daty spotkań. Od tego zależy widok konkretnego
-     tygodnia i `.ics`;
-   - jak AGH definiuje tygodnie parzyste i nieparzyste (od początku
-     semestru czy według tygodni kalendarzowych);
-   - kody typów zajęć (WYK, CW, LAB…) i ich pełne nazwy;
-   - identyfikatory: przedmiot (`prz_kod`), grupa zajęciowa (`zaj_cyk_id`
-     i `gr_nr`), cykl (`cdyd_kod`), oraz daty początku i końca cyklu;
-   - skąd wziąć listę wszystkich grup przedmiotów, wydziałów i cykli do
-     indeksu i drzewa (strony katalogu, wyszukiwarki);
-   - czy USOS ma wersję angielską tych samych stron (parametr języka);
-   - `robots.txt` i rozsądne tempo zapytań.
-   Zapisz kilka stron jako fixture w `tests/fixtures/usos/` i przetestuj
-   na nich parser.
-4. **Po analizie zadaj pytania, które z niej wynikną.** Użytkownik lubi
-   dużo pytań: używaj AskUserQuestion w rundach po 4 pytania.
-5. **Zrób 3 makiety** w `mockups/`: klikalne HTML/CSS na prawdziwych
-   danych, w trzech kierunkach opisanych w `docs/01-decyzje.md` (szwajcarski,
-   narzędzie techniczne, gazeta z czterema wariantami animacji). Dołącz kilka
-   propozycji nazwy strony. Każdą makietę sprawdź checklistą z fazy 0.
-   Podgląd można dołączyć do budowy Pages (np. skopiować `mockups/` do
-   `_site/makiety/` w `app/build.py`).
-6. **Poczekaj, aż użytkownik wybierze kierunek**, i dopiero wtedy buduj
-   właściwy interfejs (Jinja + Alpine.js). Potem dołóż pobieranie danych
-   do budowy strony i codzienny `schedule` w `pages.yml`.
+1. **Publikacja.** Bez ustawień z sekcji „Publikacja” strona nie ruszy,
+   a historia zmian nie jest zbierana. To pierwsza rzecz do sprawdzenia
+   z użytkownikiem.
+2. **Pierwsza budowa na GitHub Actions.** Po włączeniu Pages sprawdź log
+   kroku „Dane z USOS”: czas (lokalnie ok. 9 minut dla Wydziału
+   Informatyki, prawie wszystko to zapytania do API co 1 s), liczbę planów
+   (26.09: 16 z 25 grup) i ewentualne „Pominięty”. Gałęzi `dane` może
+   jeszcze nie być; wtedy strona powstaje bez historii, a log to mówi.
+3. **Cała AGH** (następny krok według `docs/01-decyzje.md`). Wystarczy
+   dopisać wydziały do `SITE_FACULTIES`, ale czas pobierania rośnie
+   liniowo: szacunkowo 2–3 godziny dziennie dla wszystkich wydziałów.
+   Zanim to zrobisz, zmierz liczbę zapytań `tt/classgroups` i rozważ
+   pobieranie dat tylko dla grup zajęciowych, które zmieniły się od
+   poprzedniego dnia, albo rzadsze odświeżanie dat. Drzewo kierunków
+   i wyszukiwarka są gotowe na wiele wydziałów.
+4. **Synchronizacja baz.** 25 i 26.09.2026 plany cyklu `26/27-Z` były
+   kompletne i bez komunikatu o synchronizacji. Jeśli komunikat się
+   pojawi, zapisz jego dokładną treść, żeby parser mógł go wykrywać.
+5. **Znane ograniczenia pierwszej wersji:**
+   - Historia na stronie jest tak świeża jak ostatnia codzienna budowa,
+     choć `historia.yml` sprawdza plany co 6 godzin.
+   - Kilka kierunków (np. 240-INF-1S-2R-Z) ma w planie wszystkie
+     przedmioty obieralne naraz, więc bez ukrywania pokazuje kilkadziesiąt
+     kolizji dziennie. Tak wygląda plan w USOSweb.
+   - Makiety w `mockups/` mają własną kopię modelu
+     (`mockups/wspolne/model.js`); strona używa `app/static/js/model.js`.
+     Makiet już nie rozwijamy.
+
+
+## Dostęp do USOS
+
+25.09.2026 sieć środowiska przepuszczała domeny AGH bez proxy. `robots.txt`
+USOSweb zabrania automatycznego pobierania całej domeny, dlatego USOSweb
+służy tylko do tego, czego nie ma w API, i jest pobierany rzadko. USOS API
+nie ma `robots.txt`, a metody planu działają bez klucza. Szczegóły, limity
+i błędy API są w `docs/02-analiza-usos.md`.
 
 
 ## Wymagania dla środowiska
 
-- Dostęp sieciowy do `web.usos.agh.edu.pl`, a także do PyPI i npm.
+- Dostęp sieciowy do `web.usos.agh.edu.pl` i `apps.usos.agh.edu.pl`,
+  a także do PyPI i npm.
 - Python 3.11 lub nowszy (CI używa 3.12) oraz Node 22 (testy JS korzystają
   z `CompressionStream("deflate-raw")`).
 - Docker jest potrzebny tylko do trybu serwerowego. W poprzednim
@@ -115,20 +111,31 @@ Mapa plików:
 
 | Plik | Rola |
 | --- | --- |
-| `app/__init__.py` | Fabryka aplikacji, trasy `/` i `/healthz`, rejestracja `flask build`. |
+| `app/__init__.py` | Fabryka aplikacji, trasy `/`, `/plan.html`, `/dane/…` (dane strony w trybie serwera) i `/healthz`, rejestracja poleceń `build`, `fetch` i `history`. |
 | `app/config.py` | Konfiguracja, nadpisywalna zmiennymi `FLASK_*`. `SITE_MODE` to `server` albo `static`, `SITE_BASE` to ścieżka bazowa. |
-| `app/build.py` | Budowanie statycznej strony (lista `PAGES`, kopiowanie `static/`). |
+| `app/build.py` | Budowanie statycznej strony (lista `PAGES`, kopiowanie `static/`, `--data` kopiuje dane do `_site/dane`, makiety do `_site/makiety`). |
+| `app/sitedata.py` | `flask fetch`: `indeks.json` (wydziały, cykle, grupy przedmiotów), `cykle/<cykl>.json` (cykl, kalendarz, typy zajęć), `plany/<cykl>/<kod>.json` (zajęcia z datami, historia zmian). |
 | `app/usos/fetch.py` | Pobieranie USOSweb z limitem zapytań, ponawianiem i kopią z cache przy awarii. `url_for` odtwarza format linków USOS. |
 | `app/usos/cache.py` | Cache stron w SQLite (24 h). |
-| `app/plan/model.py` | Model w Pythonie: `PlanRef`, `Activity`, `Recurrence`, `Plan`. Kształt jest wstępny i do weryfikacji po analizie. |
+| `mockups/` | Trzy makiety, wspólna logika (`wspolne/model.js`), dane (`dane/plany.json`) i skrypt, który je pobiera (`build_data.py`). |
+| `app/usos/api.py` | Klient USOS API: cykle, typy zajęć, daty spotkań grup zajęciowych. |
+| `app/plan/compose.py`, `app/plan/export.py` | Składanie planu z USOSweb i API, kalendarz semestru, JSON dla przeglądarki. |
+| `app/history.py`, `app/collect.py` | Historia zmian: porównanie migawek i polecenie `flask history`. |
+| `.github/workflows/historia.yml` | Co 6 godzin `flask history` i zapis do gałęzi `dane`. |
+| `data/` | Migawka z monitora zmian użytkownika (stan początkowy historii ZBI). |
+| `app/usos/web.py` | Parser USOSweb: plan grupy przedmiotów (`parse_group_plan`) i lista grup jednostki (`parse_subject_groups`). Zmiana HTML po stronie USOS kończy się `UsosLayoutError`. |
+| `app/plan/model.py` | Model w Pythonie: `PlanRef`, `Activity`, `Recurrence`, `Plan`. Kształt wstępny, do dopasowania przy kliencie API (krok 3). |
 | `app/plan/selection.py`, `app/plan/merge.py` | Ukrywanie i łączenie po stronie serwera (dla filtrowanego `.ics`). |
 | `app/share.py` | Kodek tokenu „Udostępnij” w Pythonie (odczyt po stronie serwera). |
 | `app/ics.py` | Generowanie iCalendar ze stałymi UID. Pomija zajęcia bez konkretnych dat. |
 | `app/static/js/plan.js` | W przeglądarce: ukrywanie, łączenie, kolizje (z parzystością tygodni) i tory nakładających się bloczków. Na początku pliku jest opisany kształt danych JSON zajęć. |
 | `app/static/js/share.js` | W przeglądarce: kodek tokenu, zgodny z `app/share.py`. |
-| `app/templates/` | Na razie tylko strona „w budowie”. Właściwy interfejs powstanie po makietach. |
+| `app/templates/` | `index.html` (start: wyszukiwarka, drzewo, ostatnio oglądane), `plan.html` (plan), `_finder.html` (wyszukiwarka i drzewo jako makra Jinja). |
+| `app/static/js/model.js` | Stan i logika strony planu: wczytywanie planów na żądanie, tydzień typowy i kalendarzowy, kolizje, historia, token w adresie. Testy w `tests/js/model.test.js`. |
+| `app/static/js/planview.js`, `start.js`, `ui.js` | Komponenty Alpine.js. Po każdej zmianie `planview.js` składa z modelu zamrożony opis widoku (`s`), żeby Alpine nie owijał obiektów modelu w proxy. |
+| `app/static/vendor/`, `app/static/fonts/` | Alpine.js 3.17.4 (MIT) i Archivo (OFL), bez CDN. |
 | `.github/workflows/ci.yml` | Testy Python i JS na gałęziach innych niż `main`. Wywoływany też przez `pages.yml`. |
-| `.github/workflows/pages.yml` | Na `main`: testy, `flask build`, publikacja na Pages. |
+| `.github/workflows/pages.yml` | Codziennie, po wypchnięciu na `main` i ręcznie: testy, `flask fetch` (USOSweb z cache na tydzień), historia z gałęzi `dane`, `flask build --data`, publikacja. |
 
 Format tokenu „Udostępnij”: znak wersji `1` i JSON skompresowany
 deflate-raw w base64url, np.
@@ -143,10 +150,11 @@ i `PYTHON_TOKEN` w `tests/js/share.test.js`.
 
     python3 -m venv .venv
     .venv/bin/pip install -r requirements-dev.txt
-    .venv/bin/python -m pytest        # 45 testów
-    npm test                          # 32 testy, bez zależności npm
+    .venv/bin/python -m pytest        # 103 testy
+    npm test                          # 45 testów, bez zależności npm
+    .venv/bin/flask --app app fetch   # ok. 9 minut, do instance/dane
     .venv/bin/flask --app app run --debug
-    .venv/bin/flask --app app build --output _site --base-path /AGH-Schedule-Viewer/
+    .venv/bin/flask --app app build --output _site --base-path /AGH-Schedule-Viewer/ --data instance/dane
 
 Oba zestawy testów przechodzą lokalnie i w GitHub Actions.
 
@@ -158,9 +166,14 @@ Repo: `Wendermann/AGH-Schedule-Viewer`, publiczne. Gałęzie:
 - `claude/keen-cray-pk2ipo`: gałąź robocza poprzedniego agenta. Na razie
   jest też domyślna, bo powstała pierwsza.
 
-Czego jeszcze brakuje po stronie użytkownika (stan na 25.09):
+Czego jeszcze brakuje po stronie użytkownika (stan na 26.09):
 1. Settings → General → Default branch: `main`. Jeszcze nie zmienione.
 2. Settings → Pages → Source: GitHub Actions. Jeszcze nie włączone.
+3. Scalenie gałęzi roboczej `claude/quirky-mendel-jp83mz` do `main`
+   przez PR https://github.com/Wendermann/AGH-Schedule-Viewer/pull/1
+   (baza `main`, CI zielone). `main` stoi na commicie `3dd3d39`. Harmonogram
+   `historia.yml` działa tylko z gałęzi domyślnej, więc bez punktów 1 i 3
+   historia zmian nie jest zbierana. Każdy dzień zwłoki to luka w historii.
 
 Dopóki Pages jest wyłączone, `pages.yml` kończy się błędem w kroku
 `configure-pages` („Get Pages site failed”). To oczekiwane zachowanie, nie
@@ -175,11 +188,8 @@ akcji, jeśli już istnieje.
 
 ## Otwarte pytania do użytkownika
 
-- Czy na Pages ma być statyczny, niefiltrowany `.ics` dla każdego planu,
-  odświeżany razem z danymi? Użytkownik napisał „w wersji GH pages bez ics
-  na życzenie”. Zrozumieliśmy to jako brak wersji z filtrami, ale nie
-  zostało to potwierdzone.
-- Nazwa strony: użytkownik poprosił o kilka propozycji przy makietach.
+- Statyczny, niefiltrowany `.ics` na Pages: 26.09 użytkownik odpowiedział
+  „na razie bez .ics”. Wrócić do tematu przy kolejnej wersji.
 
 
 ## Jak pracować z tym użytkownikiem

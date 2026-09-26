@@ -83,6 +83,19 @@ export function collide(a, b) {
   return !(pair.size === 2 && pair.has("odd") && pair.has("even"));
 }
 
+// W które tygodnie zajęcia faktycznie się pokrywają: "odd", "even" albo
+// "both"; null, gdy wcale nie kolidują. parityOf(data) zwraca parzystość
+// tygodnia semestru dla daty w formacie RRRR-MM-DD.
+export function clashWeeks(a, b, parityOf) {
+  if (!collide(a, b)) return null;
+  if (a.dates?.length && b.dates?.length) {
+    const dates = new Set(b.dates);
+    const found = new Set(a.dates.filter((d) => dates.has(d)).map(parityOf).filter(Boolean));
+    return found.size === 1 ? [...found][0] : "both";
+  }
+  return [a.recurrence, b.recurrence].find((r) => r === "odd" || r === "even") ?? "both";
+}
+
 export function conflicts(activities) {
   const ordered = [...activities].sort(chronological);
   const found = [];

@@ -6,7 +6,7 @@
 // są kopiowane obok tego modułu przy budowie strony).
 
 import {
-  collide,
+  clashWeeks,
   emptySelection,
   isVisible,
   mergePlans,
@@ -379,7 +379,7 @@ export function createApp(data, { storageKey }) {
       const shown = app.visible().filter((a) => parity === "all" || a.recurrence !== (parity === "odd" ? "even" : "odd"));
       const last = shown.some((a) => a.weekday === 6) ? 6 : shown.some((a) => a.weekday === 5) ? 5 : 4;
       const days = Array.from({ length: last + 1 }, (_, weekday) => ({ weekday, name: DAY_NAMES[weekday] }));
-      return layoutDays(shown, days);
+      return layoutDays(shown, days, parityOf);
     },
 
     calendarWeek() {
@@ -414,7 +414,7 @@ export function createApp(data, { storageKey }) {
         };
       });
       const weekend = occurrences.some((o) => o.weekday >= 5);
-      return layoutDays(occurrences, weekend ? days : days.slice(0, 5));
+      return layoutDays(occurrences, weekend ? days : days.slice(0, 5), parityOf);
     },
 
     // Tydzień semestru liczony od pierwszego dnia cyklu, po 7 dni. Tak AGH
@@ -466,16 +466,23 @@ export function createApp(data, { storageKey }) {
       const names = new Map(app.activePlans().map((p) => [p.key, p.code]));
       return activity.sources.map((key) => names.get(key)).join(", ");
     },
+    // Kolizje bloczka: z czym, w które tygodnie i których grup dotyczą.
     conflictsOf(unit) {
       const view = app.state.mode === "week" ? app.calendarWeek() : app.typicalWeek();
       const found = [];
       for (const day of view.days) {
-        for (const [a, b] of day.conflictPairs) {
-          if (a.id === unit.id) found.push(b);
-          if (b.id === unit.id) found.push(a);
+        for (const pair of day.conflictPairs) {
+          if (pair.a.id === unit.id) found.push({ other: pair.b, weeks: pair.weeks, mine: pair.groupsA, theirs: pair.groupsB });
+          if (pair.b.id === unit.id) found.push({ other: pair.a, weeks: pair.weeks, mine: pair.groupsB, theirs: pair.groupsA });
         }
       }
       return found;
+    },
+    // „w tygodnie nieparzyste” itp.; w tygodniu kalendarzowym kolizja
+    // dotyczy po prostu tego dnia, więc opis jest pusty.
+    clashWeeksLabel(weeks) {
+      if (app.state.mode === "week") return "";
+      return { odd: "w tygodnie nieparzyste", even: "w tygodnie parzyste", both: "co tydzień" }[weeks] ?? "";
     },
     groupsLabel(unit) {
       if (unit.members.length === 1) return `gr. ${unit.group}`;
@@ -508,6 +515,19 @@ export function createApp(data, { storageKey }) {
       const token = await encodeState(app.state);
       return `${location.href.split("#")[0]}#${token}`;
     },
+  };
+
+  const parityOf = (date) => app.weekInfo(date).parity;
+
+  // Opis jednej kolizji, np. „Fizyka 2, CWA gr. 1, 16:45–18:15, w tygodnie
+  // nieparzyste (dotyczy gr. 1)”.
+  app.describeClash = (unit, clash) => {
+    const o = clash.other;
+    const parts = [`${o.subjectName}, ${o.type} gr. ${compactRange(clash.theirs)}, ${o.start}–${o.end}`];
+    const weeks = app.clashWeeksLabel(clash.weeks);
+    if (weeks) parts.push(weeks);
+    const text = parts.join(", ");
+    return unit.members.length > 1 ? `${text} (dotyczy gr. ${compactRange(clash.mine)})` : text;
   };
 
   function persist() {
@@ -610,20 +630,37 @@ function bundle(activities) {
   });
 }
 
-function layoutDays(activities, days) {
+// Kolizje liczymy między bloczkami, ale z dokładnością do grup i tygodni:
+// zajęcia w tygodnie nieparzyste nie kolidują z zajęciami w parzyste.
+function layoutDays(activities, days, parityOf) {
   const units = bundle(activities);
   const pairs = [];
   for (let i = 0; i < units.length; i++) {
     for (let j = i + 1; j < units.length; j++) {
       const [a, b] = [units[i], units[j]];
-      if (a.weekday === b.weekday && a.members.some((x) => b.members.some((y) => collide(x, y)))) pairs.push([a, b]);
+      if (a.weekday !== b.weekday) continue;
+      const weeks = new Set();
+      const groupsA = new Set();
+      const groupsB = new Set();
+      for (const x of a.members) {
+        for (const y of b.members) {
+          const when = clashWeeks(x, y, parityOf);
+          if (!when) continue;
+          weeks.add(when);
+          groupsA.add(x.group);
+          groupsB.add(y.group);
+        }
+      }
+      if (!weeks.size) continue;
+      const only = weeks.size === 1 ? [...weeks][0] : "both";
+      pairs.push({ a, b, weeks: only, groupsA: [...groupsA].sort((m, n) => m - n), groupsB: [...groupsB].sort((m, n) => m - n) });
     }
   }
-  const clashing = new Set(pairs.flat().map((u) => u.id));
+  const clashing = new Set(pairs.flatMap((p) => [p.a.id, p.b.id]));
   return {
     days: days.map((day) => {
       const own = units.filter((u) => u.weekday === day.weekday);
-      const dayPairs = pairs.filter(([a]) => a.weekday === day.weekday);
+      const dayPairs = pairs.filter((p) => p.a.weekday === day.weekday);
       return {
         ...day,
         items: placeDay(own).map((item) => ({ ...item, conflict: clashing.has(item.activity.id) })),

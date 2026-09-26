@@ -615,7 +615,7 @@ function renderDetails() {
             ),
           ),
         ],
-    clashes.length ? [h("h3", {}, "kolizje"), h("div", { class: "clashes" }, clashes.map((c) => h("span", {}, `${c.start}–${c.end} ${c.subjectName} ${c.type} ${app.groupsLabel(c)}`)))] : null,
+    clashes.length ? [h("h3", {}, "kolizje"), h("div", { class: "clashes" }, clashes.map((c) => h("span", {}, app.describeClash(u, c))))] : null,
     changes.length
       ? [
           h("h3", {}, "zmiany"),

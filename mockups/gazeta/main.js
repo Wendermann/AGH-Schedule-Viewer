@@ -484,7 +484,7 @@ function more(u) {
             ),
           ),
         ),
-    clashes.length ? h("p", {}, h("b", {}, "Koliduje z: "), clashes.map((c) => `${c.subjectName} (${c.type} ${app.groupsLabel(c)}, ${c.start}–${c.end})`).join("; "), ".") : null,
+    clashes.length ? h("p", {}, h("b", {}, "Koliduje z: "), clashes.map((c) => app.describeClash(u, c)).join("; "), ".") : null,
     changes.map((c) => {
       const d = app.describeChange(c);
       return h("p", {}, h("b", {}, `Gr. ${c.group}, ${d.title}: `), d.rows.map((r, i) => [i ? "; " : "", r.before ? h("s", {}, r.before) : null, r.before && r.after ? " → " : null, r.after ?? ""]), ".");

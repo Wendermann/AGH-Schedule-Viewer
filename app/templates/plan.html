@@ -31,7 +31,7 @@
   </div>
 
   <template x-if="!s && !failure && !loading && tree.length">
-    <div class="layout">
+    <div class="layout is-browse">
       <aside class="index" aria-label="Wybór planu">
         {{ search(true) }}
         {{ tree(true) }}
@@ -73,14 +73,10 @@
             </template>
           </div>
           <button type="button" class="text-button" @click="share()">Udostępnij</button>
-          <span class="share-out" role="status" x-show="shareText" x-text="shareText"></span>
-          <span class="share-out" x-show="shareUrl">
-            <input x-ref="shareField" :value="shareUrl" readonly aria-label="Link do tego widoku">
-          </span>
         </div>
       </div>
 
-      <div class="layout" :class="s.details && 'has-details'">
+      <div class="layout">
         <aside class="index" aria-label="Wybór planu i przedmiotów">
           {{ search(true) }}
 
@@ -102,8 +98,8 @@
           </section>
 
           <section>
-            <h2>Przedmioty</h2>
-            <p x-show="s.hidden"><button type="button" class="text-button" @click="showAll()" x-text="`Pokaż wszystko (ukryte: ${s.hidden})`"></button></p>
+            {# Przycisk zawsze zajmuje miejsce w nagłówku, żeby lista nie skakała. #}
+            <h2 class="with-action">Przedmioty <button type="button" class="text-button" :class="!s.hidden && 'is-invisible'" @click="showAll()" x-text="`pokaż wszystkie (ukryte: ${s.hidden})`"></button></h2>
             <ul class="subjects">
               <template x-for="subject in s.subjects" :key="subject.code">
                 <li>
@@ -251,7 +247,8 @@
           </section>
         </main>
 
-        <aside class="details" aria-label="Szczegóły zajęć" x-show="s.details">
+        <aside class="details" :class="!s.details && 'is-empty'" aria-label="Szczegóły zajęć">
+          <p class="details-hint" x-show="!s.details">Kliknij zajęcia w planie, żeby zobaczyć prowadzących, salę, daty spotkań i kolizje.</p>
           <template x-if="s.details">
             <div>
               <button type="button" class="details__close" aria-label="Zamknij szczegóły" @click="close()">×</button>
@@ -352,6 +349,13 @@
             </div>
           </template>
         </aside>
+      </div>
+
+      {# Komunikat nad stroną: nie zmienia wysokości paska narzędzi. #}
+      <div class="toast" role="status" x-show="shareText || shareUrl" x-cloak>
+        <span x-show="shareText" x-text="shareText"></span>
+        <label x-show="shareUrl">Skopiuj link: <input x-ref="shareField" :value="shareUrl" readonly></label>
+        <button type="button" class="toast__close" aria-label="Zamknij komunikat" @click="shareText = ''; shareUrl = ''">×</button>
       </div>
 
       <footer class="colophon">

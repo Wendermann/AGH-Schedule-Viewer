@@ -47,6 +47,11 @@ const MONTH_SHORT = ["sty", "lut", "mar", "kwi", "maj", "cze", "lip", "sie", "wr
 
 let app;
 let index;
+// Plany, dla których drzewo ma już rozwiniętą ścieżkę. Rozwijamy ją tylko
+// przy zmianie planów, żeby inne zmiany nie ruszały drzewa.
+let shownPlans = "";
+let shareTimer;
+const SHARE_NOTICE_MS = 4000;
 
 Alpine.data("planPage", () => ({
   s: null,
@@ -97,7 +102,11 @@ Alpine.data("planPage", () => ({
       return;
     }
     const plans = app.activePlans();
-    for (const plan of plans) for (const key of treePath(app.data, plan.code)) this.open[key] = true;
+    const codes = plans.map((p) => p.code).join("+");
+    if (codes !== shownPlans) {
+      shownPlans = codes;
+      for (const plan of plans) for (const key of treePath(app.data, plan.code)) this.open[key] = true;
+    }
     app.shareUrl().then((url) => rememberView(plans, url.split("#")[1]));
     document.title = `${plans.map((p) => p.code).join(" + ")} · Plan na tydzień`;
     this.s = Object.freeze(snapshot(this.historyScope));
@@ -159,7 +168,9 @@ Alpine.data("planPage", () => ({
     const copied = await copy(url);
     this.shareText = copied ? "Link skopiowany." : "";
     this.shareUrl = copied ? "" : url;
-    if (!copied) this.$nextTick(() => this.$refs.shareField?.select());
+    clearTimeout(shareTimer);
+    if (copied) shareTimer = setTimeout(() => (this.shareText = ""), SHARE_NOTICE_MS);
+    else this.$nextTick(() => this.$refs.shareField?.select());
   },
   toggleNode(key, el) {
     this.open[key] = el.open;

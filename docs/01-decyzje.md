@@ -216,6 +216,13 @@ Zmienione tego samego dnia, na prośbę użytkownika:
   odtwarza już ostatniego widoku z pamięci przeglądarki. „Ostatnio
   oglądane” na stronie startowej prowadzą do zapisanych widoków, razem
   z ukryciami i wybranymi grupami.
+- **Zmiany nie przestawiają układu.** Ukrycie przedmiotu, wybór grupy,
+  zaznaczenie zajęć, zmiana widoku czy „Udostępnij” nie przesuwają tego, na
+  co użytkownik patrzy. Drzewo rozwija ścieżkę tylko przy zmianie planów.
+  Na szerokim ekranie kolumna szczegółów jest stała (bez zaznaczenia
+  pokazuje podpowiedź), a na węższym szczegóły wysuwają się od dołu nad
+  planem. „Pokaż wszystkie” ma stałe miejsce w nagłówku listy przedmiotów,
+  a komunikat po „Udostępnij” wyświetla się nad stroną.
 
 
 ## Makiety

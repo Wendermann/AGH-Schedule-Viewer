@@ -1,0 +1,2493 @@
+{
+ "code": "240-ZBI-1S-2R-Z",
+ "cycle": "26/27-Z",
+ "since": "2026-06-30T22:09:09",
+ "latest": [
+  {
+   "subject": "240-ZBI-1S-114",
+   "subjectName": "Fizyka 2",
+   "type": "W",
+   "group": 1,
+   "unit": 191059,
+   "weekday": 0,
+   "start": "08:00",
+   "end": "09:30",
+   "recurrence": "weekly",
+   "lecturers": [
+    {
+     "id": 101263,
+     "name": "Zbigniew Kąkol"
+    }
+   ],
+   "room": "on-line",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-05",
+    "2026-10-12",
+    "2026-10-19",
+    "2026-10-26",
+    "2026-11-09",
+    "2026-11-16",
+    "2026-11-23",
+    "2026-11-30",
+    "2026-12-07",
+    "2026-12-14",
+    "2026-12-21",
+    "2027-01-04",
+    "2027-01-11",
+    "2027-01-18"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-1S-BWF-3",
+   "subjectName": "Blok Wychowanie fizyczne 3 - WI",
+   "type": "WF",
+   "group": 2,
+   "unit": 202735,
+   "weekday": 0,
+   "start": "11:00",
+   "end": "12:30",
+   "recurrence": "weekly",
+   "lecturers": [],
+   "room": null,
+   "building": null,
+   "block": true,
+   "dates": [
+    "2026-10-05",
+    "2026-10-12",
+    "2026-10-19",
+    "2026-10-26",
+    "2026-11-09",
+    "2026-11-16",
+    "2026-11-23",
+    "2026-11-30",
+    "2026-12-07",
+    "2026-12-14",
+    "2026-12-21",
+    "2027-01-04",
+    "2027-01-11",
+    "2027-01-18",
+    "2027-01-25"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-208",
+   "subjectName": "Projekty naukowo-badawcze i innowacyjne w obszarze obronności",
+   "type": "W",
+   "group": 1,
+   "unit": 191183,
+   "weekday": 0,
+   "start": "13:15",
+   "end": "14:45",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 103401,
+     "name": "Paweł Chodak"
+    }
+   ],
+   "room": "2.41",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-05",
+    "2026-10-19",
+    "2026-11-16",
+    "2026-11-30",
+    "2026-12-14",
+    "2027-01-11",
+    "2027-01-25"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-1S-BJO-2",
+   "subjectName": "Blok Język obcy - WI 2/3",
+   "type": "LEKT",
+   "group": 1,
+   "unit": 202732,
+   "weekday": 0,
+   "start": "15:00",
+   "end": "16:30",
+   "recurrence": "weekly",
+   "lecturers": [],
+   "room": null,
+   "building": null,
+   "block": true,
+   "dates": [
+    "2026-10-05",
+    "2026-10-12",
+    "2026-10-19",
+    "2026-10-26",
+    "2026-11-09",
+    "2026-11-16",
+    "2026-11-23",
+    "2026-11-30",
+    "2026-12-07",
+    "2026-12-14",
+    "2026-12-21",
+    "2027-01-04",
+    "2027-01-11",
+    "2027-01-18",
+    "2027-01-25"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-074",
+   "subjectName": "Kryptografia i podstawy kryptoanalizy",
+   "type": "CWL",
+   "group": 1,
+   "unit": 191410,
+   "weekday": 0,
+   "start": "16:45",
+   "end": "18:15",
+   "recurrence": "weekly",
+   "lecturers": [
+    {
+     "id": 102390,
+     "name": "Paweł Topa"
+    }
+   ],
+   "room": "4.30",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-05",
+    "2026-10-12",
+    "2026-10-19",
+    "2026-10-26",
+    "2026-11-09",
+    "2026-11-16",
+    "2026-11-23",
+    "2026-11-30",
+    "2026-12-07",
+    "2026-12-14",
+    "2026-12-21",
+    "2027-01-04",
+    "2027-01-11",
+    "2027-01-18"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-074",
+   "subjectName": "Kryptografia i podstawy kryptoanalizy",
+   "type": "CWL",
+   "group": 2,
+   "unit": 191410,
+   "weekday": 0,
+   "start": "18:30",
+   "end": "20:00",
+   "recurrence": "weekly",
+   "lecturers": [
+    {
+     "id": 102390,
+     "name": "Paweł Topa"
+    }
+   ],
+   "room": "4.30",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-05",
+    "2026-10-12",
+    "2026-10-19",
+    "2026-10-26",
+    "2026-11-09",
+    "2026-11-16",
+    "2026-11-23",
+    "2026-11-30",
+    "2026-12-07",
+    "2026-12-14",
+    "2026-12-21",
+    "2027-01-04",
+    "2027-01-11",
+    "2027-01-18"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-208",
+   "subjectName": "Projekty naukowo-badawcze i innowacyjne w obszarze obronności",
+   "type": "CWL",
+   "group": 1,
+   "unit": 191496,
+   "weekday": 0,
+   "start": "18:30",
+   "end": "20:00",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 103401,
+     "name": "Paweł Chodak"
+    }
+   ],
+   "room": "3.23",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-05",
+    "2026-10-19",
+    "2026-11-16",
+    "2026-11-30",
+    "2026-12-14",
+    "2027-01-11",
+    "2027-01-25"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-041",
+   "subjectName": "Cyberterroryzm - wyzwania dla obronności państwa",
+   "type": "W",
+   "group": 1,
+   "unit": 191042,
+   "weekday": 1,
+   "start": "08:00",
+   "end": "09:30",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 103401,
+     "name": "Paweł Chodak"
+    }
+   ],
+   "room": "2.41",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-06",
+    "2026-10-20",
+    "2026-11-17",
+    "2026-12-01",
+    "2026-12-15",
+    "2027-01-12",
+    "2027-01-26"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-041",
+   "subjectName": "Cyberterroryzm - wyzwania dla obronności państwa",
+   "type": "CWP",
+   "group": 1,
+   "unit": 191590,
+   "weekday": 1,
+   "start": "09:45",
+   "end": "11:15",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 103401,
+     "name": "Paweł Chodak"
+    }
+   ],
+   "room": "3.23",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-06",
+    "2026-10-20",
+    "2026-11-17",
+    "2026-12-01",
+    "2026-12-15",
+    "2027-01-12",
+    "2027-01-26"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-331",
+   "subjectName": "Wstęp do zwalczania cyberprzestępczości",
+   "type": "CWL",
+   "group": 1,
+   "unit": 191580,
+   "weekday": 1,
+   "start": "09:45",
+   "end": "11:15",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 103245,
+     "name": "Marcin Golizda"
+    }
+   ],
+   "room": "3.22",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-13",
+    "2026-10-27",
+    "2026-11-24",
+    "2026-12-08",
+    "2026-12-22",
+    "2027-01-05",
+    "2027-01-19"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-041",
+   "subjectName": "Cyberterroryzm - wyzwania dla obronności państwa",
+   "type": "CWP",
+   "group": 2,
+   "unit": 191590,
+   "weekday": 1,
+   "start": "11:30",
+   "end": "13:00",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 103401,
+     "name": "Paweł Chodak"
+    }
+   ],
+   "room": "3.23",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-06",
+    "2026-10-20",
+    "2026-11-17",
+    "2026-12-01",
+    "2026-12-15",
+    "2027-01-12",
+    "2027-01-26"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-331",
+   "subjectName": "Wstęp do zwalczania cyberprzestępczości",
+   "type": "CWL",
+   "group": 2,
+   "unit": 191580,
+   "weekday": 1,
+   "start": "11:30",
+   "end": "13:00",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 103245,
+     "name": "Marcin Golizda"
+    }
+   ],
+   "room": "3.22",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-13",
+    "2026-10-27",
+    "2026-11-24",
+    "2026-12-08",
+    "2026-12-22",
+    "2027-01-05",
+    "2027-01-19"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-041",
+   "subjectName": "Cyberterroryzm - wyzwania dla obronności państwa",
+   "type": "CWP",
+   "group": 3,
+   "unit": 191590,
+   "weekday": 1,
+   "start": "13:15",
+   "end": "14:45",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 103401,
+     "name": "Paweł Chodak"
+    }
+   ],
+   "room": "3.23",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-06",
+    "2026-10-20",
+    "2026-11-17",
+    "2026-12-01",
+    "2026-12-15",
+    "2027-01-12",
+    "2027-01-26"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-331",
+   "subjectName": "Wstęp do zwalczania cyberprzestępczości",
+   "type": "CWL",
+   "group": 3,
+   "unit": 191580,
+   "weekday": 1,
+   "start": "13:15",
+   "end": "14:45",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 103245,
+     "name": "Marcin Golizda"
+    }
+   ],
+   "room": "3.22",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-13",
+    "2026-10-27",
+    "2026-11-24",
+    "2026-12-08",
+    "2026-12-22",
+    "2027-01-05",
+    "2027-01-19"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-031",
+   "subjectName": "Bezpieczeństwo komunikacji multimedialnej",
+   "type": "CWL",
+   "group": 2,
+   "unit": 191364,
+   "weekday": 1,
+   "start": "15:00",
+   "end": "16:30",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 100807,
+     "name": "Łukasz Czekierda"
+    }
+   ],
+   "room": "4.22",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-20",
+    "2026-11-03",
+    "2026-11-17",
+    "2026-12-01",
+    "2026-12-15",
+    "2027-01-12",
+    "2027-01-26"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-031",
+   "subjectName": "Bezpieczeństwo komunikacji multimedialnej",
+   "type": "CWL",
+   "group": 1,
+   "unit": 191364,
+   "weekday": 1,
+   "start": "15:00",
+   "end": "16:30",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 100807,
+     "name": "Łukasz Czekierda"
+    }
+   ],
+   "room": "4.22",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-13",
+    "2026-10-27",
+    "2026-11-24",
+    "2026-12-08",
+    "2026-12-22",
+    "2027-01-05",
+    "2027-01-19"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-114",
+   "subjectName": "Fizyka 2",
+   "type": "CWA",
+   "group": 2,
+   "unit": 191304,
+   "weekday": 1,
+   "start": "16:45",
+   "end": "18:15",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 100801,
+     "name": "Maciej Czapkiewicz"
+    }
+   ],
+   "room": "3.27a",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-13",
+    "2026-10-27",
+    "2026-11-24",
+    "2026-12-08",
+    "2026-12-22",
+    "2027-01-05",
+    "2027-01-19"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-114",
+   "subjectName": "Fizyka 2",
+   "type": "CWA",
+   "group": 1,
+   "unit": 191304,
+   "weekday": 1,
+   "start": "16:45",
+   "end": "18:15",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 100801,
+     "name": "Maciej Czapkiewicz"
+    }
+   ],
+   "room": "3.27a",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-06",
+    "2026-10-20",
+    "2026-11-03",
+    "2026-11-17",
+    "2026-12-01",
+    "2026-12-15",
+    "2027-01-12"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-074",
+   "subjectName": "Kryptografia i podstawy kryptoanalizy",
+   "type": "CWL",
+   "group": 3,
+   "unit": 191410,
+   "weekday": 1,
+   "start": "18:30",
+   "end": "20:00",
+   "recurrence": "weekly",
+   "lecturers": [
+    {
+     "id": 155835,
+     "name": "Paweł Koszałka"
+    }
+   ],
+   "room": "4.30",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-06",
+    "2026-10-13",
+    "2026-10-20",
+    "2026-10-27",
+    "2026-11-03",
+    "2026-11-17",
+    "2026-11-24",
+    "2026-12-01",
+    "2026-12-08",
+    "2026-12-15",
+    "2026-12-22",
+    "2027-01-05",
+    "2027-01-12",
+    "2027-01-19"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-308",
+   "subjectName": "Rachunek prawdopodobieństwa i statystyka",
+   "type": "W",
+   "group": 1,
+   "unit": 191194,
+   "weekday": 2,
+   "start": "08:00",
+   "end": "09:30",
+   "recurrence": "weekly",
+   "lecturers": [
+    {
+     "id": 148105,
+     "name": "Olha Titova"
+    }
+   ],
+   "room": "2.41",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-07",
+    "2026-10-14",
+    "2026-10-21",
+    "2026-10-28",
+    "2026-11-04",
+    "2026-11-10",
+    "2026-11-18",
+    "2026-11-25",
+    "2026-12-02",
+    "2026-12-09",
+    "2026-12-16",
+    "2027-01-07",
+    "2027-01-13",
+    "2027-01-20"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-156",
+   "subjectName": "Metody wywierania wpływu",
+   "type": "CWA",
+   "group": 1,
+   "unit": 191318,
+   "weekday": 2,
+   "start": "09:45",
+   "end": "11:15",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 128975,
+     "name": "Anna Piętak"
+    }
+   ],
+   "room": "3.27c",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-14",
+    "2026-10-28",
+    "2026-11-10",
+    "2026-11-25",
+    "2026-12-09",
+    "2027-01-07",
+    "2027-01-20"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-211",
+   "subjectName": "Prywatność i ochrona danych osobowych",
+   "type": "CWL",
+   "group": 1,
+   "unit": 191498,
+   "weekday": 2,
+   "start": "09:45",
+   "end": "11:15",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 146500,
+     "name": "Karolina Karcz-Nawrocka"
+    }
+   ],
+   "room": "3.23",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-07",
+    "2026-10-21",
+    "2026-11-04",
+    "2026-11-18",
+    "2026-12-02",
+    "2026-12-16",
+    "2027-01-13"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-211",
+   "subjectName": "Prywatność i ochrona danych osobowych",
+   "type": "CWL",
+   "group": 2,
+   "unit": 191498,
+   "weekday": 2,
+   "start": "11:30",
+   "end": "13:00",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 146500,
+     "name": "Karolina Karcz-Nawrocka"
+    }
+   ],
+   "room": "3.23",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-07",
+    "2026-10-21",
+    "2026-11-04",
+    "2026-11-18",
+    "2026-12-02",
+    "2026-12-16",
+    "2027-01-13"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-211",
+   "subjectName": "Prywatność i ochrona danych osobowych",
+   "type": "CWL",
+   "group": 3,
+   "unit": 191498,
+   "weekday": 2,
+   "start": "13:15",
+   "end": "14:45",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 146500,
+     "name": "Karolina Karcz-Nawrocka"
+    }
+   ],
+   "room": "3.23",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-07",
+    "2026-10-21",
+    "2026-11-04",
+    "2026-11-18",
+    "2026-12-02",
+    "2026-12-16",
+    "2027-01-13"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-1S-BWF-3",
+   "subjectName": "Blok Wychowanie fizyczne 3 - WI",
+   "type": "WF",
+   "group": 1,
+   "unit": 202735,
+   "weekday": 2,
+   "start": "15:30",
+   "end": "17:00",
+   "recurrence": "weekly",
+   "lecturers": [],
+   "room": null,
+   "building": null,
+   "block": true,
+   "dates": [
+    "2026-10-07",
+    "2026-10-14",
+    "2026-10-21",
+    "2026-10-28",
+    "2026-11-04",
+    "2026-11-18",
+    "2026-11-25",
+    "2026-12-02",
+    "2026-12-09",
+    "2026-12-16",
+    "2027-01-13",
+    "2027-01-20",
+    "2027-01-27"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-211",
+   "subjectName": "Prywatność i ochrona danych osobowych",
+   "type": "W",
+   "group": 1,
+   "unit": 191185,
+   "weekday": 2,
+   "start": "16:45",
+   "end": "18:15",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 146500,
+     "name": "Karolina Karcz-Nawrocka"
+    }
+   ],
+   "room": "on-line",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-07",
+    "2026-10-21",
+    "2026-11-04",
+    "2026-11-18",
+    "2026-12-02",
+    "2026-12-16",
+    "2027-01-13"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-169",
+   "subjectName": "Podstawy programowania niskopoziomowego",
+   "type": "W",
+   "group": 1,
+   "unit": 191138,
+   "weekday": 2,
+   "start": "16:45",
+   "end": "18:15",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 100715,
+     "name": "Ada Brzoza-Zajęcka"
+    }
+   ],
+   "room": "on-line",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-14",
+    "2026-10-28",
+    "2026-11-10",
+    "2026-11-25",
+    "2026-12-09",
+    "2027-01-07",
+    "2027-01-20"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-074",
+   "subjectName": "Kryptografia i podstawy kryptoanalizy",
+   "type": "W",
+   "group": 1,
+   "unit": 191093,
+   "weekday": 2,
+   "start": "18:30",
+   "end": "20:00",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 102390,
+     "name": "Paweł Topa"
+    }
+   ],
+   "room": "on-line",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-07",
+    "2026-10-21",
+    "2026-11-04",
+    "2026-11-18",
+    "2026-12-02",
+    "2026-12-16",
+    "2027-01-13"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-331",
+   "subjectName": "Wstęp do zwalczania cyberprzestępczości",
+   "type": "W",
+   "group": 1,
+   "unit": 191284,
+   "weekday": 2,
+   "start": "18:30",
+   "end": "20:00",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 103245,
+     "name": "Marcin Golizda"
+    }
+   ],
+   "room": "on-line",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-14",
+    "2026-10-28",
+    "2026-11-10",
+    "2026-11-25",
+    "2026-12-09",
+    "2027-01-07",
+    "2027-01-20"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-211",
+   "subjectName": "Prywatność i ochrona danych osobowych",
+   "type": "CWL",
+   "group": 4,
+   "unit": 191498,
+   "weekday": 3,
+   "start": "09:45",
+   "end": "11:15",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 146500,
+     "name": "Karolina Karcz-Nawrocka"
+    }
+   ],
+   "room": "3.23",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-08",
+    "2026-10-22",
+    "2026-11-05",
+    "2026-11-19",
+    "2026-12-03",
+    "2026-12-17",
+    "2027-01-14"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-302",
+   "subjectName": "Ryzyko w zarządzaniu bezpieczeństwem informacji",
+   "type": "CWL",
+   "group": 2,
+   "unit": 191511,
+   "weekday": 3,
+   "start": "09:45",
+   "end": "11:15",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 114257,
+     "name": "Anna Wójcicka"
+    }
+   ],
+   "room": "3.27e",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-01",
+    "2026-10-15",
+    "2026-10-29",
+    "2026-11-12",
+    "2026-11-26",
+    "2026-12-10",
+    "2027-01-21"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-302",
+   "subjectName": "Ryzyko w zarządzaniu bezpieczeństwem informacji",
+   "type": "CWL",
+   "group": 1,
+   "unit": 191511,
+   "weekday": 3,
+   "start": "09:45",
+   "end": "11:15",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 114257,
+     "name": "Anna Wójcicka"
+    }
+   ],
+   "room": "3.27e",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-08",
+    "2026-10-22",
+    "2026-11-05",
+    "2026-11-19",
+    "2026-12-03",
+    "2026-12-17",
+    "2027-01-14"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-1S-BJO-2",
+   "subjectName": "Blok Język obcy - WI 2/3",
+   "type": "LEKT",
+   "group": 1,
+   "unit": 202732,
+   "weekday": 3,
+   "start": "11:30",
+   "end": "13:00",
+   "recurrence": "weekly",
+   "lecturers": [],
+   "room": null,
+   "building": null,
+   "block": true,
+   "dates": [
+    "2026-10-01",
+    "2026-10-08",
+    "2026-10-15",
+    "2026-10-22",
+    "2026-10-29",
+    "2026-11-05",
+    "2026-11-12",
+    "2026-11-19",
+    "2026-11-26",
+    "2026-12-03",
+    "2026-12-10",
+    "2026-12-17",
+    "2027-01-07",
+    "2027-01-14",
+    "2027-01-21",
+    "2027-01-28"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-071",
+   "subjectName": "Kompetencje społeczne w zmieniającym się społeczeństwie",
+   "type": "CWA",
+   "group": 2,
+   "unit": 191309,
+   "weekday": 3,
+   "start": "13:15",
+   "end": "14:45",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 120643,
+     "name": "Daria Wójcik"
+    }
+   ],
+   "room": "3.27b",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-01",
+    "2026-10-15",
+    "2026-10-29",
+    "2026-11-12",
+    "2026-11-26",
+    "2026-12-10",
+    "2027-01-21"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-071",
+   "subjectName": "Kompetencje społeczne w zmieniającym się społeczeństwie",
+   "type": "CWA",
+   "group": 1,
+   "unit": 191309,
+   "weekday": 3,
+   "start": "13:15",
+   "end": "14:45",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 120643,
+     "name": "Daria Wójcik"
+    }
+   ],
+   "room": "3.27b",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-08",
+    "2026-10-22",
+    "2026-11-05",
+    "2026-11-19",
+    "2026-12-03",
+    "2026-12-17",
+    "2027-01-14"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-156",
+   "subjectName": "Metody wywierania wpływu",
+   "type": "W",
+   "group": 1,
+   "unit": 191122,
+   "weekday": 3,
+   "start": "16:45",
+   "end": "18:15",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 128975,
+     "name": "Anna Piętak"
+    }
+   ],
+   "room": "on-line",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-08",
+    "2026-10-22",
+    "2026-11-05",
+    "2026-11-19",
+    "2026-12-03",
+    "2026-12-17",
+    "2027-01-14"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-031",
+   "subjectName": "Bezpieczeństwo komunikacji multimedialnej",
+   "type": "W",
+   "group": 1,
+   "unit": 191032,
+   "weekday": 3,
+   "start": "16:45",
+   "end": "18:15",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 100807,
+     "name": "Łukasz Czekierda"
+    }
+   ],
+   "room": "on-line",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-01",
+    "2026-10-15",
+    "2026-10-29",
+    "2026-11-12",
+    "2026-11-26",
+    "2026-12-10",
+    "2027-01-21"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-002",
+   "subjectName": "Administracja systemów komputerowych",
+   "type": "W",
+   "group": 1,
+   "unit": 190996,
+   "weekday": 3,
+   "start": "18:30",
+   "end": "20:00",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 102454,
+     "name": "Rafał Wcisło"
+    }
+   ],
+   "room": "on-line",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-08",
+    "2026-10-22",
+    "2026-11-05",
+    "2026-11-19",
+    "2026-12-03",
+    "2026-12-17",
+    "2027-01-14"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-302",
+   "subjectName": "Ryzyko w zarządzaniu bezpieczeństwem informacji",
+   "type": "W",
+   "group": 1,
+   "unit": 191203,
+   "weekday": 3,
+   "start": "18:30",
+   "end": "20:00",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 114257,
+     "name": "Anna Wójcicka"
+    }
+   ],
+   "room": "on-line",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-01",
+    "2026-10-15",
+    "2026-10-29",
+    "2026-11-12",
+    "2026-11-26",
+    "2026-12-10",
+    "2027-01-21"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-169",
+   "subjectName": "Podstawy programowania niskopoziomowego",
+   "type": "CWL",
+   "group": 3,
+   "unit": 191450,
+   "weekday": 4,
+   "start": "08:00",
+   "end": "09:30",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 100715,
+     "name": "Ada Brzoza-Zajęcka"
+    },
+    {
+     "id": 102548,
+     "name": "Wojciech Zaborowski"
+    }
+   ],
+   "room": "3.24",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-02",
+    "2026-10-16",
+    "2026-10-30",
+    "2026-11-13",
+    "2026-11-27",
+    "2026-12-11",
+    "2027-01-08"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-308",
+   "subjectName": "Rachunek prawdopodobieństwa i statystyka",
+   "type": "CWA",
+   "group": 1,
+   "unit": 191323,
+   "weekday": 4,
+   "start": "08:00",
+   "end": "09:30",
+   "recurrence": "weekly",
+   "lecturers": [
+    {
+     "id": 148105,
+     "name": "Olha Titova"
+    }
+   ],
+   "room": "3.27a",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-09",
+    "2026-10-16",
+    "2026-10-23",
+    "2026-10-30",
+    "2026-11-06",
+    "2026-11-13",
+    "2026-11-20",
+    "2026-11-27",
+    "2026-12-04",
+    "2026-12-11",
+    "2026-12-18",
+    "2027-01-08",
+    "2027-01-15",
+    "2027-01-22"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-169",
+   "subjectName": "Podstawy programowania niskopoziomowego",
+   "type": "CWL",
+   "group": 2,
+   "unit": 191450,
+   "weekday": 4,
+   "start": "09:45",
+   "end": "11:15",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 100715,
+     "name": "Ada Brzoza-Zajęcka"
+    },
+    {
+     "id": 102548,
+     "name": "Wojciech Zaborowski"
+    }
+   ],
+   "room": "3.24",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-09",
+    "2026-10-23",
+    "2026-11-06",
+    "2026-11-20",
+    "2026-12-04",
+    "2026-12-18",
+    "2027-01-15"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-308",
+   "subjectName": "Rachunek prawdopodobieństwa i statystyka",
+   "type": "CWA",
+   "group": 2,
+   "unit": 191323,
+   "weekday": 4,
+   "start": "09:45",
+   "end": "11:15",
+   "recurrence": "weekly",
+   "lecturers": [
+    {
+     "id": 148105,
+     "name": "Olha Titova"
+    }
+   ],
+   "room": "3.27a",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-09",
+    "2026-10-16",
+    "2026-10-23",
+    "2026-10-30",
+    "2026-11-06",
+    "2026-11-13",
+    "2026-11-20",
+    "2026-11-27",
+    "2026-12-04",
+    "2026-12-11",
+    "2026-12-18",
+    "2027-01-08",
+    "2027-01-15",
+    "2027-01-22"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-169",
+   "subjectName": "Podstawy programowania niskopoziomowego",
+   "type": "CWL",
+   "group": 1,
+   "unit": 191450,
+   "weekday": 4,
+   "start": "09:45",
+   "end": "11:15",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 100715,
+     "name": "Ada Brzoza-Zajęcka"
+    },
+    {
+     "id": 102548,
+     "name": "Wojciech Zaborowski"
+    }
+   ],
+   "room": "3.24",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-02",
+    "2026-10-16",
+    "2026-10-30",
+    "2026-11-13",
+    "2026-11-27",
+    "2026-12-11",
+    "2027-01-08"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-002",
+   "subjectName": "Administracja systemów komputerowych",
+   "type": "CWL",
+   "group": 2,
+   "unit": 191338,
+   "weekday": 4,
+   "start": "11:30",
+   "end": "13:00",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 102454,
+     "name": "Rafał Wcisło"
+    }
+   ],
+   "room": "3.27e",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-02",
+    "2026-10-16",
+    "2026-10-30",
+    "2026-11-13",
+    "2026-11-27",
+    "2026-12-11",
+    "2027-01-08"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-002",
+   "subjectName": "Administracja systemów komputerowych",
+   "type": "CWL",
+   "group": 1,
+   "unit": 191338,
+   "weekday": 4,
+   "start": "11:30",
+   "end": "13:00",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 102454,
+     "name": "Rafał Wcisło"
+    }
+   ],
+   "room": "3.27e",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-09",
+    "2026-10-23",
+    "2026-11-06",
+    "2026-11-20",
+    "2026-12-04",
+    "2026-12-18",
+    "2027-01-15"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-002",
+   "subjectName": "Administracja systemów komputerowych",
+   "type": "CWL",
+   "group": 4,
+   "unit": 191338,
+   "weekday": 4,
+   "start": "13:15",
+   "end": "14:45",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 102454,
+     "name": "Rafał Wcisło"
+    }
+   ],
+   "room": "3.27e",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-02",
+    "2026-10-16",
+    "2026-10-30",
+    "2026-11-13",
+    "2026-11-27",
+    "2026-12-11",
+    "2027-01-08"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-002",
+   "subjectName": "Administracja systemów komputerowych",
+   "type": "CWL",
+   "group": 3,
+   "unit": 191338,
+   "weekday": 4,
+   "start": "13:15",
+   "end": "14:45",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 102454,
+     "name": "Rafał Wcisło"
+    }
+   ],
+   "room": "3.27e",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-09",
+    "2026-10-23",
+    "2026-11-06",
+    "2026-11-20",
+    "2026-12-04",
+    "2026-12-18",
+    "2027-01-15"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-114",
+   "subjectName": "Fizyka 2",
+   "type": "CWL",
+   "group": 4,
+   "unit": 191381,
+   "weekday": 4,
+   "start": "15:45",
+   "end": "18:00",
+   "recurrence": "weekly",
+   "lecturers": [
+    {
+     "id": 100776,
+     "name": "Marek Ciechanowski"
+    }
+   ],
+   "room": "303",
+   "building": "D10",
+   "block": false,
+   "dates": [
+    "2026-10-02",
+    "2026-10-09",
+    "2026-10-16",
+    "2026-10-23"
+   ],
+   "moved": [
+    {
+     "date": "2026-10-30",
+     "start": "15:45",
+     "end": "17:15"
+    }
+   ]
+  },
+  {
+   "subject": "240-ZBI-1S-114",
+   "subjectName": "Fizyka 2",
+   "type": "CWL",
+   "group": 3,
+   "unit": 191381,
+   "weekday": 4,
+   "start": "15:45",
+   "end": "18:00",
+   "recurrence": "weekly",
+   "lecturers": [
+    {
+     "id": 101036,
+     "name": "Zbigniew Gorczyca"
+    }
+   ],
+   "room": "303",
+   "building": "D10",
+   "block": false,
+   "dates": [
+    "2026-10-02",
+    "2026-10-09",
+    "2026-10-16",
+    "2026-10-23"
+   ],
+   "moved": [
+    {
+     "date": "2026-10-30",
+     "start": "15:45",
+     "end": "17:15"
+    }
+   ]
+  },
+  {
+   "subject": "240-ZBI-1S-114",
+   "subjectName": "Fizyka 2",
+   "type": "CWL",
+   "group": 2,
+   "unit": 191381,
+   "weekday": 4,
+   "start": "15:45",
+   "end": "18:00",
+   "recurrence": "weekly",
+   "lecturers": [
+    {
+     "id": 33011,
+     "name": "Piotr Dróżdż"
+    }
+   ],
+   "room": "303",
+   "building": "D10",
+   "block": false,
+   "dates": [
+    "2026-10-02",
+    "2026-10-09",
+    "2026-10-16",
+    "2026-10-23"
+   ],
+   "moved": [
+    {
+     "date": "2026-10-30",
+     "start": "15:45",
+     "end": "17:15"
+    }
+   ]
+  },
+  {
+   "subject": "240-ZBI-1S-114",
+   "subjectName": "Fizyka 2",
+   "type": "CWL",
+   "group": 1,
+   "unit": 191381,
+   "weekday": 4,
+   "start": "15:45",
+   "end": "18:00",
+   "recurrence": "weekly",
+   "lecturers": [
+    {
+     "id": 84244,
+     "name": "Patryk Stec"
+    }
+   ],
+   "room": "303",
+   "building": "D10",
+   "block": false,
+   "dates": [
+    "2026-10-02",
+    "2026-10-09",
+    "2026-10-16",
+    "2026-10-23"
+   ],
+   "moved": [
+    {
+     "date": "2026-10-30",
+     "start": "15:45",
+     "end": "17:15"
+    }
+   ]
+  },
+  {
+   "subject": "240-ZBI-1S-074",
+   "subjectName": "Kryptografia i podstawy kryptoanalizy",
+   "type": "CWL",
+   "group": 4,
+   "unit": 191410,
+   "weekday": 4,
+   "start": "18:30",
+   "end": "20:00",
+   "recurrence": "weekly",
+   "lecturers": [
+    {
+     "id": 155835,
+     "name": "Paweł Koszałka"
+    }
+   ],
+   "room": "4.30",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-02",
+    "2026-10-09",
+    "2026-10-16",
+    "2026-10-23",
+    "2026-10-30",
+    "2026-11-06",
+    "2026-11-13",
+    "2026-11-20",
+    "2026-11-27",
+    "2026-12-04",
+    "2026-12-11",
+    "2026-12-18",
+    "2027-01-08",
+    "2027-01-15"
+   ],
+   "moved": []
+  }
+ ],
+ "latestAt": "2026-09-26T16:28:47+00:00",
+ "checks": [
+  {
+   "at": "2026-06-30T22:09:09",
+   "note": "stan bazowy z monitora zmian",
+   "changes": []
+  },
+  {
+   "at": "2026-09-26T16:28:47+00:00",
+   "changes": [
+    {
+     "kind": "modified",
+     "unit": 191304,
+     "group": 1,
+     "subject": "240-ZBI-1S-114",
+     "subjectName": "Fizyka 2",
+     "type": "CWA",
+     "fields": [
+      "lecturers"
+     ],
+     "before": [
+      {
+       "weekday": 1,
+       "start": "16:45",
+       "end": "18:15",
+       "recurrence": "odd",
+       "room": "3.27a",
+       "building": "D17",
+       "lecturers": [
+        "Zbigniew Kąkol"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 1,
+       "start": "16:45",
+       "end": "18:15",
+       "recurrence": "odd",
+       "room": "3.27a",
+       "building": "D17",
+       "lecturers": [
+        "Maciej Czapkiewicz"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "modified",
+     "unit": 191304,
+     "group": 2,
+     "subject": "240-ZBI-1S-114",
+     "subjectName": "Fizyka 2",
+     "type": "CWA",
+     "fields": [
+      "lecturers"
+     ],
+     "before": [
+      {
+       "weekday": 1,
+       "start": "16:45",
+       "end": "18:15",
+       "recurrence": "even",
+       "room": "3.27a",
+       "building": "D17",
+       "lecturers": [
+        "Zbigniew Kąkol"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 1,
+       "start": "16:45",
+       "end": "18:15",
+       "recurrence": "even",
+       "room": "3.27a",
+       "building": "D17",
+       "lecturers": [
+        "Maciej Czapkiewicz"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191309,
+     "group": 1,
+     "subject": "240-ZBI-1S-071",
+     "subjectName": "Kompetencje społeczne w zmieniającym się społeczeństwie",
+     "type": "CWA",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 3,
+       "start": "13:15",
+       "end": "14:45",
+       "recurrence": "even",
+       "room": "3.27b",
+       "building": "D17",
+       "lecturers": [
+        "Daria Wójcik"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191309,
+     "group": 2,
+     "subject": "240-ZBI-1S-071",
+     "subjectName": "Kompetencje społeczne w zmieniającym się społeczeństwie",
+     "type": "CWA",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 3,
+       "start": "13:15",
+       "end": "14:45",
+       "recurrence": "odd",
+       "room": "3.27b",
+       "building": "D17",
+       "lecturers": [
+        "Daria Wójcik"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191318,
+     "group": 1,
+     "subject": "240-ZBI-1S-156",
+     "subjectName": "Metody wywierania wpływu",
+     "type": "CWA",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 2,
+       "start": "09:45",
+       "end": "11:15",
+       "recurrence": "even",
+       "room": "3.27c",
+       "building": "D17",
+       "lecturers": [
+        "Anna Piętak"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191323,
+     "group": 1,
+     "subject": "240-ZBI-1S-308",
+     "subjectName": "Rachunek prawdopodobieństwa i statystyka",
+     "type": "CWA",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 4,
+       "start": "08:00",
+       "end": "09:30",
+       "recurrence": "weekly",
+       "room": "3.27a",
+       "building": "D17",
+       "lecturers": [
+        "Olha Titova"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191323,
+     "group": 2,
+     "subject": "240-ZBI-1S-308",
+     "subjectName": "Rachunek prawdopodobieństwa i statystyka",
+     "type": "CWA",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 4,
+       "start": "09:45",
+       "end": "11:15",
+       "recurrence": "weekly",
+       "room": "3.27a",
+       "building": "D17",
+       "lecturers": [
+        "Olha Titova"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191338,
+     "group": 1,
+     "subject": "240-ZBI-1S-002",
+     "subjectName": "Administracja systemów komputerowych",
+     "type": "CWL",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 4,
+       "start": "11:30",
+       "end": "13:00",
+       "recurrence": "even",
+       "room": "3.27e",
+       "building": "D17",
+       "lecturers": [
+        "Rafał Wcisło"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191338,
+     "group": 2,
+     "subject": "240-ZBI-1S-002",
+     "subjectName": "Administracja systemów komputerowych",
+     "type": "CWL",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 4,
+       "start": "11:30",
+       "end": "13:00",
+       "recurrence": "odd",
+       "room": "3.27e",
+       "building": "D17",
+       "lecturers": [
+        "Rafał Wcisło"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191338,
+     "group": 3,
+     "subject": "240-ZBI-1S-002",
+     "subjectName": "Administracja systemów komputerowych",
+     "type": "CWL",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 4,
+       "start": "13:15",
+       "end": "14:45",
+       "recurrence": "even",
+       "room": "3.27e",
+       "building": "D17",
+       "lecturers": [
+        "Rafał Wcisło"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191338,
+     "group": 4,
+     "subject": "240-ZBI-1S-002",
+     "subjectName": "Administracja systemów komputerowych",
+     "type": "CWL",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 4,
+       "start": "13:15",
+       "end": "14:45",
+       "recurrence": "odd",
+       "room": "3.27e",
+       "building": "D17",
+       "lecturers": [
+        "Rafał Wcisło"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191364,
+     "group": 1,
+     "subject": "240-ZBI-1S-031",
+     "subjectName": "Bezpieczeństwo komunikacji multimedialnej",
+     "type": "CWL",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 1,
+       "start": "15:00",
+       "end": "16:30",
+       "recurrence": "even",
+       "room": "4.22",
+       "building": "D17",
+       "lecturers": [
+        "Łukasz Czekierda"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191364,
+     "group": 2,
+     "subject": "240-ZBI-1S-031",
+     "subjectName": "Bezpieczeństwo komunikacji multimedialnej",
+     "type": "CWL",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 1,
+       "start": "15:00",
+       "end": "16:30",
+       "recurrence": "odd",
+       "room": "4.22",
+       "building": "D17",
+       "lecturers": [
+        "Łukasz Czekierda"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "modified",
+     "unit": 191381,
+     "group": 1,
+     "subject": "240-ZBI-1S-114",
+     "subjectName": "Fizyka 2",
+     "type": "CWL",
+     "fields": [
+      "room",
+      "building",
+      "lecturers"
+     ],
+     "before": [
+      {
+       "weekday": 4,
+       "start": "15:45",
+       "end": "18:00",
+       "recurrence": "weekly",
+       "room": null,
+       "building": null,
+       "lecturers": [
+        "Zbigniew Kąkol"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 4,
+       "start": "15:45",
+       "end": "18:00",
+       "recurrence": "weekly",
+       "room": "303",
+       "building": "D10",
+       "lecturers": [
+        "Patryk Stec"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "modified",
+     "unit": 191381,
+     "group": 2,
+     "subject": "240-ZBI-1S-114",
+     "subjectName": "Fizyka 2",
+     "type": "CWL",
+     "fields": [
+      "room",
+      "building",
+      "lecturers"
+     ],
+     "before": [
+      {
+       "weekday": 4,
+       "start": "15:45",
+       "end": "18:00",
+       "recurrence": "weekly",
+       "room": null,
+       "building": null,
+       "lecturers": [
+        "Zbigniew Kąkol"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 4,
+       "start": "15:45",
+       "end": "18:00",
+       "recurrence": "weekly",
+       "room": "303",
+       "building": "D10",
+       "lecturers": [
+        "Piotr Dróżdż"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "modified",
+     "unit": 191381,
+     "group": 3,
+     "subject": "240-ZBI-1S-114",
+     "subjectName": "Fizyka 2",
+     "type": "CWL",
+     "fields": [
+      "room",
+      "building",
+      "lecturers"
+     ],
+     "before": [
+      {
+       "weekday": 4,
+       "start": "15:45",
+       "end": "18:00",
+       "recurrence": "weekly",
+       "room": null,
+       "building": null,
+       "lecturers": [
+        "Zbigniew Kąkol"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 4,
+       "start": "15:45",
+       "end": "18:00",
+       "recurrence": "weekly",
+       "room": "303",
+       "building": "D10",
+       "lecturers": [
+        "Zbigniew Gorczyca"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "modified",
+     "unit": 191381,
+     "group": 4,
+     "subject": "240-ZBI-1S-114",
+     "subjectName": "Fizyka 2",
+     "type": "CWL",
+     "fields": [
+      "room",
+      "building",
+      "lecturers"
+     ],
+     "before": [
+      {
+       "weekday": 4,
+       "start": "15:45",
+       "end": "18:00",
+       "recurrence": "weekly",
+       "room": null,
+       "building": null,
+       "lecturers": [
+        "Zbigniew Kąkol"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 4,
+       "start": "15:45",
+       "end": "18:00",
+       "recurrence": "weekly",
+       "room": "303",
+       "building": "D10",
+       "lecturers": [
+        "Marek Ciechanowski"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "modified",
+     "unit": 191410,
+     "group": 1,
+     "subject": "240-ZBI-1S-074",
+     "subjectName": "Kryptografia i podstawy kryptoanalizy",
+     "type": "CWL",
+     "fields": [
+      "weekday",
+      "start",
+      "end"
+     ],
+     "before": [
+      {
+       "weekday": 2,
+       "start": "11:30",
+       "end": "13:00",
+       "recurrence": "weekly",
+       "room": "4.30",
+       "building": "D17",
+       "lecturers": [
+        "Paweł Topa"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 0,
+       "start": "16:45",
+       "end": "18:15",
+       "recurrence": "weekly",
+       "room": "4.30",
+       "building": "D17",
+       "lecturers": [
+        "Paweł Topa"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "modified",
+     "unit": 191410,
+     "group": 2,
+     "subject": "240-ZBI-1S-074",
+     "subjectName": "Kryptografia i podstawy kryptoanalizy",
+     "type": "CWL",
+     "fields": [
+      "weekday",
+      "start",
+      "end"
+     ],
+     "before": [
+      {
+       "weekday": 2,
+       "start": "13:15",
+       "end": "14:45",
+       "recurrence": "weekly",
+       "room": "4.30",
+       "building": "D17",
+       "lecturers": [
+        "Paweł Topa"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 0,
+       "start": "18:30",
+       "end": "20:00",
+       "recurrence": "weekly",
+       "room": "4.30",
+       "building": "D17",
+       "lecturers": [
+        "Paweł Topa"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191410,
+     "group": 3,
+     "subject": "240-ZBI-1S-074",
+     "subjectName": "Kryptografia i podstawy kryptoanalizy",
+     "type": "CWL",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 1,
+       "start": "18:30",
+       "end": "20:00",
+       "recurrence": "weekly",
+       "room": "4.30",
+       "building": "D17",
+       "lecturers": [
+        "Paweł Koszałka"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191410,
+     "group": 4,
+     "subject": "240-ZBI-1S-074",
+     "subjectName": "Kryptografia i podstawy kryptoanalizy",
+     "type": "CWL",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 4,
+       "start": "18:30",
+       "end": "20:00",
+       "recurrence": "weekly",
+       "room": "4.30",
+       "building": "D17",
+       "lecturers": [
+        "Paweł Koszałka"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "modified",
+     "unit": 191450,
+     "group": 3,
+     "subject": "240-ZBI-1S-169",
+     "subjectName": "Podstawy programowania niskopoziomowego",
+     "type": "CWL",
+     "fields": [
+      "start",
+      "end"
+     ],
+     "before": [
+      {
+       "weekday": 4,
+       "start": "11:30",
+       "end": "13:00",
+       "recurrence": "odd",
+       "room": "3.24",
+       "building": "D17",
+       "lecturers": [
+        "Ada Brzoza-Zajęcka",
+        "Wojciech Zaborowski"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 4,
+       "start": "08:00",
+       "end": "09:30",
+       "recurrence": "odd",
+       "room": "3.24",
+       "building": "D17",
+       "lecturers": [
+        "Ada Brzoza-Zajęcka",
+        "Wojciech Zaborowski"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191511,
+     "group": 1,
+     "subject": "240-ZBI-1S-302",
+     "subjectName": "Ryzyko w zarządzaniu bezpieczeństwem informacji",
+     "type": "CWL",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 3,
+       "start": "09:45",
+       "end": "11:15",
+       "recurrence": "even",
+       "room": "3.27e",
+       "building": "D17",
+       "lecturers": [
+        "Anna Wójcicka"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 191511,
+     "group": 2,
+     "subject": "240-ZBI-1S-302",
+     "subjectName": "Ryzyko w zarządzaniu bezpieczeństwem informacji",
+     "type": "CWL",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 3,
+       "start": "09:45",
+       "end": "11:15",
+       "recurrence": "odd",
+       "room": "3.27e",
+       "building": "D17",
+       "lecturers": [
+        "Anna Wójcicka"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 202732,
+     "group": 1,
+     "subject": "240-1S-BJO-2",
+     "subjectName": "Blok Język obcy - WI 2/3",
+     "type": "LEKT",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 0,
+       "start": "15:00",
+       "end": "16:30",
+       "recurrence": "weekly",
+       "room": null,
+       "building": null,
+       "lecturers": []
+      },
+      {
+       "weekday": 3,
+       "start": "11:30",
+       "end": "13:00",
+       "recurrence": "weekly",
+       "room": null,
+       "building": null,
+       "lecturers": []
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 202735,
+     "group": 1,
+     "subject": "240-1S-BWF-3",
+     "subjectName": "Blok Wychowanie fizyczne 3 - WI",
+     "type": "WF",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 2,
+       "start": "15:30",
+       "end": "17:00",
+       "recurrence": "weekly",
+       "room": null,
+       "building": null,
+       "lecturers": []
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    },
+    {
+     "kind": "added",
+     "unit": 202735,
+     "group": 2,
+     "subject": "240-1S-BWF-3",
+     "subjectName": "Blok Wychowanie fizyczne 3 - WI",
+     "type": "WF",
+     "fields": [],
+     "before": null,
+     "after": [
+      {
+       "weekday": 0,
+       "start": "11:00",
+       "end": "12:30",
+       "recurrence": "weekly",
+       "room": null,
+       "building": null,
+       "lecturers": []
+      }
+     ],
+     "detectedAt": "2026-09-26T16:28:47+00:00"
+    }
+   ]
+  }
+ ]
+}

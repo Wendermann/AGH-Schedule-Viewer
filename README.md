@@ -7,8 +7,8 @@ zajęć i cudze grupy, łączyć kilka planów w jeden i sprawdzać kolizje
 z podziałem na tygodnie parzyste i nieparzyste. Dla wybranych kierunków
 pokazuje historię zmian planu.
 
-Pierwsza wersja obejmuje Wydział Informatyki w cyklu 26/27-Z. Ustalenia
-i stan prac są w katalogu `docs/` i w `handoff.md`.
+Strona obejmuje wszystkie wydziały AGH i grupy ogólnouczelniane w cyklu
+26/27-Z. Ustalenia i stan prac są w katalogu `docs/` i w `handoff.md`.
 
 ## Dwa tryby działania
 
@@ -49,8 +49,12 @@ workflow) albo wypchnij zmianę na `main`. Strona będzie dostępna pod
 
     python3 -m venv .venv
     .venv/bin/pip install -r requirements-dev.txt
-    .venv/bin/flask --app app fetch       # około 9 minut, zapis do instance/dane
+    FLASK_SITE_FACULTIES='["240-000"]' .venv/bin/flask --app app fetch   # jeden wydział, ok. 3 minut
     .venv/bin/flask --app app run --debug
+
+Bez `FLASK_SITE_FACULTIES` polecenie pobiera całą AGH: za pierwszym razem
+około godziny, bo strony USOSweb idą co 3 s; kolejne pobrania biorą je
+z cache.
 
 Statyczna wersja, tak jak na GitHub Pages:
 
@@ -82,7 +86,7 @@ z prefiksem `FLASK_`, np. `FLASK_USOS_CACHE_HOURS=12`.
 | `USOS_TIMEOUT` | 20 | Limit czasu jednego zapytania, w sekundach. |
 | `USOS_CACHE_PATH` | `instance/usos-cache.sqlite3` | Plik bazy z cache. |
 | `HISTORY_PLANS` | `["240-ZBI-1S-2R-Z@26/27-Z"]` | Kierunki z historią zmian: kod grupy przedmiotów i cykl. |
-| `SITE_FACULTIES` | `["240-000"]` | Wydziały, których grupy przedmiotów trafiają na stronę. |
+| `SITE_FACULTIES` | wszystkie | Jednostki, których grupy przedmiotów trafiają na stronę. Domyślnie wszystkie wydziały z USOS API i grupy ogólnouczelniane (`000-000`); lista kodów zawęża zakres. |
 | `SITE_CYCLES` | `["26/27-Z"]` | Cykle dydaktyczne na stronie. |
 | `SITE_DATA_DIR` | `instance/dane` | Katalog danych strony: tu zapisuje `flask fetch`, stąd czyta serwer. |
 

@@ -199,6 +199,24 @@ Ustalone 26.09.2026:
   z `app/static/js`.
 - Na GitHub Pages na razie bez kalendarza `.ics`.
 
+Zmienione tego samego dnia, na prośbę użytkownika:
+
+- **Cała AGH.** Strona obejmuje wszystkie wydziały z USOS API i grupy
+  ogólnouczelniane (jednostka `000-000`: języki obce, HES). Wydziały bez
+  grup przedmiotów w USOSweb (26.09.2026: Odlewnictwa i Fizyki
+  i Informatyki Stosowanej, także ich katedry) są w drzewie z opisem, że
+  ich planów nie ma.
+- **Drzewo z kodów wszystkich wydziałów.** Każdy wydział zapisuje kody grup
+  inaczej, więc `app/catalog.py` odczytuje z nich kierunek, stopień,
+  semestr i wariant (dopisek po semestrze, np. `PP`, `AiM`). Pełną nazwę
+  kierunku daje USOS API (`progs/search`). Drzewo pokazuje tylko grupy
+  z zajęciami w cyklu strony; pozostałe są w wyszukiwarce z adnotacją.
+- **Domyślnie żaden plan nie jest wybrany.** Plan wybiera tylko adres
+  (link z drzewa, wyszukiwarki albo „Udostępnij”). Strona planu nie
+  odtwarza już ostatniego widoku z pamięci przeglądarki. „Ostatnio
+  oglądane” na stronie startowej prowadzą do zapisanych widoków, razem
+  z ukryciami i wybranymi grupami.
+
 
 ## Makiety
 

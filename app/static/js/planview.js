@@ -17,7 +17,6 @@ import {
   minutes,
   mondayOf,
   personUrl,
-  planHref,
   plural,
   searchGroups,
   shortDate,
@@ -29,7 +28,6 @@ import { decodeState } from "./share.js";
 import {
   THEMES,
   applyTheme,
-  base,
   capitalize,
   copy,
   loadCycle,
@@ -178,7 +176,6 @@ Alpine.data("planPage", () => ({
   isActive(code) {
     return Boolean(this.s?.active.includes(code));
   },
-  href: (code) => planHref(base, code, app.data.term.id),
 }));
 
 Alpine.start();
@@ -416,7 +413,7 @@ function history(scope) {
   if (!plans.length) {
     return {
       plans: [],
-      tracked: app.data.groups.filter((g) => g.plans.some((p) => p.history)).map((g) => ({ code: g.code, href: planHref(base, g.code, app.data.term.id) })),
+      tracked: app.data.groups.filter((g) => g.plans.some((p) => p.history)).map((g) => g.code),
     };
   }
   const visible = new Set(app.visible().map((a) => `${a.unit}|${a.group}`));

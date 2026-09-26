@@ -538,8 +538,11 @@ export function createApp(data, { storageKey, loadPlan }) {
     if (!app.state.plans.length) return;
     encodeState(app.state).then((token) => {
       // Stan trafia do adresu (bez ?plan=, żeby link był jeden) i do pamięci
-      // przeglądarki. Pamięć bywa niedostępna, wtedy zostaje tylko adres.
-      history.replaceState(null, "", `${location.pathname}#${token}`);
+      // przeglądarki. W osadzonej ramce jedno albo drugie bywa zablokowane;
+      // wtedy działa to, co zostało.
+      try {
+        history.replaceState(null, "", `${location.pathname}#${token}`);
+      } catch {}
       try {
         localStorage.setItem(storageKey, token);
       } catch {}

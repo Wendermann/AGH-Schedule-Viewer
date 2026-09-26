@@ -209,8 +209,8 @@
             <template x-if="!s.history.plans.length">
               <p class="history__lead">
                 Dla tego kierunku nie zbieramy historii zmian. Zbieramy ją dla:
-                <template x-for="(t, i) in s.history.tracked" :key="t.code">
-                  <span><span x-show="i">, </span><a :href="t.href" x-text="t.code"></a></span>
+                <template x-for="(code, i) in s.history.tracked" :key="code">
+                  <span><span x-show="i">, </span><button type="button" class="text-button" @click="openPlan(code)" x-text="code"></button></span>
                 </template>.
               </p>
             </template>

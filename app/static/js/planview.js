@@ -287,7 +287,8 @@ function grid(view) {
       return {
         key: day.date ?? String(day.weekday),
         title: capitalize(day.name),
-        meta: dayMeta(day),
+        // Dzień wolny z pojedynczymi zajęciami (np. 11.11) też dostaje opis.
+        meta: [dayMeta(day), day.items.length ? note : null].filter(Boolean).join(" · "),
         swap: day.swapFrom === null || day.swapFrom === undefined ? "" : `zajęcia jak w ${dayAccusative(day.swapFrom)}`,
         clash: clashCount(day),
         off: Boolean(note),

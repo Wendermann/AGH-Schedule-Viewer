@@ -79,76 +79,95 @@ export const subjectUrl = (code) => `${USOS}?_action=katalog2/przedmioty/pokazPr
 
 // ---------- drzewo kierunków ----------
 
-const REGULAR_CODE = /^(\d{3})-([A-Z]{2,4})-([12][SN])-([1-9])R-([ZL])$/;
-
-function programmeName(name) {
-  return name
-    .replace(/^\d{3}\s*[-_ ]\s*/, "")
-    .replace(/,?\s*(stacjonarne,?\s*)?(II st\.,?\s*)?(semestr\s*\d+|\d+\s*semestr)\s*$/i, "")
-    .replace(/\s*-\s*/g, " – ")
-    .trim();
+// Nazwa kierunku z USOS API (klucz: wydział, skrót, stopień), a gdy jej nie
+// ma, sam skrót z kodu grupy.
+function programmeName(data, faculty, programme, level) {
+  const names = data.programmes ?? {};
+  const prefix = `${faculty.slice(0, 3)}-${programme}-`;
+  return names[prefix + level] ?? Object.entries(names).find(([key]) => key.startsWith(prefix))?.[1] ?? null;
 }
 
-function semesterNumber(group, year, season) {
-  const found = group.name.match(/semestr\s*(\d+)|(\d+)\s*semestr/i);
-  return found ? +(found[1] ?? found[2]) : (year - 1) * 2 + (season === "Z" ? 1 : 2);
+const season = (semester) => (semester ? (semester % 2 ? "zimowy" : "letni") : null);
+
+// Czytelny tytuł planu, bo nazwy grup bywają samymi kodami (np. „IGR_2N_s1”).
+export function groupTitle(data, group) {
+  if (!group?.programme || group.semester === undefined) return group?.name ?? "";
+  const name = programmeName(data, group.faculty, group.programme, group.level);
+  if (!name) return group.name;
+  const parts = [name];
+  if (group.level) parts.push(LEVELS[group.level] ?? group.level);
+  parts.push(`semestr ${group.semester}`);
+  if (group.variant) parts.push(group.variant);
+  return parts.join(", ");
 }
 
-// Wydział → kierunek (ze stopniem) → rok → semestr. Grupy o nietypowych
-// kodach trafiają do gałęzi „Inne” swojego wydziału.
+const programmeKey = (group) => `${group.faculty}|${group.programme}|${group.level ?? ""}`;
+const yearOf = (semester) => Math.max(1, Math.ceil(semester / 2));
+
+// Wydział → kierunek (ze stopniem) → rok → semestr. Drzewo pokazuje tylko
+// grupy z zajęciami w cyklu strony; pozostałe znajdzie wyszukiwarka. Grupy
+// bez kierunku albo semestru w kodzie trafiają do „Inne” swojego wydziału.
 export function groupTree(data) {
-  const available = new Set(data.groups.filter((g) => g.plans.length).map((g) => g.code));
   return data.faculties.map((faculty) => {
     const groups = data.groups.filter((g) => g.faculty === faculty.code);
     const programmes = new Map();
     const other = [];
-    for (const group of groups) {
-      const match = group.code.match(REGULAR_CODE);
-      const leaf = { code: group.code, name: group.name, available: available.has(group.code) };
-      if (!match) {
+    for (const group of groups.filter((g) => g.plans.length)) {
+      const leaf = { code: group.code, name: group.name };
+      if (!group.programme || group.semester === undefined) {
         other.push(leaf);
         continue;
       }
-      const [, , programme, level, year, season] = match;
-      const key = `${programme}-${level}`;
+      const key = programmeKey(group);
       if (!programmes.has(key)) {
-        programmes.set(key, { key, code: programme, level: LEVELS[level] ?? level, names: [], years: new Map() });
+        const name = programmeName(data, faculty.code, group.programme, group.level) ?? group.programme;
+        const level = LEVELS[group.level] ?? "stopień nieznany";
+        programmes.set(key, { key, code: group.programme, label: `${name}, ${level}`, name, years: new Map() });
       }
       const node = programmes.get(key);
-      node.names.push(programmeName(group.name));
-      if (!node.years.has(+year)) node.years.set(+year, []);
-      node.years.get(+year).push({
-        ...leaf,
-        semester: semesterNumber(group, +year, season),
-        season: season === "Z" ? "zimowy" : "letni",
-      });
+      const year = yearOf(group.semester);
+      if (!node.years.has(year)) node.years.set(year, []);
+      const label = [`semestr ${group.semester}`, season(group.semester), group.variant].filter(Boolean).join(", ");
+      node.years.get(year).push({ ...leaf, semester: group.semester, label });
     }
     const list = [...programmes.values()].map((node) => ({
       key: node.key,
       code: node.code,
-      level: node.level,
-      // Nazwy tego samego kierunku różnią się wielkością liter; bierzemy
-      // wersję z najmniejszą liczbą wielkich liter.
-      name: node.names.sort((a, b) => capitals(a) - capitals(b))[0],
+      label: node.label,
       years: [...node.years.entries()]
         .sort(([a], [b]) => a - b)
-        .map(([year, leaves]) => ({ year, semesters: leaves.sort((a, b) => a.semester - b.semester) })),
+        .map(([year, leaves]) => ({
+          key: `${node.key}|${year}`,
+          year,
+          semesters: leaves.sort((a, b) => a.semester - b.semester || a.label.localeCompare(b.label, "pl")),
+        })),
     }));
-    list.sort((a, b) => a.name.localeCompare(b.name, "pl") || a.level.localeCompare(b.level, "pl"));
-    return { ...faculty, loaded: groups.length > 0, programmes: list, other };
+    list.sort((a, b) => a.label.localeCompare(b.label, "pl"));
+    other.sort((a, b) => a.name.localeCompare(b.name, "pl"));
+    return { ...faculty, total: groups.length, programmes: list, other };
   });
 }
 
-const capitals = (text) => (text.match(/\p{Lu}/gu) ?? []).length;
+// Węzły drzewa, które trzeba rozwinąć, żeby pokazać grupę o danym kodzie.
+export function treePath(data, code) {
+  const group = data.groups.find((g) => g.code === code);
+  if (!group) return [];
+  if (!group.programme || group.semester === undefined) return [group.faculty, `${group.faculty}|inne`];
+  const key = programmeKey(group);
+  return [group.faculty, key, `${key}|${yearOf(group.semester)}`];
+}
 
 const fold = (text) => text.normalize("NFD").replace(/\p{M}/gu, "").replace(/ł/g, "l").replace(/Ł/g, "L").toLowerCase();
 
+// Szuka w kodzie, nazwie grupy i nazwie kierunku; grupy z zajęciami idą
+// pierwsze.
 export function searchGroups(data, query) {
   const words = fold(query).split(/\s+/).filter(Boolean);
   if (!words.length) return [];
   return data.groups
-    .filter((g) => words.every((w) => fold(`${g.code} ${g.name}`).includes(w)))
-    .map((g) => ({ ...g, available: g.plans.length > 0 }))
+    .map((g) => ({ ...g, title: groupTitle(data, g), available: g.plans.length > 0 }))
+    .filter((g) => words.every((w) => fold(`${g.code} ${g.name} ${g.title}`).includes(w)))
+    .sort((a, b) => b.available - a.available || a.code.localeCompare(b.code, "pl"))
     .slice(0, 12);
 }
 
@@ -181,7 +200,7 @@ const planKey = (plan) => `g:${plan.code}@${plan.cycle}`;
 
 // data: indeks strony (faculties, groups), cykl (term, calendar, classTypes)
 // i wczytane plany (plans). loadPlan(code, cycle) dociąga kolejne plany.
-export function createApp(data, { storageKey, loadPlan }) {
+export function createApp(data, { loadPlan }) {
   // Cykl bez potwierdzonych spotkań nie ma kalendarza; wtedy granicami są
   // daty cyklu.
   data.calendar ??= { firstClass: data.term.start, lastClass: data.term.end, daysOff: [], swaps: {} };
@@ -210,6 +229,7 @@ export function createApp(data, { storageKey, loadPlan }) {
       const entry = group?.plans.find((p) => p.cycle === data.term.id);
       if (!entry) throw new Error(`Planu ${code} nie ma w danych strony dla cyklu ${data.term.id}.`);
       const plan = await loadPlan(code, entry.cycle);
+      plan.title = groupTitle(data, group);
       data.plans.push(plan);
       plansByCode.set(code, plan);
       return plan;
@@ -270,7 +290,7 @@ export function createApp(data, { storageKey, loadPlan }) {
     legend() {
       const plans = app.activePlans();
       if (plans.length > 1) {
-        const items = plans.map((p, i) => ({ key: `plan-${i}`, label: p.name, short: String(i + 1) }));
+        const items = plans.map((p, i) => ({ key: `plan-${i}`, label: p.title, short: String(i + 1) }));
         if (app.merged().some((a) => a.sources.length > 1)) {
           items.push({ key: "plan-shared", label: "wspólne dla kilku planów", short: "wsp." });
         }
@@ -537,23 +557,20 @@ export function createApp(data, { storageKey, loadPlan }) {
   function persist() {
     if (!app.state.plans.length) return;
     encodeState(app.state).then((token) => {
-      // Stan trafia do adresu (bez ?plan=, żeby link był jeden) i do pamięci
-      // przeglądarki. W osadzonej ramce jedno albo drugie bywa zablokowane;
-      // wtedy działa to, co zostało.
+      // Stan trafia do adresu (bez ?plan=, żeby link był jeden). W osadzonej
+      // ramce zmiana adresu bywa zablokowana; wtedy działa link „Udostępnij”.
       try {
         history.replaceState(null, "", `${location.pathname}#${token}`);
-      } catch {}
-      try {
-        localStorage.setItem(storageKey, token);
       } catch {}
     });
   }
 
-  // Kolejność: token w adresie, ?plan= ze strony startowej, ostatni widok
-  // z pamięci przeglądarki. Zwraca opis problemu albo null.
+  // Plan wybiera tylko adres: token „Udostępnij” albo ?plan= z listy
+  // kierunków. Bez nich strona startuje bez planu. Zwraca opis problemu
+  // albo null.
   app.restore = async function restore() {
     const params = new URLSearchParams(location.search);
-    let token = location.hash.slice(1);
+    const token = location.hash.slice(1);
     let problem = null;
     if (!token && params.get("plan")) {
       const code = params.get("plan");
@@ -563,13 +580,6 @@ export function createApp(data, { storageKey, loadPlan }) {
         return null;
       } catch (error) {
         return error.message;
-      }
-    }
-    if (!token) {
-      try {
-        token = localStorage.getItem(storageKey) ?? "";
-      } catch {
-        token = "";
       }
     }
     if (!token) return null;

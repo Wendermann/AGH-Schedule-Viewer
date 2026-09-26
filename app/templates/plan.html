@@ -13,7 +13,7 @@
         <div class="plan-chip">
           <b x-show="s.multi" :class="plan.tone" aria-hidden="true" x-text="plan.n"></b>
           <div>
-            <h1 x-text="plan.name"></h1>
+            <h1 x-text="plan.title"></h1>
             <span class="code" x-text="`${plan.code} · ${s.term}`"></span>
           </div>
         </div>
@@ -90,7 +90,7 @@
               <template x-for="plan in s.plans" :key="plan.code">
                 <li>
                   <span :class="s.multi && `swatch ${plan.tone}`" style="width: 14px; height: 14px" aria-hidden="true"></span>
-                  <span x-text="plan.name"></span>
+                  <span x-text="plan.title"></span>
                   <span class="code" x-text="plan.code"></span>
                   <span class="hist" x-text="plan.history ? 'Z historią zmian.' : 'Bez historii zmian.'"></span>
                   <span class="actions" x-show="s.multi">
@@ -100,8 +100,6 @@
               </template>
             </ul>
           </section>
-
-          {{ tree(true) }}
 
           <section>
             <h2>Przedmioty</h2>
@@ -134,6 +132,8 @@
               </template>
             </ul>
           </section>
+
+          {{ tree(true) }}
         </aside>
 
         <main class="sheet">

@@ -1,18 +1,20 @@
 {# Wyszukiwarka i drzewo kierunków. Na stronie startowej prowadzą linkami do
-   planu, na stronie planu otwierają go albo dołączają do widoku. #}
+   planu, na stronie planu otwierają go albo dołączają do widoku.
+   „!!” w :open jest potrzebne: Alpine zamienia undefined na pusty napis,
+   gdy wyrażenie zawiera kropkę, a pusty atrybut open rozwija węzeł. #}
 
 {% macro search(on_plan_page) %}
 <section class="search">
   <h2><label for="search">Szukaj kierunku</label></h2>
-  <input id="search" type="search" x-model="query" placeholder="np. 240-ZBI albo informatyka 3" autocomplete="off">
+  <input id="search" type="search" x-model="query" placeholder="np. automatyka 3, 240-ZBI albo IGR_2N" autocomplete="off">
   <template x-if="query.trim() && !results.length">
-    <p class="muted">Nic nie pasuje. Wpisz kod grupy przedmiotów albo część nazwy kierunku.</p>
+    <p class="muted">Nic nie pasuje. Wpisz nazwę kierunku, kod grupy przedmiotów albo jego część.</p>
   </template>
   <ul class="results" x-show="results.length">
     <template x-for="g in results" :key="g.code">
       <li>
         {% if on_plan_page %}
-        <span class="name" x-text="g.name"></span>
+        <span class="name" x-text="g.title"></span>
         <span class="code" x-text="g.code"></span>
         <span class="actions">
           <template x-if="!g.available"><span class="muted">brak zajęć w tym cyklu</span></template>
@@ -25,8 +27,8 @@
           </template>
         </span>
         {% else %}
-        <template x-if="g.available"><a class="name" :href="href(g.code)" x-text="g.name"></a></template>
-        <template x-if="!g.available"><span class="name muted" x-text="g.name"></span></template>
+        <template x-if="g.available"><a class="name" :href="href(g.code)" x-text="g.title"></a></template>
+        <template x-if="!g.available"><span class="name muted" x-text="g.title"></span></template>
         <span class="code" x-text="g.available ? g.code : `${g.code} · brak zajęć w tym cyklu`"></span>
         {% endif %}
       </li>
@@ -36,40 +38,40 @@
 {% endmacro %}
 
 {% macro leaf(on_plan_page, label) %}
-<template x-if="item.available">
-  {% if on_plan_page %}
-  <button type="button" @click="openPlan(item.code)" :title="item.code" x-text="{{ label }}"></button>
-  {% else %}
-  <a :href="href(item.code)" :title="item.code" x-text="{{ label }}"></a>
-  {% endif %}
-</template>
-<template x-if="!item.available">
-  <span class="muted" :title="item.code" x-text="{{ label }}"></span>
-</template>
-<span class="muted" x-show="!item.available">brak zajęć</span>
+{% if on_plan_page %}
+<button type="button" @click="openPlan(item.code)" :title="item.code" x-text="{{ label }}"></button>
+{% else %}
+<a :href="href(item.code)" :title="item.code" x-text="{{ label }}"></a>
+{% endif %}
 {% endmacro %}
 
 {% macro tree(on_plan_page) %}
 <section class="tree">
   <h2>Kierunki</h2>
   <template x-for="faculty in tree" :key="faculty.code">
-    <details :open="open[faculty.code]" @toggle="toggleNode(faculty.code, $el)">
+    <details :open="!!open[faculty.code]" @toggle="toggleNode(faculty.code, $el)">
       <summary x-text="faculty.name"></summary>
+      <template x-if="!faculty.total">
+        <p class="note">Ta jednostka nie ma w USOSweb grup przedmiotów, więc jej planów tu nie ma.</p>
+      </template>
+      <template x-if="faculty.total && !faculty.programmes.length && !faculty.other.length">
+        <p class="note">Żadna grupa przedmiotów nie ma zajęć w tym cyklu.</p>
+      </template>
       <template x-for="programme in faculty.programmes" :key="programme.key">
-        <details :open="open[programme.key]" @toggle="toggleNode(programme.key, $el)">
-          <summary x-text="`${programme.name}, ${programme.level}`"></summary>
-          <template x-for="year in programme.years" :key="year.year">
-            <details :open="open[`${programme.key}-${year.year}`]" @toggle="toggleNode(`${programme.key}-${year.year}`, $el)">
+        <details :open="!!open[programme.key]" @toggle="toggleNode(programme.key, $el)">
+          <summary :title="programme.code" x-text="programme.label"></summary>
+          <template x-for="year in programme.years" :key="year.key">
+            <details :open="!!open[year.key]" @toggle="toggleNode(year.key, $el)">
               <summary x-text="`rok ${year.year}`"></summary>
               <template x-for="item in year.semesters" :key="item.code">
-                <div class="leaf">{{ leaf(on_plan_page, "`semestr ${item.semester}, ${item.season}`") }}</div>
+                <div class="leaf">{{ leaf(on_plan_page, "item.label") }}</div>
               </template>
             </details>
           </template>
         </details>
       </template>
       <template x-if="faculty.other.length">
-        <details :open="open[`${faculty.code}-inne`]" @toggle="toggleNode(`${faculty.code}-inne`, $el)">
+        <details :open="!!open[`${faculty.code}|inne`]" @toggle="toggleNode(`${faculty.code}|inne`, $el)">
           <summary>Inne</summary>
           <template x-for="item in faculty.other" :key="item.code">
             <div class="leaf">{{ leaf(on_plan_page, "item.name") }}</div>
@@ -78,6 +80,6 @@
       </template>
     </details>
   </template>
-  <p class="note">Pozostałe wydziały AGH dojdą w kolejnej wersji strony.</p>
+  <p class="note">Drzewo pokazuje grupy przedmiotów z zajęciami w tym cyklu. Pozostałe znajdziesz w wyszukiwarce.</p>
 </section>
 {% endmacro %}

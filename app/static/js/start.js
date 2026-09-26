@@ -1,4 +1,4 @@
-// Strona startowa: wyszukiwarka, drzewo kierunków i ostatnio oglądane plany.
+// Strona startowa: wyszukiwarka, drzewo kierunków i ostatnio oglądane widoki.
 
 import Alpine from "../vendor/alpinejs/alpine-3.17.4.esm.min.js";
 import { groupTree, planHref, searchGroups, stamp } from "./model.js";
@@ -28,9 +28,10 @@ Alpine.data("startPage", () => ({
     this.cycle = index.cycles.at(-1);
     this.fetchedAt = stamp(index.fetchedAt);
     this.tree = Object.freeze(groupTree(index));
-    for (const faculty of this.tree) this.open[faculty.code] = true;
     const known = new Set(index.groups.filter((g) => g.plans.length).map((g) => g.code));
-    this.recent = readRecent().filter((p) => known.has(p.code));
+    this.recent = readRecent()
+      .filter((view) => view.codes.every((code) => known.has(code)))
+      .map((view) => ({ ...view, key: view.codes.join("+"), href: `${base}plan.html#${view.token}` }));
   },
 
   // Zapytanie czytamy zawsze, także przed wczytaniem indeksu: inaczej Alpine

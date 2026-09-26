@@ -23,6 +23,7 @@ import {
   stamp,
   statusMessage,
   subjectUrl,
+  treePath,
 } from "./model.js";
 import { decodeState } from "./share.js";
 import {
@@ -34,13 +35,11 @@ import {
   loadIndex,
   loadPlan,
   readTheme,
-  rememberPlans,
+  rememberView,
   tone,
-  treePath,
   typing,
 } from "./ui.js";
 
-const STORAGE_KEY = "plan-stan";
 const PARITY_SHORT = { odd: "N", even: "P" };
 const HOUR_PX = 52;
 const LINE_PX = 14;
@@ -71,8 +70,8 @@ Alpine.data("planPage", () => ({
       const cycle = await chooseCycle(index);
       const cycleData = await loadCycle(cycle);
       app = createApp(
-        { ...cycleData, faculties: index.faculties, groups: index.groups, plans: [] },
-        { storageKey: STORAGE_KEY, loadPlan },
+        { ...cycleData, faculties: index.faculties, groups: index.groups, programmes: index.programmes, plans: [] },
+        { loadPlan },
       );
       this.problem = (await app.restore()) ?? "";
     } catch (error) {
@@ -98,8 +97,8 @@ Alpine.data("planPage", () => ({
       return;
     }
     const plans = app.activePlans();
-    for (const plan of plans) for (const key of treePath(plan.code)) this.open[key] = true;
-    rememberPlans(plans);
+    for (const plan of plans) for (const key of treePath(app.data, plan.code)) this.open[key] = true;
+    app.shareUrl().then((url) => rememberView(plans, url.split("#")[1]));
     document.title = `${plans.map((p) => p.code).join(" + ")} · Plan na tydzień`;
     this.s = Object.freeze(snapshot(this.historyScope));
   },
@@ -207,7 +206,7 @@ function snapshot(historyScope) {
   const status = app.status();
   const view = mode === "week" ? app.calendarWeek() : app.typicalWeek();
   return {
-    plans: plans.map((p, i) => ({ code: p.code, name: p.name, usosUrl: p.usosUrl, history: Boolean(p.history), tone: tone(`plan-${i}`), n: i + 1 })),
+    plans: plans.map((p, i) => ({ code: p.code, title: p.title, usosUrl: p.usosUrl, history: Boolean(p.history), tone: tone(`plan-${i}`), n: i + 1 })),
     multi: plans.length > 1,
     active: plans.map((p) => p.code),
     term: term.name,

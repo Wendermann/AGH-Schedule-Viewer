@@ -26,7 +26,9 @@ jobs:
   build:
     needs: test
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    # Pierwsza budowa w tygodniu (strony USOSweb bez cache) trwała 26.09.2026
+    # prawie 2 godziny: ok. 1 h stron USOSweb i ok. 1 h dat z USOS API.
+    timeout-minutes: 240
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6

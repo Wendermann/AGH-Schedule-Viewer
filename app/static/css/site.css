@@ -141,6 +141,9 @@ button, select, input { font: inherit; color: inherit; }
   border-bottom: 1px solid var(--rule);
 }
 .seg { display: flex; gap: 14px; align-items: baseline; }
+/* Ta sama wysokość przełączników i nawigacji tygodni: zmiana widoku nie
+   przesuwa planu. */
+.toolbar .seg, .toolbar .week-nav { min-height: 32px; }
 .seg__label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); }
 .seg button {
   background: none;
@@ -171,8 +174,25 @@ button, select, input { font: inherit; color: inherit; }
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-.share-out { font-size: 12px; color: var(--ink-2); }
-.share-out input { width: 22ch; border: 1px solid var(--rule); background: var(--paper); padding: 2px 4px; }
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  max-width: calc(100vw - 2 * var(--gutter));
+  padding: 10px 12px 10px 16px;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 13px;
+}
+.toast label { display: flex; gap: 8px; align-items: center; }
+.toast input { width: min(40ch, 55vw); border: 1px solid var(--ink-3); background: var(--paper); color: var(--ink); padding: 2px 4px; }
+.toast__close { background: none; border: 0; color: inherit; font-size: 18px; line-height: 1; cursor: pointer; padding: 0 2px; }
+.toast :focus-visible { outline-color: var(--paper); }
 
 /* ---------- układ ---------- */
 
@@ -182,12 +202,17 @@ button, select, input { font: inherit; color: inherit; }
   gap: 24px;
   padding-top: 20px;
 }
-.layout.has-details { grid-template-columns: 220px minmax(0, 1fr) 280px; }
+/* Kolumna szczegółów jest stała, żeby zaznaczenie zajęć nie przestawiało
+   siatki; bez zaznaczenia pokazuje podpowiedź. */
+.layout:not(.is-browse) { grid-template-columns: 220px minmax(0, 1fr) 280px; }
 .layout > * { min-width: 0; }
 
 /* ---------- indeks (lewa kolumna) ---------- */
 
 .index { display: flex; flex-direction: column; gap: 28px; font-size: 13px; }
+.index h2.with-action { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.with-action button { font-size: 12px; font-weight: 400; letter-spacing: 0; text-transform: none; }
+.is-invisible { visibility: hidden; }
 .index h2 {
   margin: 0 0 8px;
   font-size: 11px;
@@ -231,7 +256,8 @@ button, select, input { font: inherit; color: inherit; }
 .subjects > li { border-top: 1px solid var(--rule); padding: 6px 0; }
 .subject-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: start; }
 .subject-row .name { font-weight: 600; }
-.subject-row.is-hidden .name { color: var(--ink-3); text-decoration: line-through; font-weight: 400; }
+/* Ukryte bez zmiany grubości pisma: długa nazwa nie zmienia liczby linii. */
+.subject-row.is-hidden .name { color: var(--ink-3); text-decoration: line-through; }
 .toggle {
   background: none;
   border: 1.5px solid var(--ink);
@@ -248,7 +274,9 @@ button, select, input { font: inherit; color: inherit; }
 .types li { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; }
 .types .type-name { min-width: 7.5em; }
 .types .type-name.is-hidden { color: var(--ink-3); text-decoration: line-through; }
-.types button.link { background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; font-size: 12px; }
+.types button.link { background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; font-size: 12px; min-width: 3.2em; text-align: left; }
+.types.is-muted { opacity: 0.5; }
+.types button:disabled { cursor: default; }
 .groups { display: inline-flex; gap: 2px; }
 .groups button {
   min-width: 22px; height: 20px;
@@ -258,7 +286,8 @@ button, select, input { font: inherit; color: inherit; }
   font-size: 11px;
   padding: 0 4px;
 }
-.groups button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); font-weight: 700; }
+.groups button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.groups button:disabled { cursor: default; opacity: 0.5; }
 
 /* ---------- legenda i komunikaty ---------- */
 
@@ -375,6 +404,7 @@ button, select, input { font: inherit; color: inherit; }
 /* ---------- szczegóły ---------- */
 
 .details { border-top: 2px solid var(--rule-strong); padding-top: 8px; font-size: 13px; align-self: start; position: sticky; top: 12px; max-height: calc(100vh - 24px); overflow-y: auto; }
+.details-hint { margin: 0; color: var(--ink-3); }
 .details__close { float: right; background: none; border: 0; font-size: 20px; line-height: 1; cursor: pointer; padding: 0 2px; }
 .details h2 { margin: 0 0 4px; font-size: 18px; line-height: 1.25; text-wrap: balance; }
 .details dl { display: grid; grid-template-columns: 7.5em 1fr; gap: 6px 10px; margin: 14px 0; }
@@ -428,15 +458,31 @@ button, select, input { font: inherit; color: inherit; }
 .recent .code, .start .results .code { font-size: 11px; color: var(--ink-2); }
 .masthead__tools { display: flex; justify-content: flex-end; }
 
+/* ---------- węższy ekran: szczegóły wysuwane od dołu ---------- */
+
+@media (max-width: 1199px) {
+  .layout:not(.is-browse) { grid-template-columns: 220px minmax(0, 1fr); }
+  /* Panel przykrywa dół strony zamiast przestawiać kolumny. */
+  .details {
+    position: fixed;
+    left: 0; right: 0; bottom: 0; top: auto;
+    max-height: 60vh;
+    padding: 10px var(--gutter) calc(16px + env(safe-area-inset-bottom, 0px));
+    background: var(--paper);
+    box-shadow: 0 -12px 32px rgb(0 0 0 / 0.18);
+    z-index: 5;
+  }
+  .details.is-empty { display: none; }
+}
+
 /* ---------- telefon ---------- */
 
 @media (max-width: 900px) {
   :root { --gutter: 16px; }
   .masthead { grid-template-columns: 1fr; }
   .masthead__status { text-align: left; }
-  .layout, .layout.has-details { grid-template-columns: minmax(0, 1fr); }
+  .layout, .layout:not(.is-browse) { grid-template-columns: minmax(0, 1fr); }
   .page { padding-bottom: 24px; }
-  .details { position: static; max-height: none; order: -1; }
   .index { order: 1; }
   .start { grid-template-columns: minmax(0, 1fr); }
   .toolbar__end { margin-left: 0; flex-wrap: wrap; }
@@ -454,7 +500,7 @@ button, select, input { font: inherit; color: inherit; }
 @media print {
   @page { size: A4 landscape; margin: 10mm; }
   :root { --paper: #fff; --ink: #000; --ink-2: #333; --ink-3: #666; --rule: #bbb; --rule-strong: #000; --grey-fill: #ddd; --accent: #000; --hour: 34px; }
-  .toolbar, .index, .details, .history, .agenda, .notice, .colophon { display: none !important; }
+  .toolbar, .index, .details, .history, .agenda, .notice, .colophon, .toast { display: none !important; }
   .layout { display: block; padding: 0; }
   .grid-wrap { display: block; overflow: visible; }
   .grid { min-width: 0; }

@@ -110,7 +110,9 @@ def teaching_calendar(activities: Iterable[Activity], meetings: Iterable[Meeting
         day += timedelta(days=1)
     swaps = {}
     for day, counter in sorted(votes.items()):
-        if day in days_off:
+        # Zamiana dotyczy zwykłego dnia roboczego. W weekend (studia
+        # niestacjonarne) garstka przeniesionych zajęć przegłosowałaby resztę.
+        if day.weekday() >= 5 or day in days_off:
             continue
         weekday, count = counter.most_common(1)[0]
         if weekday != day.weekday() and count > sum(counter.values()) / 2:

@@ -234,10 +234,12 @@ więc budować z kodów z regułą awaryjną dla nietypowych przypadków.
 - **Wydziały**: `fac/search?query=Wydział` w API. Daje 18 wydziałów
   o kodach `NNN-000` (od `100-000` do `430-000`).
 - **Grupy przedmiotów jednostki**: USOSweb
-  `katalog2/przedmioty/wybierzGrupePrzedmiotow&jed_org_kod=240-000&tab_limit=500`.
+  `katalog2/przedmioty/wybierzGrupePrzedmiotow&jed_org_kod=240-000&tab_limit=500&tab_offset=0&tab_order=2a1a`.
   Domyślnie strona pokazuje 30 pozycji, a element `<table-nav-bar
   elements-count="25">` podaje ich łączną liczbę, więc parser odrzuca
-  niepełną listę. Wydział Informatyki ma 25 grup. Link z
+  niepełną listę. Sam `tab_limit` nie wystarcza: bez `tab_offset`
+  i `tab_order` USOSweb go ignoruje (sprawdzone 26.09.2026 na `100-000`,
+  165 grup). Wydział Informatyki ma 25 grup. Link z
   `szukajPrzedmiotu&method=faculty_groups&jed_org_kod=240-000` przekierowuje
   (303) na tę stronę. Strona ma też eksport CSV, ale jego adres zależy od
   sesji.
@@ -248,8 +250,28 @@ więc budować z kodów z regułą awaryjną dla nietypowych przypadków.
   więc osobna lista przedmiotów
   (`szukajPrzedmiotu&method=faculty_groups&grupaKod=…`) nie jest potrzebna.
 
-Nie sprawdzałem, czy grupy przedmiotów definiują też jednostki inne niż
-wydziały, np. studium języków obcych.
+Stan z 26.09.2026 dla całej AGH:
+
+- 1199 grup przedmiotów w 18 wydziałach i jednostce `000-000` (Akademia
+  Górniczo-Hutnicza). Najwięcej ma Wydział Inżynierii Mechanicznej
+  i Robotyki (206).
+- `000-000` definiuje 14 grup ogólnouczelnianych (języki obce `440-JO-…`,
+  HES, grupy przedmiotów innowacyjnych, kursy międzynarodowe).
+- Wydział Odlewnictwa (`170-000`) i Wydział Fizyki i Informatyki
+  Stosowanej (`220-000`) nie definiują żadnych grup, ich katedry
+  (`fac/subfaculties_deep`) też nie. Strona pokazuje wtedy komunikat „Ta
+  jednostka nie zdefiniowała żadnych grup!” w `<notice-box>`.
+- Kody grup różnią się między wydziałami, np. `IGR_2N_s1`, `ETI_1S_sem5`,
+  `ELT_1N_sem_8_AiM`, `130_MBM_1S_sem4`, `MBM-2S_s1L,POSangETM`,
+  `GIK-1S,sem.5`, `CHB-1S,1sem,PP`, `ZRZ-1N,1semestr,PP`,
+  `ZIP-2N, 2 sem ZJ PP`, `420-MAT-MOiK-s3-PO`. `app/catalog.py` odczytuje
+  z nich kierunek, stopień i semestr dla 1173 z 1199 grup.
+- Pełne nazwy kierunków: `progs/search` (bez klucza, `lang` wymagany).
+  Identyfikatory programów mają postać `100-IZP-1N-19` albo
+  `240-IDS-2S4-20` (wydział, skrót, stopień i tryb, rocznik). Wyszukiwarki
+  API zwracają najwyżej 100 wyników, więc zapytań jest kilka („pierwszego
+  stopnia, stacjonarne” itd.); razem dają 239 kierunków.
+- Wydziały: `fac/search` też wymaga `lang`.
 
 
 ## 8. Poprzednie cykle
@@ -288,9 +310,15 @@ Jeden plan grupy przedmiotów w jednym cyklu kosztuje:
   do ostatnich zajęć, albo po jednym `tt/classgroup_dates2` na grupę
   zajęciową (tu 52).
 
-Wydział Informatyki ma 25 grup przedmiotów. Przy 18 wydziałach cała AGH to
-najpewniej kilkaset grup w cyklu, choć tego nie liczyłem. Pełny indeks
-oznacza więc kilkaset stron USOSweb. `robots.txt` USOSweb zabrania pobierania
+Wydział Informatyki ma 25 grup przedmiotów, cała AGH 1199 (26.09.2026),
+więc pełny indeks to ok. 1200 stron USOSweb, przy odstępie 3 s około
+godziny. `tt/classgroups` przyjmuje też POST: 26.09.2026 jedno zapytanie
+o wszystkie 965 grup zajęciowych Wydziału Informatyki trwało 1,2 s i dało
+ten sam wynik co paczki GET. W adresie GET mieści się niecałe 900 grup
+(dłuższy kończy się HTTP 414). Przy pełnym pobraniu całej AGH (13 059 grup
+zajęciowych, 21 okien tygodniowych) to samo zapytanie o 1000 grup trwało
+ok. 12 s, a o 3000 grup 28 s, więc czas zależy głównie od liczby grup
+i obciążenia USOS; daty dla całej AGH to ok. godzina. `robots.txt` USOSweb zabrania pobierania
 czegokolwiek, dlatego te strony warto pobierać rzadko (np. raz w tygodniu
 i tylko dla bieżącego oraz następnego cyklu), z odstępem co najmniej 2 s.
 Zakończone cykle wystarczy pobrać raz. Dla API rozsądny odstęp to 1 s.

@@ -13,7 +13,7 @@
         <div class="plan-chip">
           <b x-show="s.multi" :class="plan.tone" aria-hidden="true" x-text="plan.n"></b>
           <div>
-            <h1 x-text="plan.name"></h1>
+            <h1 x-text="plan.title"></h1>
             <span class="code" x-text="`${plan.code} · ${s.term}`"></span>
           </div>
         </div>
@@ -31,7 +31,7 @@
   </div>
 
   <template x-if="!s && !failure && !loading && tree.length">
-    <div class="layout">
+    <div class="layout is-browse">
       <aside class="index" aria-label="Wybór planu">
         {{ search(true) }}
         {{ tree(true) }}
@@ -73,14 +73,10 @@
             </template>
           </div>
           <button type="button" class="text-button" @click="share()">Udostępnij</button>
-          <span class="share-out" role="status" x-show="shareText" x-text="shareText"></span>
-          <span class="share-out" x-show="shareUrl">
-            <input x-ref="shareField" :value="shareUrl" readonly aria-label="Link do tego widoku">
-          </span>
         </div>
       </div>
 
-      <div class="layout" :class="s.details && 'has-details'">
+      <div class="layout">
         <aside class="index" aria-label="Wybór planu i przedmiotów">
           {{ search(true) }}
 
@@ -90,7 +86,7 @@
               <template x-for="plan in s.plans" :key="plan.code">
                 <li>
                   <span :class="s.multi && `swatch ${plan.tone}`" style="width: 14px; height: 14px" aria-hidden="true"></span>
-                  <span x-text="plan.name"></span>
+                  <span x-text="plan.title"></span>
                   <span class="code" x-text="plan.code"></span>
                   <span class="hist" x-text="plan.history ? 'Z historią zmian.' : 'Bez historii zmian.'"></span>
                   <span class="actions" x-show="s.multi">
@@ -101,11 +97,9 @@
             </ul>
           </section>
 
-          {{ tree(true) }}
-
           <section>
-            <h2>Przedmioty</h2>
-            <p x-show="s.hidden"><button type="button" class="text-button" @click="showAll()" x-text="`Pokaż wszystko (ukryte: ${s.hidden})`"></button></p>
+            {# Przycisk zawsze zajmuje miejsce w nagłówku, żeby lista nie skakała. #}
+            <h2 class="with-action">Przedmioty <button type="button" class="text-button" :class="!s.hidden && 'is-invisible'" @click="showAll()" x-text="`pokaż wszystkie (ukryte: ${s.hidden})`"></button></h2>
             <ul class="subjects">
               <template x-for="subject in s.subjects" :key="subject.code">
                 <li>
@@ -115,14 +109,15 @@
                             :aria-label="`${subject.hidden ? 'Pokaż' : 'Ukryj'} przedmiot ${subject.name}`"
                             @click="toggleSubject(subject.code)" x-text="subject.hidden ? '' : '✓'"></button>
                   </div>
-                  <ul class="types" x-show="!subject.hidden">
+                  {# Ukrycie tylko wyszarza typy i grupy, żeby karta nie zmieniała kształtu. #}
+                  <ul class="types" :class="subject.hidden && 'is-muted'">
                     <template x-for="t in subject.types" :key="t.type">
                       <li>
-                        <span class="type-name" :class="t.hidden && 'is-hidden'"><b class="tcode" :class="t.tone" x-text="t.type"></b> <span x-text="t.name"></span></span>
-                        <button type="button" class="link" @click="toggleType(subject.code, t.type)" x-text="t.hidden ? 'pokaż' : 'ukryj'"></button>
-                        <span class="groups" role="group" :aria-label="`Moja grupa: ${t.name}`" x-show="!t.hidden && t.groups.length > 1">
+                        <span class="type-name" :class="(subject.hidden || t.hidden) && 'is-hidden'"><b class="tcode" :class="t.tone" x-text="t.type"></b> <span x-text="t.name"></span></span>
+                        <button type="button" class="link" :disabled="subject.hidden" @click="toggleType(subject.code, t.type)" x-text="t.hidden ? 'pokaż' : 'ukryj'"></button>
+                        <span class="groups" role="group" :aria-label="`Moja grupa: ${t.name}`" x-show="t.groups.length > 1">
                           <template x-for="g in t.groups" :key="g">
-                            <button type="button" :aria-pressed="String(t.chosen === g)"
+                            <button type="button" :disabled="subject.hidden || t.hidden" :aria-pressed="String(t.chosen === g)"
                                     :title="t.chosen === g ? 'Pokaż znowu wszystkie grupy' : `Zostaw tylko grupę ${g}`"
                                     @click="chooseGroup(subject.code, t.type, g)" x-text="g"></button>
                           </template>
@@ -134,6 +129,8 @@
               </template>
             </ul>
           </section>
+
+          {{ tree(true) }}
         </aside>
 
         <main class="sheet">
@@ -251,7 +248,8 @@
           </section>
         </main>
 
-        <aside class="details" aria-label="Szczegóły zajęć" x-show="s.details">
+        <aside class="details" :class="!s.details && 'is-empty'" aria-label="Szczegóły zajęć">
+          <p class="details-hint" x-show="!s.details">Kliknij zajęcia w planie, żeby zobaczyć prowadzących, salę, daty spotkań i kolizje.</p>
           <template x-if="s.details">
             <div>
               <button type="button" class="details__close" aria-label="Zamknij szczegóły" @click="close()">×</button>
@@ -352,6 +350,13 @@
             </div>
           </template>
         </aside>
+      </div>
+
+      {# Komunikat nad stroną: nie zmienia wysokości paska narzędzi. #}
+      <div class="toast" role="status" x-show="shareText || shareUrl" x-cloak>
+        <span x-show="shareText" x-text="shareText"></span>
+        <label x-show="shareUrl">Skopiuj link: <input x-ref="shareField" :value="shareUrl" readonly></label>
+        <button type="button" class="toast__close" aria-label="Zamknij komunikat" @click="shareText = ''; shareUrl = ''">×</button>
       </div>
 
       <footer class="colophon">

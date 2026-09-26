@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 import requests
 
+from app.usos import api as usos_api
 from app.usos.api import UsosApi
 from app.usos.fetch import RateLimiter, UsosError, UsosUnavailable
 
@@ -32,8 +33,11 @@ class WeekSession:
     def __init__(self):
         self.headers = {}
         self.calls = []
+        self.timeouts = []
 
-    def get(self, url, params, timeout):
+    def post(self, url, data, timeout):
+        params = data
+        self.timeouts.append(timeout)
         self.calls.append(params)
         path = FIXTURES / f"api-classgroups-{params['start']}.json"
         meetings = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
@@ -53,6 +57,9 @@ class ScriptedSession:
             raise response
         return response
 
+    def post(self, url, data, timeout):
+        return self.get(url, data, timeout)
+
 
 def api(session):
     return UsosApi(BASE, limiter=RateLimiter(0), timeout=5, user_agent="test", session=session, sleep=lambda s: None)
@@ -63,17 +70,24 @@ def zbi_groups():
     return {(m["unit_id"], m["group_number"]) for m in meetings}
 
 
-def test_meetings_are_fetched_in_weekly_windows_and_batches():
+def test_meetings_are_fetched_in_weekly_windows_and_batches(monkeypatch):
+    monkeypatch.setattr(usos_api, "BATCH", 20)
     session = WeekSession()
     groups = zbi_groups()
     meetings = api(session).meetings(groups, date(2026, 10, 26), date(2026, 11, 15))
-    # Trzy tygodnie, a w każdym grupy podzielone na paczki po najwyżej 50.
+    # Trzy tygodnie, a w każdym grupy podzielone na paczki po najwyżej 20.
     starts = [call["start"] for call in session.calls]
     assert sorted(set(starts)) == ["2026-10-26", "2026-11-02", "2026-11-09"]
-    assert all(len(call["classgroup_ids"].split("|")) // 2 <= 50 for call in session.calls)
-    assert len(session.calls) == 3 * -(-len(groups) // 50)
+    assert all(len(call["classgroup_ids"].split("|")) // 2 <= 20 for call in session.calls)
+    assert len(session.calls) == 3 * -(-len(groups) // 20)
     assert len(meetings) == 32 + 21
     assert meetings == sorted(meetings, key=lambda m: (m.day, m.start, m.unit_id, m.group_no))
+
+
+def test_meetings_get_a_longer_timeout():
+    session = WeekSession()
+    api(session).meetings({(191059, 1)}, date(2026, 10, 26), date(2026, 10, 28))
+    assert session.timeouts == [usos_api.MEETINGS_TIMEOUT]
 
 
 def test_last_window_is_shortened_to_the_end_date():

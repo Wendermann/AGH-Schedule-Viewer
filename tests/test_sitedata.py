@@ -13,15 +13,21 @@ FIXTURES = Path(__file__).parent / "fixtures" / "usos"
 PLAN = (FIXTURES / "plan-240-ZBI-1S-2R-Z-26_27-Z.html").read_text(encoding="utf-8")
 EMPTY = (FIXTURES / "plan-240-INF-1S-2R-Z-22_23-Z.html").read_text(encoding="utf-8")
 GROUPS = (FIXTURES / "groups-240-000.html").read_text(encoding="utf-8")
+NO_GROUPS = (FIXTURES / "groups-170-000.html").read_text(encoding="utf-8")
 FETCHED = datetime(2026, 9, 25, 16, tzinfo=timezone.utc)
 
 
 class FakeWeb:
-    """ZBI ma plan, INF 1. rok nie odpowiada, reszta grup jest pusta."""
+    """Grupy ma tylko Wydział Informatyki. ZBI ma plan, INF 1. rok nie
+    odpowiada, reszta grup jest pusta."""
+
+    def __init__(self):
+        self.group_lists = []
 
     def get(self, action, *, refresh=False, **params):
         if "wybierzGrupePrzedmiotow" in action:
-            return Page("groups", GROUPS, FETCHED)
+            self.group_lists.append(params)
+            return Page("groups", GROUPS if params["jed_org_kod"] == "240-000" else NO_GROUPS, FETCHED)
         code = params["grupa_kod"]
         if code == "240-INF-1S-1R-Z":
             raise UsosUnavailable("timeout")
@@ -32,9 +38,14 @@ class FakeWeb:
 
 
 class FakeApi:
-    def call(self, method, **params):
-        assert method == "fac/faculty"
-        return {"id": params["fac_id"], "name": {"pl": "Wydział Informatyki"}}
+    def faculties(self):
+        return [("170-000", "Wydział Odlewnictwa"), ("240-000", "Wydział Informatyki")]
+
+    def unit_name(self, unit):
+        return {"240-000": "Wydział Informatyki"}[unit]
+
+    def programmes(self):
+        return {"240-ZBI-1S": "Informatyka - Zarządzanie Bezpieczeństwem Informacji", "100-IZP-1S": "Inżynieria i Zarządzanie Procesami Przemysłowymi"}
 
     def class_types(self):
         return {"W": "wykład", "CWL": "ćwiczenia laboratoryjne"}
@@ -72,12 +83,21 @@ def test_site_data_files(app, tmp_path):
     assert not (out / "plany" / "stary").exists()
 
     index = read(out / "indeks.json")
-    assert index["faculties"] == [{"code": "240-000", "name": "Wydział Informatyki"}]
+    # Domyślnie wszystkie wydziały z API i grupy ogólnouczelniane, także
+    # jednostki bez grup przedmiotów.
+    assert index["faculties"] == [
+        {"code": "170-000", "name": "Wydział Odlewnictwa"},
+        {"code": "240-000", "name": "Wydział Informatyki"},
+        {"code": "000-000", "name": "Grupy ogólnouczelniane"},
+    ]
     assert index["cycles"][0]["id"] == "26/27-Z"
     assert len(index["groups"]) == 25
     zbi = next(g for g in index["groups"] if g["code"] == "240-ZBI-1S-2R-Z")
     assert zbi["plans"] == [{"cycle": "26/27-Z", "history": False}]
+    assert (zbi["programme"], zbi["level"], zbi["semester"]) == ("ZBI", "1S", 3)
     assert all(not g["plans"] for g in index["groups"] if g is not zbi)
+    # Tylko nazwy kierunków, które mają grupy na stronie.
+    assert index["programmes"] == {"240-ZBI-1S": "Informatyka - Zarządzanie Bezpieczeństwem Informacji"}
 
     plan = read(out / "plany" / "26-27-Z" / "240-ZBI-1S-2R-Z.json")
     assert len(plan["activities"]) == 53
@@ -101,6 +121,21 @@ def test_history_is_attached_to_the_plan(app, tmp_path):
     assert read(out / "plany" / "26-27-Z" / "240-ZBI-1S-2R-Z.json")["history"] == {"checks": checks}
     zbi = next(g for g in read(out / "indeks.json")["groups"] if g["code"] == "240-ZBI-1S-2R-Z")
     assert zbi["plans"] == [{"cycle": "26/27-Z", "history": True}]
+
+
+def test_group_list_is_asked_for_all_rows(app, tmp_path):
+    with app.app_context():
+        fetch_site_data(tmp_path / "dane")
+    lists = app.extensions["usos"].group_lists
+    assert {p["jed_org_kod"] for p in lists} == {"170-000", "240-000", "000-000"}
+    assert all(p["tab_limit"] == "500" and p["tab_offset"] == "0" and p["tab_order"] for p in lists)
+
+
+def test_configured_units(app, tmp_path):
+    app.config["SITE_FACULTIES"] = ("240-000",)
+    with app.app_context():
+        fetch_site_data(tmp_path / "dane")
+    assert read(tmp_path / "dane" / "indeks.json")["faculties"] == [{"code": "240-000", "name": "Wydział Informatyki"}]
 
 
 def test_cli_writes_where_the_server_reads(app, tmp_path):

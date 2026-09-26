@@ -1,12 +1,12 @@
 // Pomocniki wspólne dla strony startowej i strony planu: wczytywanie danych,
-// motyw, ostatnio oglądane plany i barwy bloczków.
+// motyw, ostatnio oglądane widoki i barwy bloczków.
 
 import { fetchJson } from "./model.js";
 
 export const base = document.body.dataset.base ?? "/";
 
 const THEME_KEY = "plan-motyw";
-const RECENT_KEY = "plan-ostatnie";
+const RECENT_KEY = "plan-ostatnie-widoki";
 const RECENT_LIMIT = 6;
 const TYPES_WITH_COLOR = new Set(["W", "CWL", "CWA", "CWP"]);
 
@@ -48,18 +48,22 @@ export const THEMES = [
   ["dark", "ciemny"],
 ];
 
+// Ostatnio oglądane widoki: zestaw planów z tokenem „Udostępnij”, więc powrót
+// ze strony startowej przywraca też ukryte przedmioty i wybrane grupy.
 export function readRecent() {
   try {
     const list = JSON.parse(read(RECENT_KEY, "[]"));
-    return Array.isArray(list) ? list.filter((p) => p?.code && p?.cycle) : [];
+    return Array.isArray(list) ? list.filter((v) => Array.isArray(v?.codes) && v.token && v.title) : [];
   } catch {
     return [];
   }
 }
 
-export function rememberPlans(plans) {
-  const codes = new Set(plans.map((p) => p.code));
-  const list = [...plans.map(({ code, name, cycle }) => ({ code, name, cycle })), ...readRecent().filter((p) => !codes.has(p.code))];
+export function rememberView(plans, token) {
+  const codes = plans.map((p) => p.code);
+  const key = codes.join("+");
+  const view = { codes, title: plans.map((p) => p.title).join(" + "), token };
+  const list = [view, ...readRecent().filter((v) => v.codes.join("+") !== key)];
   write(RECENT_KEY, JSON.stringify(list.slice(0, RECENT_LIMIT)));
 }
 
@@ -87,10 +91,3 @@ export function typing(event) {
 }
 
 export const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
-
-// Węzły drzewa kierunków, które trzeba rozwinąć, żeby pokazać dany kod.
-export function treePath(code) {
-  const match = code.match(/^(\d{3})-([A-Z]{2,4})-([12][SN])-(\d)R/);
-  if (!match) return [];
-  return [`${match[1]}-000`, `${match[2]}-${match[3]}`, `${match[2]}-${match[3]}-${match[4]}`];
-}

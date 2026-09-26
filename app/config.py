@@ -5,8 +5,10 @@ class Config:
     # Ścieżka, pod którą strona jest dostępna; na GitHub Pages to nazwa repo.
     SITE_BASE = "/"
     SITE_NAME = "Plan na tydzień"
-    # Zakres danych strony: wydziały i cykle dydaktyczne.
-    SITE_FACULTIES = ("240-000",)
+    # Zakres danych strony: jednostki i cykle dydaktyczne. None to wszystkie
+    # wydziały AGH z USOS API i grupy ogólnouczelniane (000-000); lista kodów,
+    # np. ("240-000",), zawęża dane, co przydaje się przy pracy lokalnej.
+    SITE_FACULTIES = None
     SITE_CYCLES = ("26/27-Z",)
     # Katalog z danymi z `flask fetch`. Domyślnie instance/dane.
     SITE_DATA_DIR = None

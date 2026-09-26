@@ -37,8 +37,8 @@
       <section x-show="recent.length" x-cloak>
         <h2>Ostatnio oglądane</h2>
         <ul class="recent">
-          <template x-for="plan in recent" :key="plan.code">
-            <li><a :href="href(plan.code)" x-text="plan.name"></a><span class="code" x-text="plan.code"></span></li>
+          <template x-for="view in recent" :key="view.key">
+            <li><a :href="view.href" x-text="view.title"></a><span class="code" x-text="view.codes.join(' + ')"></span></li>
           </template>
         </ul>
       </section>

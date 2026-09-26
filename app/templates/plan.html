@@ -109,14 +109,15 @@
                             :aria-label="`${subject.hidden ? 'Pokaż' : 'Ukryj'} przedmiot ${subject.name}`"
                             @click="toggleSubject(subject.code)" x-text="subject.hidden ? '' : '✓'"></button>
                   </div>
-                  <ul class="types" x-show="!subject.hidden">
+                  {# Ukrycie tylko wyszarza typy i grupy, żeby karta nie zmieniała kształtu. #}
+                  <ul class="types" :class="subject.hidden && 'is-muted'">
                     <template x-for="t in subject.types" :key="t.type">
                       <li>
-                        <span class="type-name" :class="t.hidden && 'is-hidden'"><b class="tcode" :class="t.tone" x-text="t.type"></b> <span x-text="t.name"></span></span>
-                        <button type="button" class="link" @click="toggleType(subject.code, t.type)" x-text="t.hidden ? 'pokaż' : 'ukryj'"></button>
-                        <span class="groups" role="group" :aria-label="`Moja grupa: ${t.name}`" x-show="!t.hidden && t.groups.length > 1">
+                        <span class="type-name" :class="(subject.hidden || t.hidden) && 'is-hidden'"><b class="tcode" :class="t.tone" x-text="t.type"></b> <span x-text="t.name"></span></span>
+                        <button type="button" class="link" :disabled="subject.hidden" @click="toggleType(subject.code, t.type)" x-text="t.hidden ? 'pokaż' : 'ukryj'"></button>
+                        <span class="groups" role="group" :aria-label="`Moja grupa: ${t.name}`" x-show="t.groups.length > 1">
                           <template x-for="g in t.groups" :key="g">
-                            <button type="button" :aria-pressed="String(t.chosen === g)"
+                            <button type="button" :disabled="subject.hidden || t.hidden" :aria-pressed="String(t.chosen === g)"
                                     :title="t.chosen === g ? 'Pokaż znowu wszystkie grupy' : `Zostaw tylko grupę ${g}`"
                                     @click="chooseGroup(subject.code, t.type, g)" x-text="g"></button>
                           </template>

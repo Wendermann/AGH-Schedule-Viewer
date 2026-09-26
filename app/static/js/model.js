@@ -160,13 +160,21 @@ export function treePath(data, code) {
 const fold = (text) => text.normalize("NFD").replace(/\p{M}/gu, "").replace(/ł/g, "l").replace(/Ł/g, "L").toLowerCase();
 
 // Szuka w kodzie, nazwie grupy i nazwie kierunku; grupy z zajęciami idą
-// pierwsze.
+// pierwsze. Liczba w zapytaniu musi być całą liczbą z nazwy albo tytułu
+// (np. „semestr 3”) albo prefiksem jednostki w kodzie („240”). Cyfry
+// z reszty kodu nie pasują, bo „3” znajdowałoby „130_APR_1S_sem1”,
+// a „1” każdą grupę pierwszego stopnia („1S”).
 export function searchGroups(data, query) {
   const words = fold(query).split(/\s+/).filter(Boolean);
   if (!words.length) return [];
+  const matches = (text, numbers, word) => (/^\d+$/.test(word) ? numbers.has(word) : text.includes(word));
   return data.groups
     .map((g) => ({ ...g, title: groupTitle(data, g), available: g.plans.length > 0 }))
-    .filter((g) => words.every((w) => fold(`${g.code} ${g.name} ${g.title}`).includes(w)))
+    .filter((g) => {
+      const text = fold(`${g.code} ${g.name} ${g.title}`);
+      const numbers = new Set([...`${g.name} ${g.title}`.matchAll(/\d+/g)].map((m) => m[0]).concat(g.code.match(/^\d{3}/) ?? []));
+      return words.every((w) => matches(text, numbers, w));
+    })
     .sort((a, b) => b.available - a.available || a.code.localeCompare(b.code, "pl"))
     .slice(0, 12);
 }

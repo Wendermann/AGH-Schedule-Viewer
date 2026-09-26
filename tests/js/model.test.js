@@ -163,6 +163,12 @@ test("search matches programme names and lists groups with classes first", () =>
   assert.deepEqual(searchGroups(siteData(), "gornicza").map((g) => g.code), ["IGR_2N_s1"]);
 });
 
+test("a number in the query matches a whole number, not a digit inside a code", () => {
+  // „1” pasuje do „semestr 1”, ale nie do „semestr 7” w grupie 240_INF-1S,7sem,po.
+  assert.deepEqual(searchGroups(siteData(), "informatyka 1").map((g) => g.code), ["240-ZBI-1S-1R-Z"]);
+  assert.deepEqual(searchGroups(siteData(), "informatyka 7").map((g) => g.code), ["240_INF-1S,7sem,po"]);
+});
+
 test("link from the start page opens the plan", async () => {
   globalThis.location = urlOf(planHref("/AGH-Schedule-Viewer/", "240-ZBI-1S-2R-Z", "26/27-Z"));
   assert.equal(location.search, "?plan=240-ZBI-1S-2R-Z&cykl=26%2F27-Z");

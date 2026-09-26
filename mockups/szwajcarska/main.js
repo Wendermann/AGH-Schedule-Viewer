@@ -21,12 +21,6 @@ import {
 const $ = (id) => document.getElementById(id);
 const THEME_KEY = "rozklad-motyw";
 const TYPES_WITH_COLOR = new Set(["W", "CWL", "CWA", "CWP"]);
-const COLOR_KEY = "rozklad-kolor";
-const COLOR_MODES = [
-  ["fields", "pełne pola"],
-  ["tints", "tinty z paskiem"],
-  ["frames", "kolorowe obrysy"],
-];
 const PARITY_SHORT = { odd: "N", even: "P" };
 const HOUR_PX = 52;
 const LINE_PX = 14;
@@ -36,7 +30,6 @@ let query = "";
 let historyScope = "all";
 let shareText = "";
 let theme = readPreference(THEME_KEY, "system");
-let colorMode = readPreference(COLOR_KEY, "fields");
 // Węzły drzewa kierunków rozwinięte przez użytkownika przetrwają przerysowanie.
 const openNodes = new Set(["240-000"]);
 
@@ -44,7 +37,6 @@ boot();
 
 async function boot() {
   applyTheme(theme);
-  applyColorMode();
   const loading = setTimeout(() => ($("loading").hidden = false), 300);
   let data;
   try {
@@ -63,29 +55,8 @@ async function boot() {
   if (problem) shareText = problem;
   app.onChange(() => keepFocus(render));
   document.addEventListener("keydown", onKey);
-  renderDemo();
+  renderDemoBar($("demo"), app, { current: "szwajcarska.html" });
   render();
-}
-
-function applyColorMode() {
-  document.body.classList.remove(...COLOR_MODES.map(([mode]) => `color-${mode}`));
-  document.body.classList.add(`color-${colorMode}`);
-}
-
-function renderDemo() {
-  const select = h(
-    "select",
-    {
-      id: "demo-color",
-      onchange: (e) => {
-        colorMode = e.target.value;
-        writePreference(COLOR_KEY, colorMode);
-        applyColorMode();
-      },
-    },
-    COLOR_MODES.map(([mode, label]) => h("option", { value: mode, selected: mode === colorMode }, label)),
-  );
-  renderDemoBar($("demo"), app, { current: "szwajcarska.html", extra: [h("label", {}, "Kolor ", select)] });
 }
 
 // Klasa barwy dla klucza z app.colorKey() albo z legendy.
@@ -384,7 +355,7 @@ function renderSubjects() {
                   h(
                     "li",
                     {},
-                    h("span", { class: `type-name${t.hidden ? " is-hidden" : ""}` }, h("b", { class: `code ${tone(`type-${t.type}`)}` }, t.type), ` ${t.name}`),
+                    h("span", { class: `type-name${t.hidden ? " is-hidden" : ""}` }, h("b", { class: `tcode ${tone(`type-${t.type}`)}` }, t.type), ` ${t.name}`),
                     h(
                       "button",
                       { type: "button", class: "link", onclick: () => app.toggleType(s.code, t.type) },
@@ -434,7 +405,7 @@ function renderLegend() {
   });
   items.push(h("span", {}, h("i", { class: "swatch", style: { outline: "3px solid var(--accent)", outlineOffset: "-3px" }, "aria-hidden": "true" }), "kolizja"));
   if (app.historyPlans().length) items.push(h("span", {}, h("i", { class: "swatch", style: { width: "7px", height: "7px", background: "var(--ink)" }, "aria-hidden": "true" }), "zmiana od ostatniej migawki"));
-  items.push(h("span", {}, "N/P: tygodnie nieparzyste/parzyste"));
+  items.push(h("span", {}, "N/P: tygodnie nieparzyste/parzyste; zajęcia N i P o tej samej porze nie kolidują"));
   fill($("legend"), items);
 }
 
@@ -497,7 +468,7 @@ function renderGrid(view) {
         h("span", { class: "meta" }, dayMeta(day) || "\u00a0"),
         day.swapFrom !== null && day.swapFrom !== undefined
           ? h("span", { class: "swap" }, `zajęcia jak w ${dayAccusative(day.swapFrom)}`)
-          : h("span", { class: "clash" }, day.conflicts ? `${day.conflicts} ${plural(day.conflicts, "kolizja", "kolizje", "kolizji")}` : "\u00a0"),
+          : h("span", { class: "clash" }, clashCount(day) || "\u00a0"),
       ),
     );
   }
@@ -550,12 +521,21 @@ function block(item, from, span) {
     },
     changed ? h("span", { class: "block__mark", "aria-hidden": "true" }) : null,
     h("span", { class: "block__name", style: { webkitLineClamp: String(nameLines) } }, a.subjectName),
-    h("span", { class: "block__meta" }, h("b", { class: "code" }, a.type), ` ${app.groupsLabel(a)}${parity}${a.changedTime ? " · zmiana godzin" : ""}`),
+    h("span", { class: "block__meta" }, h("b", { class: "tcode" }, a.type), ` ${app.groupsLabel(a)}${parity}${a.changedTime ? " · zmiana godzin" : ""}`),
     showWho
       ? h("span", { class: "block__who" }, a.block ? "blok, grupę wybierasz osobno" : a.members.length > 1 ? `${a.lecturers.length} ${plural(a.lecturers.length, "prowadzący", "prowadzących", "prowadzących")}` : app.lecturersLabel(a))
       : null,
     showSpan ? h("span", { class: "block__span" }, spanInfo.label) : null,
   );
+}
+
+// „2 kolizje”, a gdy wszystkie są w tych samych tygodniach, „1 kolizja, tyg. N”.
+function clashCount(day) {
+  if (!day.conflicts) return "";
+  const count = `${day.conflicts} ${plural(day.conflicts, "kolizja", "kolizje", "kolizji")}`;
+  const weeks = new Set(day.conflictPairs.map((p) => p.weeks));
+  if (app.state.mode === "week" || weeks.size !== 1 || weeks.has("both")) return count;
+  return `${count}, tyg. ${PARITY_SHORT[[...weeks][0]]}`;
 }
 
 function renderAgenda(view) {
@@ -566,7 +546,7 @@ function renderAgenda(view) {
       return h(
         "section",
         {},
-        h("h3", {}, capitalize(day.name), h("small", {}, [dayMeta(day), day.conflicts ? `${day.conflicts} kol.` : ""].filter(Boolean).join(" · "))),
+        h("h3", {}, capitalize(day.name), h("small", {}, [dayMeta(day), clashCount(day)].filter(Boolean).join(" · "))),
         day.items.length
           ? h(
               "ol",
@@ -639,7 +619,7 @@ function renderDetails() {
           ),
         ),
     clashes.length
-      ? [h("h3", {}, "Kolizje"), h("div", { class: "clash-list" }, clashes.map((c) => h("div", {}, `${c.subjectName}, ${c.type} ${app.groupsLabel(c)}, ${c.start}–${c.end}`)))]
+      ? [h("h3", {}, "Kolizje"), h("div", { class: "clash-list" }, clashes.map((c) => h("div", {}, app.describeClash(unit, c))))]
       : null,
     changes.length
       ? [

@@ -175,8 +175,16 @@ w danych:
   czerwony ani pomarańczowy.
 - Kod typu (W, CWL…) nadal stoi na każdym bloczku jako drugi nośnik
   informacji.
-- Natężenie koloru do wyboru z makiety: pełne pola, tinty z paskiem albo
-  kolorowe obrysy.
+- Bloczki są pełnymi polami koloru (wybór z trzech natężeń w makiecie).
+- Kolor ma też winieta (pole z nazwą strony) i podkreślenie aktywnej
+  zakładki. To jedyne miejsca, gdzie kolor nie niesie informacji.
+- Równoległe grupy tego samego typu zajęć tworzą jeden bloczek
+  (np. „CWL gr. 1–4”), a po kliknięciu wybiera się swoją grupę.
+- Kolizje: grupy tego samego typu zajęć w jednym przedmiocie to
+  alternatywy, a nie kolizja. Zajęcia w tygodnie nieparzyste nie kolidują
+  z zajęciami w parzyste, a przy znanych datach liczy się część wspólna dat.
+  Przy kolizji widać, w które tygodnie występuje i których grup dotyczy
+  (np. „1 kolizja, tyg. N”).
 
 
 ## Makiety

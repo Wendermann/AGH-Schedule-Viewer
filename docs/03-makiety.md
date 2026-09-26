@@ -12,7 +12,8 @@ włączeniu GitHub Pages będą pod `…/AGH-Schedule-Viewer/makiety/`.
 
 **Wybrana: Rozkład**, z kolorem typów zajęć (sekcja „Wybrany kierunek”
 w `docs/01-decyzje.md`). Przełącznik „Kolor” w pasku makiety pokazuje trzy
-natężenia: pełne pola, tinty z paskiem i kolorowe obrysy.
+natężenia; użytkownik wybrał pełne pola i kolor także w winiecie
+i zakładkach, więc przełącznik zniknął z makiety.
 
 Propozycje nazwy strony: Rozkład, Grafik, Tygodnik Zajęć, Siatka, Plan na
 tydzień, Kiedy zajęcia.
@@ -75,7 +76,7 @@ Wszystkie trzy makiety:
   wyszarzone z dopiskiem, a nie udają przycisków.
 
 
-## Rozwiązania do potwierdzenia
+## Rozwiązania potwierdzone 26.09.2026
 
 - **Równoległe grupy w jednym bloczku.** Grupy tego samego typu zajęć
   o tej samej porze (np. CWL gr. 1–4 z Fizyki 2) tworzą jeden bloczek, a po

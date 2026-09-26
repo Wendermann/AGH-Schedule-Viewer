@@ -1,6 +1,7 @@
 /* Rozkład: typografia szwajcarska. Jeden krój (Archivo w szerokościach od
-   zwykłej do rozciągniętej), czarno-biała siatka i kolor w danych: każdy typ
-   zajęć ma swoją barwę, a czerwień zostaje tylko dla kolizji. */
+   zwykłej do rozciągniętej), siatka i pełne pola koloru: każdy typ zajęć ma
+   swoją barwę, winieta i aktywne zakładki mają barwę strony (--chrome),
+   a czerwień zostaje tylko dla kolizji. */
 
 @font-face {
   font-family: "Archivo";
@@ -37,7 +38,7 @@
   --t-CWA: #f2c200;   --on-CWA: #111111;  --x-CWA: #7a6100;
   --t-CWP: #7438c2;   --on-CWP: #ffffff;  --x-CWP: #6a30b5;
   --t-other: #0e7a86; --on-other: #ffffff; --x-other: #0c6b75;
-  --tint: 16%;
+  --chrome: #1d44c7;   --on-chrome: #ffffff;
   --hour: 52px;
   --gutter: 24px;
   color-scheme: light;
@@ -57,7 +58,7 @@
     --t-CWA: #efcb45;   --on-CWA: #1a1500;  --x-CWA: #f1d46a;
     --t-CWP: #b894f5;   --on-CWP: #170d26;  --x-CWP: #c7a9f7;
     --t-other: #58c7d2; --on-other: #05191b; --x-other: #7dd4dc;
-    --tint: 22%;
+    --chrome: #86a0ff;   --on-chrome: #0c1330;
     color-scheme: dark;
   }
 }
@@ -75,7 +76,7 @@
   --t-CWA: #efcb45;   --on-CWA: #1a1500;  --x-CWA: #f1d46a;
   --t-CWP: #b894f5;   --on-CWP: #170d26;  --x-CWP: #c7a9f7;
   --t-other: #58c7d2; --on-other: #05191b; --x-other: #7dd4dc;
-  --tint: 22%;
+  --chrome: #86a0ff;   --on-chrome: #0c1330;
   color-scheme: dark;
 }
 
@@ -110,6 +111,10 @@ button, select, input { font: inherit; color: inherit; }
 }
 .wordmark {
   margin: 0;
+  align-self: start;
+  padding: 16px 12px 10px;
+  background: var(--chrome);
+  color: var(--on-chrome);
   font-size: 30px;
   font-weight: 800;
   font-stretch: 125%;
@@ -144,7 +149,7 @@ button, select, input { font: inherit; color: inherit; }
   color: var(--ink-2);
   border-bottom: 2px solid transparent;
 }
-.seg button[aria-pressed="true"] { color: var(--ink); font-weight: 700; border-bottom-color: var(--ink); }
+.seg button[aria-pressed="true"] { color: var(--ink); font-weight: 700; border-bottom: 3px solid var(--chrome); }
 .week-nav { display: flex; gap: 10px; align-items: center; }
 .week-nav button {
   width: 30px; height: 30px;
@@ -338,13 +343,10 @@ button, select, input { font: inherit; color: inherit; }
 .pl-1 { --c: var(--t-CWA); --on: var(--on-CWA); --x: var(--x-CWA); }
 .pl-2 { --c: var(--t-CWL); --on: var(--on-CWL); --x: var(--x-CWL); }
 .pl-3 { --c: var(--t-CWP); --on: var(--on-CWP); --x: var(--x-CWP); }
-.code { color: var(--x); font-weight: 700; }
+.tcode { color: var(--x); font-weight: 700; }
 
-/* Trzy natężenia koloru do porównania w makiecie (pasek na dole). */
-.color-fields .block.tone { background: var(--c); color: var(--on); box-shadow: none; }
-.color-fields .block.tone .code { color: inherit; }
-.color-tints .block.tone { background: color-mix(in srgb, var(--c) var(--tint), var(--paper)); box-shadow: inset 0 4px 0 var(--c); padding-top: 7px; }
-.color-frames .block.tone { background: var(--paper); box-shadow: inset 0 0 0 2px var(--c); }
+.block.tone { background: var(--c); color: var(--on); box-shadow: none; }
+.block.tone .tcode { color: inherit; }
 .swatch.tone { background: var(--c); }
 .fill-hatch {
   background: var(--paper) repeating-linear-gradient(135deg, var(--rule) 0 1px, transparent 1px 6px);

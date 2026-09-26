@@ -33,9 +33,11 @@ class WeekSession:
     def __init__(self):
         self.headers = {}
         self.calls = []
+        self.timeouts = []
 
     def post(self, url, data, timeout):
         params = data
+        self.timeouts.append(timeout)
         self.calls.append(params)
         path = FIXTURES / f"api-classgroups-{params['start']}.json"
         meetings = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
@@ -80,6 +82,12 @@ def test_meetings_are_fetched_in_weekly_windows_and_batches(monkeypatch):
     assert len(session.calls) == 3 * -(-len(groups) // 20)
     assert len(meetings) == 32 + 21
     assert meetings == sorted(meetings, key=lambda m: (m.day, m.start, m.unit_id, m.group_no))
+
+
+def test_meetings_get_a_longer_timeout():
+    session = WeekSession()
+    api(session).meetings({(191059, 1)}, date(2026, 10, 26), date(2026, 10, 28))
+    assert session.timeouts == [usos_api.MEETINGS_TIMEOUT]
 
 
 def test_last_window_is_shortened_to_the_end_date():

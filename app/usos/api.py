@@ -18,8 +18,11 @@ from .fetch import RateLimiter, UsosError, UsosUnavailable
 
 # Grupy zajęciowe w jednym tt/classgroups. Idą w treści POST, bo w adresie
 # GET mieści się ich niecałe 900 (dłuższy adres kończy się HTTP 414).
-# 26.09.2026 zapytanie o 965 grup trwało ok. 1 s.
+# 26.09.2026 zapytanie o 1000 grup trwało od 1 do 12 s zależnie od
+# obciążenia USOS, a czas rośnie z liczbą grup, więc większa paczka nic
+# nie daje; stąd też dłuższy limit czasu niż dla reszty zapytań.
 BATCH = 1000
+MEETINGS_TIMEOUT = 120.0
 # Metody tt/* poza classgroup_dates2 zwracają najwyżej 7 dni.
 WINDOW_DAYS = 7
 MEETING_FIELDS = "type|start_time|end_time|unit_id|group_number|frequency"
@@ -81,19 +84,20 @@ class UsosApi:
     def call(self, method: str, **params: str | int):
         return self._send("get", method, params)
 
-    def post(self, method: str, **params: str | int):
+    def post(self, method: str, *, timeout: float | None = None, **params: str | int):
         """To samo co `call`, ale parametry idą w treści zapytania."""
-        return self._send("post", method, params)
+        return self._send("post", method, params, timeout or self.timeout)
 
-    def _send(self, verb: str, method: str, params: dict):
+    def _send(self, verb: str, method: str, params: dict, timeout: float | None = None):
+        timeout = timeout or self.timeout
         attempts = len(self.RETRY_DELAYS) + 1
         for attempt in range(attempts):
             self.limiter.wait()
             try:
                 if verb == "post":
-                    response = self.session.post(self.base_url + method, data=params, timeout=self.timeout)
+                    response = self.session.post(self.base_url + method, data=params, timeout=timeout)
                 else:
-                    response = self.session.get(self.base_url + method, params=params, timeout=self.timeout)
+                    response = self.session.get(self.base_url + method, params=params, timeout=timeout)
             except requests.RequestException as exc:
                 error: UsosError = UsosUnavailable(str(exc))
             else:
@@ -172,6 +176,7 @@ class UsosApi:
             for i in range(0, len(ids), BATCH):
                 batch = self.post(
                     "tt/classgroups",
+                    timeout=max(self.timeout, MEETINGS_TIMEOUT),
                     classgroup_ids="|".join(ids[i : i + BATCH]),
                     start=day.isoformat(),
                     days=days,

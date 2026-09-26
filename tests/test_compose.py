@@ -1,4 +1,5 @@
 import json
+from dataclasses import replace
 from datetime import date, time
 from pathlib import Path
 
@@ -73,6 +74,17 @@ def test_teaching_calendar(activities, meetings):
     assert date(2026, 11, 11) in calendar.days_off
     assert calendar.swaps == {date(2026, 11, 10): 2}
     assert calendar_json(calendar)["swaps"] == {"2026-11-10": 2}
+
+
+def test_a_few_meetings_do_not_cancel_a_day_off(activities, meetings):
+    # Jak w danych wydziału z 26.09.2026: około 140 spotkań dziennie
+    # i 3 spotkania jednego kierunku 11 listopada.
+    faculty = meetings * 30
+    extra = [replace(m, day=date(2026, 11, 11)) for m in meetings if m.confirmed and m.day == date(2026, 11, 12)][:3]
+    assert len(extra) == 3
+    calendar = teaching_calendar(activities, faculty + extra)
+    assert date(2026, 11, 11) in calendar.days_off
+    assert calendar.swaps == {date(2026, 11, 10): 2}
 
 
 def test_activity_json_matches_browser_shape(activities):

@@ -6,11 +6,15 @@ from collections import Counter, defaultdict
 from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import date, timedelta
+from statistics import median
 
 from app.usos.api import Meeting
 from app.usos.web import GroupPlanPage, PlanEntry
 
 from .model import Activity, MovedMeeting
+
+
+DAY_OFF_SHARE = 0.1
 
 
 @dataclass(frozen=True)
@@ -79,6 +83,10 @@ def teaching_calendar(activities: Iterable[Activity], meetings: Iterable[Meeting
 
     Spotkania wyliczane przez USOS z częstotliwości nie uwzględniają
     przeniesień dni, więc nie biorą udziału w głosowaniu.
+
+    Dzień wolny to dzień roboczy bez spotkań albo z garstką spotkań, np.
+    11 listopada z kilkoma zajęciami jednego kierunku umówionymi osobno.
+    Granica to ułamek mediany liczby spotkań w dni robocze.
     """
     origin = {}
     for a in activities:
@@ -91,14 +99,19 @@ def teaching_calendar(activities: Iterable[Activity], meetings: Iterable[Meeting
     if not votes:
         raise ValueError("brak potwierdzonych spotkań, z których dałoby się odczytać kalendarz")
     first, last = min(votes), max(votes)
+    totals = {day: sum(counter.values()) for day, counter in votes.items()}
+    workdays = [n for day, n in totals.items() if day.weekday() < 5]
+    threshold = DAY_OFF_SHARE * median(workdays) if workdays else 0
     days_off = []
     day = first
     while day <= last:
-        if day.weekday() < 5 and day not in votes:
+        if day.weekday() < 5 and totals.get(day, 0) < threshold:
             days_off.append(day)
         day += timedelta(days=1)
     swaps = {}
     for day, counter in sorted(votes.items()):
+        if day in days_off:
+            continue
         weekday, count = counter.most_common(1)[0]
         if weekday != day.weekday() and count > sum(counter.values()) / 2:
             swaps[day] = weekday

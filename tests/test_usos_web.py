@@ -124,6 +124,10 @@ def test_subject_groups():
     ) in groups
 
 
+def test_unit_without_subject_groups():
+    assert parse_subject_groups(fixture("groups-170-000.html")) == []
+
+
 def test_incomplete_subject_group_list_is_rejected():
     html = fixture("groups-240-000.html").replace("elements-count=25", "elements-count=40", 1)
     with pytest.raises(UsosLayoutError, match="25 z 40"):

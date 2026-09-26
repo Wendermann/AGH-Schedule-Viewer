@@ -109,12 +109,17 @@ def parse_subject_groups(html: str) -> list[SubjectGroup]:
     """Grupy przedmiotów jednostki (`katalog2/przedmioty/wybierzGrupePrzedmiotow`).
 
     USOSweb dzieli tę listę na strony (domyślnie po 30), więc trzeba ją
-    pobierać z dużym `tab_limit`. Niepełna lista kończy się błędem, żeby
-    indeks nie zgubił po cichu części kierunków.
+    pobierać z dużym `tab_limit` (działa tylko razem z `tab_offset`
+    i `tab_order`). Niepełna lista kończy się błędem, żeby indeks nie zgubił
+    po cichu części kierunków. Jednostka bez grup (np. Wydział Odlewnictwa
+    26.09.2026) daje pustą listę.
     """
     tree = HTMLParser(html)
     table = tree.css_first("table.wrnav")
     if table is None:
+        notice = tree.css_first("notice-box")
+        if notice is not None and "nie zdefiniowała żadnych grup" in notice.text():
+            return []
         raise UsosLayoutError("brak tabeli z grupami przedmiotów")
     groups = []
     for row in table.css("tbody > tr"):

@@ -40,7 +40,7 @@ Później użytkownik dołożył dwa wymagania:
 | Pytania do użytkownika | Przed analizą: 32 pytania w 8 rundach. Po analizie: 12 pytań w 3 rundach (historia planu, zasięg danych, osobliwości kalendarza AGH, drzewo kierunków). Wszystkie odpowiedzi są w `docs/01-decyzje.md`. |
 | Analiza USOS | Zrobiona: `docs/02-analiza-usos.md`. Źródło danych: USOS API i USOSweb (decyzja w `docs/01-decyzje.md`). Parser USOSweb w `app/usos/web.py`. |
 | 3 makiety UI | Gotowe. Użytkownik wybrał „Rozkład” (szwajcarski) z pełnymi polami koloru typów zajęć i kolorem w winiecie (`docs/01-decyzje.md`, „Wybrany kierunek”). |
-| Strona właściwa | Pierwsza wersja gotowa: „Plan na tydzień” w Alpine.js, Wydział Informatyki, cykl 26/27-Z (`docs/01-decyzje.md`, „Pierwsza wersja strony”). Dane z `flask fetch`. Sprawdzona w przeglądarce na prawdziwych danych: komputer, telefon, motyw ciemny, wydruk, łączenie planów, link „Udostępnij”. |
+| Strona właściwa | Pierwsza wersja gotowa: „Plan na tydzień” w Alpine.js, Wydział Informatyki, cykl 26/27-Z (`docs/01-decyzje.md`, „Pierwsza wersja strony”). Dane z `flask fetch`. Sprawdzona w przeglądarce na prawdziwych danych: komputer, telefon, motyw ciemny, wydruk, łączenie planów, link „Udostępnij”. Podgląd strony planu dla użytkownika (artefakt, dane z 26.09): https://claude.ai/artifact/7ncFBVxfKPNdiXMTZbnUDF |
 | Historia zmian | Gotowe: `flask history` i workflow `historia.yml` (co 6 godzin, zapis do gałęzi `dane`). Ruszy po przeniesieniu kodu na gałąź domyślną. Strona pokazuje historię z codziennej budowy. |
 | Hosting | `pages.yml` pobiera dane codziennie o 3:41 UTC i publikuje stronę. Publikacja czeka na ustawienia repo (sekcja „Publikacja”). |
 

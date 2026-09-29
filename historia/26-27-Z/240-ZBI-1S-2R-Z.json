@@ -4,43 +4,6 @@
  "since": "2026-06-30T22:09:09",
  "latest": [
   {
-   "subject": "240-ZBI-1S-114",
-   "subjectName": "Fizyka 2",
-   "type": "W",
-   "group": 1,
-   "unit": 191059,
-   "weekday": 0,
-   "start": "08:00",
-   "end": "09:30",
-   "recurrence": "weekly",
-   "lecturers": [
-    {
-     "id": 101263,
-     "name": "Zbigniew Kąkol"
-    }
-   ],
-   "room": "on-line",
-   "building": "D17",
-   "block": false,
-   "dates": [
-    "2026-10-01",
-    "2026-10-08",
-    "2026-10-15",
-    "2026-10-22",
-    "2026-10-29",
-    "2026-11-05",
-    "2026-11-12",
-    "2026-11-19",
-    "2026-11-26",
-    "2026-12-03",
-    "2026-12-10",
-    "2026-12-17",
-    "2027-01-14",
-    "2027-01-21"
-   ],
-   "moved": []
-  },
-  {
    "subject": "240-1S-BWF-3",
    "subjectName": "Blok Wychowanie fizyczne 3 - WI",
    "type": "WF",
@@ -387,6 +350,36 @@
     "2026-12-22",
     "2027-01-05",
     "2027-01-19"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-211",
+   "subjectName": "Prywatność i ochrona danych osobowych",
+   "type": "CWL",
+   "group": 4,
+   "unit": 191498,
+   "weekday": 1,
+   "start": "13:15",
+   "end": "14:45",
+   "recurrence": "odd",
+   "lecturers": [
+    {
+     "id": 146500,
+     "name": "Karolina Karcz-Nawrocka"
+    }
+   ],
+   "room": "3.22",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-06",
+    "2026-10-20",
+    "2026-11-03",
+    "2026-11-17",
+    "2026-12-01",
+    "2026-12-15",
+    "2027-01-12"
    ],
    "moved": []
   },
@@ -765,6 +758,36 @@
    "moved": []
   },
   {
+   "subject": "240-ZBI-1S-302",
+   "subjectName": "Ryzyko w zarządzaniu bezpieczeństwem informacji",
+   "type": "CWL",
+   "group": 2,
+   "unit": 191511,
+   "weekday": 2,
+   "start": "13:15",
+   "end": "14:45",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 114257,
+     "name": "Anna Wójcicka"
+    }
+   ],
+   "room": "3.22",
+   "building": "D17",
+   "block": false,
+   "dates": [
+    "2026-10-14",
+    "2026-10-28",
+    "2026-11-10",
+    "2026-11-25",
+    "2026-12-09",
+    "2027-01-07",
+    "2027-01-20"
+   ],
+   "moved": []
+  },
+  {
    "subject": "240-1S-BWF-3",
    "subjectName": "Blok Wychowanie fizyczne 3 - WI",
    "type": "WF",
@@ -916,178 +939,41 @@
    "moved": []
   },
   {
-   "subject": "240-ZBI-1S-211",
-   "subjectName": "Prywatność i ochrona danych osobowych",
-   "type": "CWL",
-   "group": 4,
-   "unit": 191498,
-   "weekday": 3,
-   "start": "09:45",
-   "end": "11:15",
-   "recurrence": "even",
-   "lecturers": [
-    {
-     "id": 146500,
-     "name": "Karolina Karcz-Nawrocka"
-    }
-   ],
-   "room": "3.23",
-   "building": "D17",
-   "block": false,
-   "dates": [],
-   "moved": [
-    {
-     "date": "2026-10-06",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-10-20",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-11-03",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-11-17",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-12-01",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-12-15",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2027-01-12",
-     "start": "13:15",
-     "end": "14:45"
-    }
-   ]
-  },
-  {
-   "subject": "240-ZBI-1S-302",
-   "subjectName": "Ryzyko w zarządzaniu bezpieczeństwem informacji",
-   "type": "CWL",
-   "group": 2,
-   "unit": 191511,
-   "weekday": 3,
-   "start": "09:45",
-   "end": "11:15",
-   "recurrence": "odd",
-   "lecturers": [
-    {
-     "id": 114257,
-     "name": "Anna Wójcicka"
-    }
-   ],
-   "room": "3.27e",
-   "building": "D17",
-   "block": false,
-   "dates": [],
-   "moved": [
-    {
-     "date": "2026-10-14",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-10-28",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-11-10",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-11-25",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-12-09",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2027-01-07",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2027-01-20",
-     "start": "13:15",
-     "end": "14:45"
-    }
-   ]
-  },
-  {
-   "subject": "240-ZBI-1S-302",
-   "subjectName": "Ryzyko w zarządzaniu bezpieczeństwem informacji",
-   "type": "CWL",
+   "subject": "240-ZBI-1S-114",
+   "subjectName": "Fizyka 2",
+   "type": "W",
    "group": 1,
-   "unit": 191511,
+   "unit": 191059,
    "weekday": 3,
-   "start": "09:45",
-   "end": "11:15",
-   "recurrence": "even",
+   "start": "08:00",
+   "end": "09:30",
+   "recurrence": "weekly",
    "lecturers": [
     {
-     "id": 114257,
-     "name": "Anna Wójcicka"
+     "id": 101263,
+     "name": "Zbigniew Kąkol"
     }
    ],
-   "room": "3.27e",
+   "room": "on-line",
    "building": "D17",
    "block": false,
-   "dates": [],
-   "moved": [
-    {
-     "date": "2026-10-08",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-10-22",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-11-05",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-11-19",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-12-03",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2026-12-17",
-     "start": "13:15",
-     "end": "14:45"
-    },
-    {
-     "date": "2027-01-14",
-     "start": "13:15",
-     "end": "14:45"
-    }
-   ]
+   "dates": [
+    "2026-10-01",
+    "2026-10-08",
+    "2026-10-15",
+    "2026-10-22",
+    "2026-10-29",
+    "2026-11-05",
+    "2026-11-12",
+    "2026-11-19",
+    "2026-11-26",
+    "2026-12-03",
+    "2026-12-10",
+    "2026-12-17",
+    "2027-01-14",
+    "2027-01-21"
+   ],
+   "moved": []
   },
   {
    "subject": "240-1S-BJO-2",
@@ -1150,6 +1036,36 @@
     "2026-12-10",
     "2027-01-21",
     "2027-01-28"
+   ],
+   "moved": []
+  },
+  {
+   "subject": "240-ZBI-1S-302",
+   "subjectName": "Ryzyko w zarządzaniu bezpieczeństwem informacji",
+   "type": "CWL",
+   "group": 1,
+   "unit": 191511,
+   "weekday": 3,
+   "start": "13:15",
+   "end": "14:45",
+   "recurrence": "even",
+   "lecturers": [
+    {
+     "id": 114257,
+     "name": "Anna Wójcicka"
+    }
+   ],
+   "room": "801",
+   "building": "D8",
+   "block": false,
+   "dates": [
+    "2026-10-08",
+    "2026-10-22",
+    "2026-11-05",
+    "2026-11-19",
+    "2026-12-03",
+    "2026-12-17",
+    "2027-01-14"
    ],
    "moved": []
   },
@@ -1769,7 +1685,7 @@
    "moved": []
   }
  ],
- "latestAt": "2026-09-29T13:01:02+00:00",
+ "latestAt": "2026-09-29T22:21:11+00:00",
  "checks": [
   {
    "at": "2026-06-30T22:09:09",
@@ -2861,6 +2777,231 @@
       "2026-11-26",
       "2026-12-10",
       "2027-01-21"
+     ]
+    }
+   ]
+  },
+  {
+   "at": "2026-09-29T22:21:11+00:00",
+   "changes": [
+    {
+     "kind": "modified",
+     "unit": 191059,
+     "group": 1,
+     "subject": "240-ZBI-1S-114",
+     "subjectName": "Fizyka 2",
+     "type": "W",
+     "fields": [
+      "weekday"
+     ],
+     "before": [
+      {
+       "weekday": 0,
+       "start": "08:00",
+       "end": "09:30",
+       "recurrence": "weekly",
+       "room": "on-line",
+       "building": "D17",
+       "lecturers": [
+        "Zbigniew Kąkol"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 3,
+       "start": "08:00",
+       "end": "09:30",
+       "recurrence": "weekly",
+       "room": "on-line",
+       "building": "D17",
+       "lecturers": [
+        "Zbigniew Kąkol"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-29T22:21:11+00:00"
+    },
+    {
+     "kind": "modified",
+     "unit": 191498,
+     "group": 4,
+     "subject": "240-ZBI-1S-211",
+     "subjectName": "Prywatność i ochrona danych osobowych",
+     "type": "CWL",
+     "fields": [
+      "weekday",
+      "start",
+      "end",
+      "recurrence",
+      "room",
+      "dates"
+     ],
+     "before": [
+      {
+       "weekday": 3,
+       "start": "09:45",
+       "end": "11:15",
+       "recurrence": "even",
+       "room": "3.23",
+       "building": "D17",
+       "lecturers": [
+        "Karolina Karcz-Nawrocka"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 1,
+       "start": "13:15",
+       "end": "14:45",
+       "recurrence": "odd",
+       "room": "3.22",
+       "building": "D17",
+       "lecturers": [
+        "Karolina Karcz-Nawrocka"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-29T22:21:11+00:00",
+     "datesAdded": [
+      "2026-10-06",
+      "2026-10-20",
+      "2026-11-03",
+      "2026-11-17",
+      "2026-12-01",
+      "2026-12-15",
+      "2027-01-12"
+     ],
+     "datesRemoved": [
+      "2026-10-06 13:15–14:45",
+      "2026-10-20 13:15–14:45",
+      "2026-11-03 13:15–14:45",
+      "2026-11-17 13:15–14:45",
+      "2026-12-01 13:15–14:45",
+      "2026-12-15 13:15–14:45",
+      "2027-01-12 13:15–14:45"
+     ]
+    },
+    {
+     "kind": "modified",
+     "unit": 191511,
+     "group": 1,
+     "subject": "240-ZBI-1S-302",
+     "subjectName": "Ryzyko w zarządzaniu bezpieczeństwem informacji",
+     "type": "CWL",
+     "fields": [
+      "start",
+      "end",
+      "room",
+      "building",
+      "dates"
+     ],
+     "before": [
+      {
+       "weekday": 3,
+       "start": "09:45",
+       "end": "11:15",
+       "recurrence": "even",
+       "room": "3.27e",
+       "building": "D17",
+       "lecturers": [
+        "Anna Wójcicka"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 3,
+       "start": "13:15",
+       "end": "14:45",
+       "recurrence": "even",
+       "room": "801",
+       "building": "D8",
+       "lecturers": [
+        "Anna Wójcicka"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-29T22:21:11+00:00",
+     "datesAdded": [
+      "2026-10-08",
+      "2026-10-22",
+      "2026-11-05",
+      "2026-11-19",
+      "2026-12-03",
+      "2026-12-17",
+      "2027-01-14"
+     ],
+     "datesRemoved": [
+      "2026-10-08 13:15–14:45",
+      "2026-10-22 13:15–14:45",
+      "2026-11-05 13:15–14:45",
+      "2026-11-19 13:15–14:45",
+      "2026-12-03 13:15–14:45",
+      "2026-12-17 13:15–14:45",
+      "2027-01-14 13:15–14:45"
+     ]
+    },
+    {
+     "kind": "modified",
+     "unit": 191511,
+     "group": 2,
+     "subject": "240-ZBI-1S-302",
+     "subjectName": "Ryzyko w zarządzaniu bezpieczeństwem informacji",
+     "type": "CWL",
+     "fields": [
+      "weekday",
+      "start",
+      "end",
+      "recurrence",
+      "room",
+      "dates"
+     ],
+     "before": [
+      {
+       "weekday": 3,
+       "start": "09:45",
+       "end": "11:15",
+       "recurrence": "odd",
+       "room": "3.27e",
+       "building": "D17",
+       "lecturers": [
+        "Anna Wójcicka"
+       ]
+      }
+     ],
+     "after": [
+      {
+       "weekday": 2,
+       "start": "13:15",
+       "end": "14:45",
+       "recurrence": "even",
+       "room": "3.22",
+       "building": "D17",
+       "lecturers": [
+        "Anna Wójcicka"
+       ]
+      }
+     ],
+     "detectedAt": "2026-09-29T22:21:11+00:00",
+     "datesAdded": [
+      "2026-10-14",
+      "2026-10-28",
+      "2026-11-10",
+      "2026-11-25",
+      "2026-12-09",
+      "2027-01-07",
+      "2027-01-20"
+     ],
+     "datesRemoved": [
+      "2026-10-14 13:15–14:45",
+      "2026-10-28 13:15–14:45",
+      "2026-11-10 13:15–14:45",
+      "2026-11-25 13:15–14:45",
+      "2026-12-09 13:15–14:45",
+      "2027-01-07 13:15–14:45",
+      "2027-01-20 13:15–14:45"
      ]
     }
    ]
